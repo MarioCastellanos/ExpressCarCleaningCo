@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "256678433823",
+    "firebase_url": "https://cardetailingapp-3cd5f.firebaseio.com",
+    "project_id": "cardetailingapp-3cd5f",
+    "storage_bucket": "cardetailingapp-3cd5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256678433823:android:379b22f2f631b7e907b12a",
+        "android_client_info": {
+          "package_name": "com.onedevstudios.cta_auto_detail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256678433823-j2vcib8ih1js379bavqsh0g8i1o1eago.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAn-SssD4H0xk2TAOx38EeGnyj0LYwO-1w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256678433823-j2vcib8ih1js379bavqsh0g8i1o1eago.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "256678433823-d5p7qvcnn2q2ukltddrvngl0mv9qh5su.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.onedevstudios.ctaAutoDetail"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
