@@ -3,13 +3,19 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class PassWordTextField extends StatelessWidget {
+  final String errorText;
+
   final bool obscureText;
+
   final Function setVisibility;
-  final IconData visibilityIconData;
   final Function onChanged;
+
+  final IconData visibilityIconData;
+
 
   PassWordTextField(
       {
+        @required this.errorText,
         @required this.obscureText,
         @required this.visibilityIconData,
         @required this.onChanged,
@@ -25,6 +31,7 @@ class PassWordTextField extends StatelessWidget {
       keyboardType: TextInputType.emailAddress,
       decoration: kPasswordTextFieldDecoration.copyWith(
           hintText: 'Password',
+          errorText: errorText,
           suffixIcon: IconButton(
             icon: Icon(
               visibilityIconData,
@@ -39,17 +46,18 @@ class PassWordTextField extends StatelessWidget {
 }
 
 class EmailTextField extends StatelessWidget {
+  final String errorText;
 
   final Function onChanged;
 
-  EmailTextField({@required this.onChanged});
+  EmailTextField({@required this.onChanged, @required this.errorText});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: onChanged,
       keyboardType: TextInputType.emailAddress,
-      decoration: kEmailTextFieldDecoration,
+      decoration: kEmailTextFieldDecoration.copyWith(errorText: errorText),
       textAlign: TextAlign.start,
       style: TextStyle(
         fontSize: 18,
@@ -59,7 +67,7 @@ class EmailTextField extends StatelessWidget {
   }
 }
 
-class AnimatedTextLogo extends StatelessWidget {
+class CarWashDeliveredText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColorizeAnimatedTextKit(

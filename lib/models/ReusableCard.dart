@@ -2,6 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/constants.dart';
 
+
+
+/// Reusable Card Class
+
 class ReusableCard extends StatelessWidget {
   final Widget childWidget;
   final Function onPressed;
@@ -14,16 +18,18 @@ class ReusableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-          margin: EdgeInsets.all(4),
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: cardColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: childWidget),
+    return Expanded(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+            margin: EdgeInsets.all(4),
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: cardColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: childWidget),
+      ),
     );
   }
 }

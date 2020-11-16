@@ -5,9 +5,14 @@ const Color ExpressCarWashRED = Color(0xFFFB0013);
 const Color ExpressCarWashREDDark = Color(0xFFBF0000);
 const Color ExpressCarWashRedAccent = Colors.redAccent;
 
+
+/// GetAppBar returns a custom app bar based on parameters
+/// parameters
+///   Function iconButtonPressed
+///   profileButtonPressed
+
 PreferredSizeWidget getAppBar(
     { @required Function iconButtonPressed , @required Function profileButtonPressed }){
-
 
   return AppBar(
     title: Row(
@@ -48,6 +53,11 @@ PreferredSizeWidget getAppBar(
     backgroundColor: Colors.white,
   );
 }
+
+const TextStyle kOutLineButtonTextStyle = TextStyle(
+  color: ExpressCarWashRedAccent,
+  fontSize: 15,
+);
 
 const InputDecoration kUserNameEmailDecoration = InputDecoration(
   hintStyle: TextStyle(color: Colors.white),
@@ -116,47 +126,75 @@ const kPasswordTextFieldDecoration = InputDecoration(
         borderRadius: (BorderRadius.all(Radius.circular(10))),
         borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 2)));
 
-class Logo extends StatelessWidget {
+
+
+class RedCarLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Hero(
-        tag: 'Logo',
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              height: 80,
-              child: Image.asset(
-                'images/RedCarIcon.png',
-              ),
-            ),
-            Text(
-              'EXPRESS CAR CLEANING \nCO.',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Vollkorn',
-                fontStyle: FontStyle.italic,
-                color: Colors.black,
-                backgroundColor: Colors.white,
-                letterSpacing: 1.0,
-                shadows: [],
-                fontSize: 46,
-              ),
-            ),
-          ],
+    return Hero(
+      tag: 'REDCARLOGO',
+      child: Container(
+        margin: EdgeInsets.all(10),
+        alignment: Alignment.topLeft,
+        height: 46,
+        child: Image.asset(
+          'images/RedCarIcon.png',
         ),
       ),
     );
   }
 }
 
-IconData ksetVisibility(bool isObscured) {
+TextStyle kInkWellTextStyle  = TextStyle(
+  decoration: TextDecoration.underline,
+  color: ExpressCarWashRED,
+  fontSize: 16,
+);
+
+TextStyle kResetPasswordTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w400,
+  fontFamily: 'Vollkorn',
+  color: ExpressCarWashRedAccent,
+  backgroundColor: Colors.white,
+  letterSpacing: 1.0,
+  fontSize: 36,
+);
+
+
+class TextLogo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'EXPRESS CAR CLEANING \nCO.',
+      textAlign: TextAlign.start,
+      style: TextStyle(
+        height: 1,
+        fontWeight: FontWeight.w700,
+        fontFamily: 'Vollkorn',
+        fontStyle: FontStyle.italic,
+        color: Colors.black,
+        backgroundColor: Colors.white,
+        letterSpacing: 1.0,
+        shadows: [],
+        fontSize: 46,
+      ),
+    );
+  }
+}
+
+SizedBox  kSpacerBox = SizedBox(
+  height: 10,
+);
+
+
+IconData kSetVisibility(bool isObscured) {
   return isObscured ? Icons.visibility_off : Icons.visibility;
 }
+
+
+
+
 
 List<String> kInteriorOptionsList = ['Leather', 'Alcantara', 'Wood', 'Cloth'];
 

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+/// Home Screen
+
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
   @override
@@ -15,13 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(
-          iconButtonPressed: (){
-            Navigator.pop(context);
-            },
-          profileButtonPressed: (){
-            Navigator.pushNamed(context, ProfileScreen.id);
-          }),
+      appBar: getAppBar(iconButtonPressed: () {
+        Navigator.pop(context);
+      }, profileButtonPressed: () {
+        Navigator.pushNamed(context, ProfileScreen.id);
+      }),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),
@@ -29,73 +29,67 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Expanded(
-                child: ReusableCard(
-                  childWidget: Center(
-                    child: Text(
-                      'SCHEDULE A WASH',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 50,
-                        fontFamily: 'Vollkorn',
-                        fontWeight: FontWeight.w900,
-                      ),
+              ReusableCard(
+                childWidget: Center(
+                  child: Text(
+                    'SCHEDULE A WASH',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 50,
+                      fontFamily: 'Vollkorn',
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, ScheduleCarWash.id);
-                  },
-                  cardColor: ExpressCarWashRedAccent,
                 ),
+                onPressed: () {
+                  Navigator.pushNamed(context, ScheduleCarWash.id);
+                },
+                cardColor: ExpressCarWashRedAccent,
               ),
               Row(
                 children: [
-                  Expanded(
-                    child: ReusableCard(
-                        cardColor: ExpressCarWashRedAccent,
-                        onPressed: () {
-                          print('SERVICES OFFERED');
-                        },
-                        childWidget: Center(
-                          child: Text(
-                            'SERVICES OFFERED',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 30,
-                              fontFamily: 'Vollkorn',
-                              fontWeight: FontWeight.w900,
-                            ),
+                  ReusableCard(
+                      cardColor: ExpressCarWashRedAccent,
+                      onPressed: () {
+                        print('SERVICES OFFERED');
+                      },
+                      childWidget: Center(
+                        child: Text(
+                          'SERVICES OFFERED',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontFamily: 'Vollkorn',
+                            fontWeight: FontWeight.w900,
                           ),
-                        )),
-                  ),
-                  Expanded(
-                    child: ReusableCard(
-                        cardColor: ExpressCarWashRedAccent,
-                        onPressed: () {
-                          print('GET A QUOTE');
-                        },
-                        childWidget: Center(
-                          child: Text(
-                            'GET A QUOTE',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 30,
-                              fontFamily: 'Vollkorn',
-                              fontWeight: FontWeight.w900,
-                            ),
+                        ),
+                      )),
+                  ReusableCard(
+                      cardColor: ExpressCarWashRedAccent,
+                      onPressed: () {
+                        print('GET A QUOTE');
+                      },
+                      childWidget: Center(
+                        child: Text(
+                          'GET A QUOTE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30,
+                            fontFamily: 'Vollkorn',
+                            fontWeight: FontWeight.w900,
                           ),
-                        )),
-                  ),
+                        ),
+                      )),
                 ],
               ),
               Expanded(
                 child: UpcomingCarWashCard(
                     cardColor: ExpressCarWashRedAccent,
                     onPressed: () {
-                      print('Edit profile');
+                      print('Upcoming washes');
                     },
                     childWidget: Text(
                       'UPCOMING WASHES',

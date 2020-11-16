@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:256678433823:ios:36632e6915a3d84107b12a</string>
+	<string>1:256678433823:ios:bca75cd5243e803507b12a</string>
 	<key>DATABASE_URL</key>
 	<string>https://cardetailingapp-3cd5f.firebaseio.com</string>
 </dict>

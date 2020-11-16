@@ -71,29 +71,27 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 textAlign: TextAlign.center,
               ),
             ),
-            Expanded(
-              child: ReusableCard(
-                childWidget: GridView.builder(
-                  itemCount: carData.carsList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 1,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return CarCard(
-                      onPressed: () {
-                        Navigator.pushNamed(context, ScheduleCarWash.id);
-                      },
-                      title: carData.carsList[index].make,
-                    );
-                  },
+            ReusableCard(
+              childWidget: GridView.builder(
+                itemCount: carData.carsList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 1,
                 ),
-                onPressed: (){
-                  print('fart');
+                itemBuilder: (BuildContext context, int index) {
+                  return CarCard(
+                    onPressed: () {
+                      Navigator.pushNamed(context, ScheduleCarWash.id);
+                    },
+                    title: carData.carsList[index].make,
+                  );
                 },
-                cardColor: Colors.red,
               ),
+              onPressed: (){
+                print('fart');
+              },
+              cardColor: Colors.red,
             ),
           ];
         }

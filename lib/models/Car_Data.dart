@@ -5,8 +5,9 @@ import 'package:cta_auto_detail/models/Car.dart';
 
 
 /// CarData class is designed to facilitate updating the car list and providing users with
-/// a UnmodifiableListView encapsulating the CarData data. The usage of a Change Notifier allows
-///  for the rebuild of widgets dependant on Car Data for content.
+/// a UnmodifiableListView encapsulating the CarData data. The usage of a Change Notifier
+/// facilitates the updating of widgets dependent of the CarData for content as the  change notifier
+/// immediate rebuilds these widgets.
 
 
 class CarData extends ChangeNotifier{

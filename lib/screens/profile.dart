@@ -3,8 +3,10 @@ import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
 import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProfileScreen extends StatefulWidget {
 
@@ -16,12 +18,19 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+
+
   List<String> addressList;
   CarData carData;
 
   @override
   // ignore: must_call_super
   void initState() {
+    print('fart');
+    var carsList = FirebaseFirestore.instance.collection('CarCollection');
+    print(carsList);
     addressList = [];
     carData = CarData();
   }
