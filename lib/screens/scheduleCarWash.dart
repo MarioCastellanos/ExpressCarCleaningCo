@@ -2,6 +2,7 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class ScheduleCarWash extends StatefulWidget {
   static const String id = 'ScheduleCarWash';
@@ -9,15 +10,41 @@ class ScheduleCarWash extends StatefulWidget {
   _ScheduleCarWashState createState() => _ScheduleCarWashState();
 }
 
+
+
+final Map<DateTime, List> _holidays = {
+  DateTime(2020, 1, 1): ['New Year\'s Day'],
+  DateTime(2020, 1, 6): ['Epiphany'],
+  DateTime(2020, 2, 14): ['Valentine\'s Day'],
+  DateTime(2020, 4, 21): ['Easter Sunday'],
+  DateTime(2020, 4, 22): ['Easter Monday'],
+};
+
+
+enum ScreenContent {
+  CarSelection,
+  DateAndTimeSelection,
+  LocationSelection,
+}
+
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
   int contentIndex;
   CarData carData;
+  CalendarController _calendarController;
+
 
   @override
   void initState() {
     super.initState();
-    contentIndex = 1;
+    _calendarController = CalendarController();
+    contentIndex = 2;
     carData = CarData();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,15 +69,23 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: getChildren(contentIndex),
+          children: contentSwitch(contentIndex),
         ),
       ),
     );
   }
 
-  List<Widget> getChildren(int i) {
+  
+  /// Name: contentSwitch
+  /// Parameters: takes an Integer that represents what stage the user is in
+  ///             scheduling a car wash.
+  ///
+  /// Function:
+  /// Returns:
+
+  List<Widget> contentSwitch(int index) {
     // content switch
-    switch (i) {
+    switch (index) {
 
       // user car selection
       case 1:
@@ -100,7 +135,24 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       // user selecting time and
       case 2:
         {
-          return <Widget>[];
+          return <Widget>[
+            TableCalendar(
+              calendarController: _calendarController,
+              calendarStyle: CalendarStyle(
+                todayColor: ExpressCarWashRedAccent,
+                selectedColor: ExpressCarWashREDDark,
+
+              ),
+              holidays: _holidays,
+              headerStyle: HeaderStyle(
+                decoration: BoxDecoration(
+                  color: ExpressCarWashRedAccent,
+                  borderRadius: BorderRadius.circular(10),
+                  )
+                )
+              ),
+
+          ];
         }
         break;
 
