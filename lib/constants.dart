@@ -168,20 +168,21 @@ class TextLogo extends StatelessWidget {
     return Text(
       'EXPRESS CAR CLEANING \nCO.',
       textAlign: TextAlign.start,
-      style: TextStyle(
-        height: 1,
-        fontWeight: FontWeight.w700,
-        fontFamily: 'Vollkorn',
-        fontStyle: FontStyle.italic,
-        color: Colors.black,
-        backgroundColor: Colors.white,
-        letterSpacing: 1.0,
-        shadows: [],
-        fontSize: 46,
-      ),
+      style: logoTextStyle,
     );
   }
 }
+
+const TextStyle logoTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Vollkorn',
+  fontStyle: FontStyle.italic,
+  color: Colors.black,
+  backgroundColor: Colors.white,
+  letterSpacing: 1.0,
+  fontSize: 46,
+);
 
 SizedBox  kSpacerBox = SizedBox(
   height: 10,

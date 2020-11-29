@@ -4,22 +4,6 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ScheduleCarWash extends StatefulWidget {
-  static const String id = 'ScheduleCarWash';
-  @override
-  _ScheduleCarWashState createState() => _ScheduleCarWashState();
-}
-
-
-
-final Map<DateTime, List> _holidays = {
-  DateTime(2020, 1, 1): ['New Year\'s Day'],
-  DateTime(2020, 1, 6): ['Epiphany'],
-  DateTime(2020, 2, 14): ['Valentine\'s Day'],
-  DateTime(2020, 4, 21): ['Easter Sunday'],
-  DateTime(2020, 4, 22): ['Easter Monday'],
-};
-
 
 enum ScreenContent {
   CarSelection,
@@ -27,11 +11,18 @@ enum ScreenContent {
   LocationSelection,
 }
 
+class ScheduleCarWash extends StatefulWidget {
+  static const String id = 'ScheduleCarWash';
+  @override
+  _ScheduleCarWashState createState() => _ScheduleCarWashState();
+}
+
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
+  String month;
+  String date;
   int contentIndex;
   CarData carData;
   CalendarController _calendarController;
-
 
   @override
   void initState() {
@@ -40,6 +31,17 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     contentIndex = 2;
     carData = CarData();
   }
+
+  final Map<DateTime, List> _holidays = {
+    DateTime(2020, 1, 1): ['New Year\'s Day'],
+    DateTime(2020, 1, 6): ['Epiphany'],
+    DateTime(2020, 2, 14): ['Valentine\'s Day'],
+    DateTime(2020, 4, 21): ['Easter Sunday'],
+    DateTime(2020, 4, 22): ['Easter Monday'],
+  };
+
+
+
 
   @override
   void dispose() {
@@ -51,11 +53,14 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(height: 25, width: 25, child: Image.asset('images/RedCarIconAppBar.png')),
+        title: Container(
+            height: 25,
+            width: 25,
+            child: Image.asset('images/RedCarIconAppBar.png')),
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             print('pop');
             Navigator.pop(context);
           },
@@ -75,7 +80,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     );
   }
 
-  
   /// Name: contentSwitch
   /// Parameters: takes an Integer that represents what stage the user is in
   ///             scheduling a car wash.
@@ -123,7 +127,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   );
                 },
               ),
-              onPressed: (){
+              onPressed: () {
                 print('fart');
               },
               cardColor: Colors.red,
@@ -136,22 +140,16 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       case 2:
         {
           return <Widget>[
-            TableCalendar(
-              calendarController: _calendarController,
-              calendarStyle: CalendarStyle(
-                todayColor: ExpressCarWashRedAccent,
-                selectedColor: ExpressCarWashREDDark,
-
-              ),
-              holidays: _holidays,
-              headerStyle: HeaderStyle(
-                decoration: BoxDecoration(
-                  color: ExpressCarWashRedAccent,
-                  borderRadius: BorderRadius.circular(10),
-                  )
-                )
-              ),
-
+            Text(
+              'Select A Date',
+              textAlign: TextAlign.center,
+              style: logoTextStyle.copyWith(color: ExpressCarWashRedAccent),
+            ),
+            tableCalendarBuilder(),
+            Text(
+              'Select Time'
+            ),
+            ReusableCard(childWidget: Container(), onPressed: (){print('Does nothing');}, cardColor: ExpressCarWashRedAccent)
           ];
         }
         break;
@@ -164,4 +162,42 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     }
     return <Widget>[];
   }
+
+  TableCalendar tableCalendarBuilder() {
+    return TableCalendar(
+      calendarController: _calendarController,
+      onDaySelected: _onDaySelected,
+      calendarStyle: CalendarStyle(
+        todayColor: ExpressCarWashRedAccent,
+        selectedColor: ExpressCarWashREDDark,
+        outsideDaysVisible: false,
+        // Setting the color for weekend dates
+        weekendStyle: TextStyle().copyWith(color: Colors.black),
+      ),
+      daysOfWeekStyle: DaysOfWeekStyle(
+        // setting the text color for Sun and Sat on weekdays row
+        weekendStyle: TextStyle().copyWith(color: Colors.black),
+      ),
+      holidays: _holidays,
+      headerStyle: HeaderStyle(
+          decoration: BoxDecoration(
+        color: ExpressCarWashRedAccent.withOpacity(.5),
+        borderRadius: BorderRadius.circular(30),
+      )),
+      startingDayOfWeek: StartingDayOfWeek.monday,
+    );
+  }
+
+  void _onDaySelected(DateTime day, List events, List holidays) {
+    setState(
+      () {
+        date = day.toString().substring(8,10);
+        print('Month $month');
+        print(day.toString().substring(0,10));
+      },
+    );
+  }
 }
+
+
+
