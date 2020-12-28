@@ -103,6 +103,13 @@ class CarCard extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black45.withOpacity(.4),
+                    spreadRadius: 4,
+                    blurRadius: 2 ,
+                    offset: Offset(0, 5))
+              ],
               borderRadius: BorderRadius.circular(30),
             ),
             child: Icon(Icons.camera, size: 60 ,),

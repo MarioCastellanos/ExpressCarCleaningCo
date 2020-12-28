@@ -12,6 +12,9 @@ import 'package:cta_auto_detail/models/Car.dart';
 
 class CarData extends ChangeNotifier{
 
+  // TODO: need to connect car data to online database
+
+
   List<Car> _carList = [];
 
   void addCar({String make, String model, String interior}){

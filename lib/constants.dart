@@ -12,7 +12,7 @@ const Color ExpressCarWashRedAccent = Colors.redAccent;
 ///   profileButtonPressed
 
 PreferredSizeWidget getAppBar(
-    { @required Function iconButtonPressed , @required Function profileButtonPressed }){
+    { @required Function iconButtonPressed , Function profileButtonPressed, @required String title }){
 
   return AppBar(
     title: Row(
@@ -23,7 +23,7 @@ PreferredSizeWidget getAppBar(
           alignment: Alignment.bottomCenter,),
         SizedBox(width: 5,),
         Text(
-          'DASHBOARD',
+          title,
           style: TextStyle(color: ExpressCarWashRedAccent, fontFamily:  'Vollkorn',),
         ),
       ],

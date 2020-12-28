@@ -1,25 +1,41 @@
 import 'package:cta_auto_detail/constants.dart';
+import 'package:cta_auto_detail/models/Car_Data.dart';
+import 'package:cta_auto_detail/screens/GetAQuote.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
+import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
 
 /// Home Screen
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
+  final CarData carData = CarData();
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  CarData _carData;
+
+  @override
+  void initState() {
+    super.initState();
+    _carData = widget.carData;
+    _carData.addCar(make: 'Buggati', model: 'chiron', interior: 'Leather');
+    print(_carData.carsList[0].make);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: getAppBar(iconButtonPressed: () {
         Navigator.pop(context);
-      }, profileButtonPressed: () {
+      },
+          title: 'Dashboard',
+          profileButtonPressed: () {
         Navigator.pushNamed(context, ProfileScreen.id);
       }),
       body: SafeArea(
@@ -43,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, ScheduleCarWash.id);
+                  Navigator.pushNamed(context, ScheduleCarWash.id,
+                      arguments: _carData.toString());
                 },
                 cardColor: ExpressCarWashRedAccent,
               ),
@@ -53,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       cardColor: ExpressCarWashRedAccent,
                       onPressed: () {
                         print('SERVICES OFFERED');
+                        Navigator.pushNamed(context, ServicesOffered.id);
                       },
                       childWidget: Center(
                         child: Text(
@@ -69,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ReusableCard(
                       cardColor: ExpressCarWashRedAccent,
                       onPressed: () {
-                        print('GET A QUOTE');
+                        Navigator.pushNamed(context, GetAQuote.id);
                       },
                       childWidget: Center(
                         child: Text(
@@ -106,77 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SocialMediaIcons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12.withOpacity(.5),
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                    offset: Offset(0, 3))
-              ],
-            ),
-            child: FaIcon(
-              FontAwesomeIcons.facebook,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12.withOpacity(.5),
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                    offset: Offset(0, 3))
-              ],
-            ),
-            child: FaIcon(
-              FontAwesomeIcons.instagram,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12.withOpacity(.5),
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                    offset: Offset(0, 3))
-              ],
-            ),
-            child: FaIcon(
-              FontAwesomeIcons.twitter,
-              color: Colors.black,
-              size: 30,
-            ),
-          ),
-        ],
       ),
     );
   }

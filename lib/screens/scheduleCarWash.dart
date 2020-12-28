@@ -1,9 +1,9 @@
 import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
+import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 
 enum ScreenContent {
   CarSelection,
@@ -12,36 +12,60 @@ enum ScreenContent {
 }
 
 class ScheduleCarWash extends StatefulWidget {
+  final CarData carData;
+  ScheduleCarWash({@required this.carData});
   static const String id = 'ScheduleCarWash';
   @override
   _ScheduleCarWashState createState() => _ScheduleCarWashState();
 }
 
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
-  String month;
-  String date;
+
+  Map<DateTime, List> _holidays;
+  Map<DateTime, List> _scheduledWashes;
+
+  String currentTitle = '';
+  String _month;
+  String _date;
+  String _time;
+
+  int selectedCarIndex;
   int contentIndex;
+
+  bool dateSelected;
+
+
   CarData carData;
   CalendarController _calendarController;
 
-  @override
-  void initState() {
-    super.initState();
-    _calendarController = CalendarController();
-    contentIndex = 2;
-    carData = CarData();
+  void incrementContentSwitch(){
+    contentIndex ++;
   }
 
-  final Map<DateTime, List> _holidays = {
-    DateTime(2020, 1, 1): ['New Year\'s Day'],
-    DateTime(2020, 1, 6): ['Epiphany'],
-    DateTime(2020, 2, 14): ['Valentine\'s Day'],
-    DateTime(2020, 4, 21): ['Easter Sunday'],
-    DateTime(2020, 4, 22): ['Easter Monday'],
-  };
+  @override
+  void initState()  {
+    super.initState();
+    currentTitle = 'Select A Car';
+    _calendarController = CalendarController();
+    contentIndex = 1;
+    dateSelected = false;
 
+    carData = CarData();
 
+    carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
 
+    _holidays = {
+      DateTime(2020, 1, 1): ['New Year\'s Day'],
+      DateTime(2020, 1, 6): ['Epiphany'],
+      DateTime(2020, 2, 14): ['Valentine\'s Day'],
+      DateTime(2020, 4, 21): ['Easter Sunday'],
+      DateTime(2020, 4, 22): ['Easter Monday'],
+    };
+
+    _scheduledWashes = {
+      DateTime(2020, 12, 1): ['3:00']
+    };
+  }
 
   @override
   void dispose() {
@@ -53,10 +77,13 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-            height: 25,
-            width: 25,
-            child: Image.asset('images/RedCarIconAppBar.png')),
+        title: Text(
+          '$currentTitle',
+          style: TextStyle(
+            color: ExpressCarWashREDDark,
+            fontFamily: 'Vollkorn',
+          ),
+        ),
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
@@ -72,9 +99,12 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: contentSwitch(contentIndex),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: contentSwitch(contentIndex),
+          ),
         ),
       ),
     );
@@ -84,8 +114,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   /// Parameters: takes an Integer that represents what stage the user is in
   ///             scheduling a car wash.
   ///
-  /// Function:
-  /// Returns:
+  /// Function: Switches the content on the screen and sends a booking to the bookings database
+  ///           ( Need to check for collision for each new request)
+  ///
+  /// Returns: List of widgets representing the current content
 
   List<Widget> contentSwitch(int index) {
     // content switch
@@ -94,44 +126,73 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       // user car selection
       case 1:
         {
+          currentTitle = 'Select A Car';
           return <Widget>[
-            ReusableCard(
-              onPressed: () {
-                print('fart');
-              },
-              cardColor: ExpressCarWashRedAccent,
-              childWidget: Text(
-                'Select a vehicle',
-                style: TextStyle(
-                  fontSize: 45,
-                  fontFamily: 'Vollkorn',
-                  fontWeight: FontWeight.w900,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+            // Car List widget
             ReusableCard(
               childWidget: GridView.builder(
-                itemCount: carData.carsList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 1,
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
-                  mainAxisSpacing: 1,
                 ),
+                itemCount: carData.carsList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CarCard(
                     onPressed: () {
-                      Navigator.pushNamed(context, ScheduleCarWash.id);
+                      print('title: ${carData.carsList[index].make}');
+                      selectedCarIndex = index;
                     },
                     title: carData.carsList[index].make,
                   );
                 },
               ),
-              onPressed: () {
-                print('fart');
-              },
-              cardColor: Colors.red,
+              onPressed: null,
+              cardColor: ExpressCarWashRedAccent,
             ),
+            Row(
+              children: [
+                ReusableCard(
+                  childWidget: Text(
+                    'Guest Car',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    print('Ohh Uhh im in danger');
+                  },
+                  cardColor: ExpressCarWashRedAccent,
+                ),
+                ReusableCard(
+                  childWidget: Text(
+                    'New Car',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    print('Ohh Uhh im in danger');
+                  },
+                  cardColor: ExpressCarWashRedAccent,
+                ),
+              ],
+            ),
+            ContinueButton(
+              title: 'Continue',
+              textColor: Colors.white,
+              cBColor: ExpressCarWashREDDark,
+              onPressed: () {
+                setState(() {
+                  contentIndex++;
+                  currentTitle = 'Select A Date';
+                });
+              },
+            )
           ];
         }
         break;
@@ -139,17 +200,46 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       // user selecting time and
       case 2:
         {
+          // currentTitle = 'Select A Date';
           return <Widget>[
-            Text(
-              'Select A Date',
-              textAlign: TextAlign.center,
-              style: logoTextStyle.copyWith(color: ExpressCarWashRedAccent),
-            ),
             tableCalendarBuilder(),
-            Text(
-              'Select Time'
+            ReusableCard(
+              cardColor: ExpressCarWashRedAccent.withOpacity(.5),
+              childWidget: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: GridView.builder(
+                  primary: false,
+                  padding: EdgeInsets.all(20),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 3),
+                  itemCount: 10,
+                  itemBuilder: (BuildContext context, int index) {
+                    Widget widget;
+                    switch (index) {
+                      default:
+                        widget = UpcomingCarWashCard(
+                            childWidget: null,
+                            onPressed: null,
+                            cardColor: null);
+                    }
+                    return widget;
+                  },
+                ),
+              ),
+              onPressed: () {
+                print('What the fudge');
+              },
             ),
-            ReusableCard(childWidget: Container(), onPressed: (){print('Does nothing');}, cardColor: ExpressCarWashRedAccent)
+            ContinueButton(
+              cBColor: ExpressCarWashRedAccent,
+              title: 'Continue',
+              onPressed: () {
+                print('continue');
+              },
+            )
           ];
         }
         break;
@@ -165,25 +255,32 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
 
   TableCalendar tableCalendarBuilder() {
     return TableCalendar(
+      events: _scheduledWashes,
       calendarController: _calendarController,
       onDaySelected: _onDaySelected,
       calendarStyle: CalendarStyle(
         todayColor: ExpressCarWashRedAccent,
         selectedColor: ExpressCarWashREDDark,
-        outsideDaysVisible: false,
+        outsideDaysVisible: true,
         // Setting the color for weekend dates
         weekendStyle: TextStyle().copyWith(color: Colors.black),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         // setting the text color for Sun and Sat on weekdays row
-        weekendStyle: TextStyle().copyWith(color: Colors.black),
+        weekdayStyle: TextStyle(
+          color: Colors.black,
+        ),
+        weekendStyle: TextStyle(
+          color: Colors.black,
+        ),
       ),
       holidays: _holidays,
       headerStyle: HeaderStyle(
+          titleTextStyle: TextStyle(),
           decoration: BoxDecoration(
-        color: ExpressCarWashRedAccent.withOpacity(.5),
-        borderRadius: BorderRadius.circular(30),
-      )),
+            color: ExpressCarWashRedAccent.withOpacity(.5),
+            borderRadius: BorderRadius.circular(30),
+          )),
       startingDayOfWeek: StartingDayOfWeek.monday,
     );
   }
@@ -191,13 +288,36 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   void _onDaySelected(DateTime day, List events, List holidays) {
     setState(
       () {
-        date = day.toString().substring(8,10);
-        print('Month $month');
-        print(day.toString().substring(0,10));
+        _date = day.toString().substring(8, 10);
+        _month = day.toString().substring(5, 7);
+        currentTitle = _date + _month;
+        print('date $_date');
+        print('month $_month');
       },
     );
   }
 }
 
 
+// A widget that extracts the necessary arguments from the ModalRoute.
+class ExtractArgumentsScreen extends StatelessWidget {
+  static const routeName = '/extractArguments';
 
+  @override
+  Widget build(BuildContext context) {
+    // Extract the arguments from the current ModalRoute settings and cast
+    // them as ScreenArguments.
+    final CarData args = ModalRoute.of(context).settings.arguments;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Fart'
+        ),
+      ),
+      body: Center(
+        child: Text(args.carsList.toString()),
+      ),
+    );
+  }
+}

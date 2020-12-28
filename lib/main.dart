@@ -1,9 +1,11 @@
 import 'package:cta_auto_detail/models/Car_Data.dart';
+import 'package:cta_auto_detail/screens/GetAQuote.dart';
 import 'package:cta_auto_detail/screens/home.dart';
 import 'package:cta_auto_detail/screens/launchScreen.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:cta_auto_detail/screens/resetPassword.dart';
 import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
+import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:cta_auto_detail/screens/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +44,7 @@ class _MyAppState extends State<MyApp> {
       // Set `_error` state to true if Firebase initialization fails
       setState(() {
         _error = true;
+        print(_error);
       });
     }
   }
@@ -72,6 +75,9 @@ class _MyAppState extends State<MyApp> {
             ScheduleCarWash.id: (context) => ScheduleCarWash(),
             WelcomeScreen.id: (context) => WelcomeScreen(),
             ResetPasswordScreen.id : (context) => ResetPasswordScreen(),
+            ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+            ServicesOffered.id : (context) => ServicesOffered(),
+            GetAQuote.id : (context) => GetAQuote(),
           },
         ),
       );

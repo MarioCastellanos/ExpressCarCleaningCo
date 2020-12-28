@@ -1,15 +1,18 @@
+import 'package:cta_auto_detail/constants.dart';
 import 'package:flutter/material.dart';
 
-class AboutScreen extends StatelessWidget {
+class ServicesOffered extends StatelessWidget {
+  static const String id = 'Services Offered';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('CTA DETAILING'),
-
+      appBar: getAppBar(
+        iconButtonPressed: () {
+          Navigator.pop(context);
+        },
+        title: 'Services Offered'
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
     );
   }
 }

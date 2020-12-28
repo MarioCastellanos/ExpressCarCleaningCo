@@ -25,10 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<String> addressList;
   CarData carData;
 
+
   @override
-  // ignore: must_call_super
   void initState() {
-    print('fart');
+    super.initState();
     var carsList = FirebaseFirestore.instance.collection('CarCollection');
     print(carsList);
     addressList = [];
@@ -75,22 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               color: Colors.transparent,
               child: HalfScreenCard(
-                childWidget: GridView.builder(
-                  itemCount: carData.carsList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 1,
-                  ),
-                  itemBuilder: (BuildContext context, int index) {
-                    return CarCard(
-                      onPressed: () {
-                        Navigator.pushNamed(context, ScheduleCarWash.id);
-                      },
-                      title: carData.carsList[index].make,
-                    );
-                  },
-                ),
+                childWidget: CarListGridViewBuilder(carData: carData),
               ),
             ),
           )
@@ -112,6 +97,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
         elevation: 10,
         child: Icon(Icons.add, color: ExpressCarWashRED,size: 36,),
       ),
+    );
+  }
+}
+
+class CarListGridViewBuilder extends StatelessWidget {
+  const CarListGridViewBuilder({@required this.carData,});
+
+
+
+  final CarData carData;
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      itemCount: carData.carsList.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 1,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return CarCard(
+          onPressed: () {
+            Navigator.pushNamed(context, ScheduleCarWash.id);
+          },
+          title: carData.carsList[index].make,
+        );
+      },
     );
   }
 }
