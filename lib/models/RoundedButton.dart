@@ -45,7 +45,7 @@ class ContinueButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: MaterialButton(
         elevation: 20,
-        splashColor: splashValue == false ? Colors.transparent : ExpressCarWashRED,
+        splashColor: splashValue == false ? Colors.transparent : ECCCBlue,
         onPressed: onPressed,
         child: Text(
           title,

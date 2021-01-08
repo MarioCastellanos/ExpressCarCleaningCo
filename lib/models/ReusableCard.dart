@@ -72,7 +72,7 @@ class HalfScreenCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.white, ExpressCarWashRED],
+          colors: [Colors.white, ECCCBlue],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -108,7 +108,7 @@ class CarCard extends StatelessWidget {
                     color: Colors.black45.withOpacity(.4),
                     spreadRadius: 4,
                     blurRadius: 2 ,
-                    offset: Offset(0, 5))
+                    offset: Offset(4, 5))
               ],
               borderRadius: BorderRadius.circular(30),
             ),
@@ -118,7 +118,7 @@ class CarCard extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: ExpressCarWashREDDark,
+              color: ECCCDarkBlue,
               boxShadow: [
                 BoxShadow(
                     color: Colors.black45.withOpacity(.4),

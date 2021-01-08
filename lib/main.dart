@@ -57,9 +57,47 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     return ChangeNotifierProvider(
         create: (BuildContext context) => CarData(),
         child: MaterialApp(
+          onGenerateRoute: (settings) {
+            // If you push the PassArguments route
+            if (settings.name == ProfileScreen.id) {
+              // Cast the arguments to the correct type: ScreenArguments.
+              final ScreenArguments args = settings.arguments;
+
+              // Then, extract the required data from the arguments and
+              // pass the data to the correct screen.
+              return MaterialPageRoute(
+                builder: (context) {
+                  return ProfileScreen(
+                    carData: args.carData,
+                  );
+                },
+              );
+            }
+            if (settings.name == ScheduleCarWash.id) {
+              // Cast the arguments to the correct type: ScreenArguments.
+              final ScreenArguments args = settings.arguments;
+
+              // Then, extract the required data from the arguments and
+              // pass the data to the correct screen.
+              return MaterialPageRoute(
+                builder: (context) {
+                  return ScheduleCarWash(
+                    carData: args.carData,
+                  );
+                },
+              );
+            }
+            // The code only supports ProfileScreen.id and  right now.
+            // Other values need to be implemented if we add them. The assertion
+            // here will help remind us of that higher up in the call stack, since
+            // this assertion would otherwise fire somewhere in the framework.
+            assert(false, 'Need to implement ${settings.name}');
+            return null;
+          },
           theme: ThemeData(
             primaryColor: Color(0xFF025298),
             visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -69,10 +107,10 @@ class _MyAppState extends State<MyApp> {
             SignIn.id: (context) => SignIn(),
             SignUp.id: (context) => SignUp(),
             HomeScreen.id: (context) => HomeScreen(),
-            ProfileScreen.id: (context) => ProfileScreen(),
+            //ProfileScreen.id: (context) => ProfileScreen(),
             LaunchScreen.id: (context) => LaunchScreen(),
             PopUpCard.id: (context) => PopUpCard(),
-            ScheduleCarWash.id: (context) => ScheduleCarWash(),
+            //ScheduleCarWash.id: (context) => ScheduleCarWash(),
             WelcomeScreen.id: (context) => WelcomeScreen(),
             ResetPasswordScreen.id : (context) => ResetPasswordScreen(),
             ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
@@ -82,4 +120,10 @@ class _MyAppState extends State<MyApp> {
         ),
       );
   }
+}
+
+class ScreenArguments {
+  final CarData carData;
+
+  ScreenArguments( this.carData);
 }

@@ -35,12 +35,12 @@ class PassWordTextField extends StatelessWidget {
           suffixIcon: IconButton(
             icon: Icon(
               visibilityIconData,
-              color: ExpressCarWashRED,
+              color: ECCCBlue,
             ),
             onPressed: setVisibility,
           )),
       textAlign: TextAlign.start,
-      style: TextStyle(fontSize: 18, color: ExpressCarWashRedAccent),
+      style: TextStyle(fontSize: 18, color: ECCCBlueAccent),
     );
   }
 }
@@ -61,7 +61,7 @@ class EmailTextField extends StatelessWidget {
       textAlign: TextAlign.start,
       style: TextStyle(
         fontSize: 18,
-        color: ExpressCarWashRedAccent,
+        color: ECCCBlueAccent,
       ),
     );
   }
@@ -75,9 +75,9 @@ class CarWashDeliveredText extends StatelessWidget {
       isRepeatingAnimation: false,
       speed: Duration(milliseconds: 250),
       colors: [
-        ExpressCarWashRED,
+        ECCCBlue,
         Colors.white,
-        ExpressCarWashRED,
+        ECCCBlue,
       ],
       textStyle: TextStyle(
         fontSize: 36,
@@ -105,7 +105,7 @@ class CircleAvatarAndTextFields extends StatelessWidget {
             child: GestureDetector(
               onTap: onTap,
               child: CircleAvatar(
-                backgroundColor: ExpressCarWashRED,
+                backgroundColor: ECCCBlue,
                 radius: 50,
                 child: Icon(
                   Icons.image,
@@ -148,7 +148,7 @@ class ProfileTextFields extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        color: ExpressCarWashRedAccent,
+        color: ECCCBlueAccent,
       ),
       decoration: inputDecoration,
     );
@@ -164,7 +164,7 @@ class AddressesRow extends StatelessWidget {
         Container(
           height: 45,
           width: 45,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: ExpressCarWashRED),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: ECCCBlue),
           child: GestureDetector(
               onTap: () {
                 showModalBottomSheet<void>(
@@ -202,22 +202,22 @@ class AddressesRow extends StatelessWidget {
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide:
-                                        BorderSide(color: ExpressCarWashRED, width: 2)),
+                                        BorderSide(color: ECCCBlue, width: 2)),
                                 disabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: ExpressCarWashRED)),
+                                    borderSide: BorderSide(color: ECCCBlue)),
                                 focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: ExpressCarWashRED)),
+                                    borderSide: BorderSide(color: ECCCBlue)),
                               ),
                             ),
                             TextField(
                               decoration: InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide:
-                                    BorderSide(color: ExpressCarWashRED, width: 2)),
+                                    BorderSide(color: ECCCBlue, width: 2)),
                                 disabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: ExpressCarWashRED)),
+                                    borderSide: BorderSide(color: ECCCBlue)),
                                 focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: ExpressCarWashRED)),
+                                    borderSide: BorderSide(color: ECCCBlue)),
                               ),
                             ),
                           ],
@@ -240,13 +240,13 @@ class AddressesRow extends StatelessWidget {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                  color: ExpressCarWashRED.withOpacity(.2),
+                  color: ECCCBlue.withOpacity(.2),
                   blurRadius: 2,
                   spreadRadius: 2,
                   offset: Offset(0, 4))
             ],
             shape: BoxShape.circle,
-            color: ExpressCarWashRED,
+            color: ECCCBlue,
           ),
           child: GestureDetector(
             onTap: () {

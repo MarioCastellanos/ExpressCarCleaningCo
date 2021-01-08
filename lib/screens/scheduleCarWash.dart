@@ -12,8 +12,9 @@ enum ScreenContent {
 }
 
 class ScheduleCarWash extends StatefulWidget {
+
+  ScheduleCarWash({ this.carData});
   final CarData carData;
-  ScheduleCarWash({@required this.carData});
   static const String id = 'ScheduleCarWash';
   @override
   _ScheduleCarWashState createState() => _ScheduleCarWashState();
@@ -35,7 +36,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   bool dateSelected;
 
 
-  CarData carData;
   CalendarController _calendarController;
 
   void incrementContentSwitch(){
@@ -49,10 +49,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     _calendarController = CalendarController();
     contentIndex = 1;
     dateSelected = false;
+    print('Car Data: ${widget.carData.carsList[0].make}');
 
-    carData = CarData();
 
-    carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
+    //widget.carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
 
     _holidays = {
       DateTime(2020, 1, 1): ['New Year\'s Day'],
@@ -80,7 +80,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         title: Text(
           '$currentTitle',
           style: TextStyle(
-            color: ExpressCarWashREDDark,
+            color: ECCCDarkBlue,
             fontFamily: 'Vollkorn',
           ),
         ),
@@ -93,7 +93,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           },
           icon: Icon(
             Icons.arrow_back_ios,
-            color: ExpressCarWashRedAccent,
+            color: ECCCBlueAccent,
             size: 36,
           ),
         ),
@@ -136,19 +136,19 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
                 ),
-                itemCount: carData.carsList.length,
+                itemCount: 1, //widget.carData.carsList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return CarCard(
                     onPressed: () {
-                      print('title: ${carData.carsList[index].make}');
+                      print('title: ${widget.carData.carsList[index].make}');
                       selectedCarIndex = index;
                     },
-                    title: carData.carsList[index].make,
+                    title: widget.carData.carsList[index].make,
                   );
                 },
               ),
               onPressed: null,
-              cardColor: ExpressCarWashRedAccent,
+              cardColor: ECCCBlueAccent,
             ),
             Row(
               children: [
@@ -164,7 +164,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   onPressed: () {
                     print('Ohh Uhh im in danger');
                   },
-                  cardColor: ExpressCarWashRedAccent,
+                  cardColor: ECCCBlueAccent,
                 ),
                 ReusableCard(
                   childWidget: Text(
@@ -178,14 +178,14 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   onPressed: () {
                     print('Ohh Uhh im in danger');
                   },
-                  cardColor: ExpressCarWashRedAccent,
+                  cardColor: ECCCBlueAccent,
                 ),
               ],
             ),
             ContinueButton(
               title: 'Continue',
               textColor: Colors.white,
-              cBColor: ExpressCarWashREDDark,
+              cBColor: ECCCDarkBlue,
               onPressed: () {
                 setState(() {
                   contentIndex++;
@@ -204,7 +204,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           return <Widget>[
             tableCalendarBuilder(),
             ReusableCard(
-              cardColor: ExpressCarWashRedAccent.withOpacity(.5),
+              cardColor: ECCCBlueAccent.withOpacity(.5),
               childWidget: MediaQuery.removePadding(
                 context: context,
                 removeTop: true,
@@ -234,7 +234,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
               },
             ),
             ContinueButton(
-              cBColor: ExpressCarWashRedAccent,
+              cBColor: ECCCBlueAccent,
               title: 'Continue',
               onPressed: () {
                 print('continue');
@@ -259,8 +259,8 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       calendarController: _calendarController,
       onDaySelected: _onDaySelected,
       calendarStyle: CalendarStyle(
-        todayColor: ExpressCarWashRedAccent,
-        selectedColor: ExpressCarWashREDDark,
+        todayColor: ECCCBlueAccent,
+        selectedColor: ECCCDarkBlue,
         outsideDaysVisible: true,
         // Setting the color for weekend dates
         weekendStyle: TextStyle().copyWith(color: Colors.black),
@@ -278,7 +278,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       headerStyle: HeaderStyle(
           titleTextStyle: TextStyle(),
           decoration: BoxDecoration(
-            color: ExpressCarWashRedAccent.withOpacity(.5),
+            color: ECCCBlueAccent.withOpacity(.5),
             borderRadius: BorderRadius.circular(30),
           )),
       startingDayOfWeek: StartingDayOfWeek.monday,

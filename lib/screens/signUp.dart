@@ -93,7 +93,7 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RedCarLogo(),
+              ECCCBlueCarLogo(adjustLogoSize: true,),
               kSpacerBox,
               EmailTextField(
                 errorText: emailErrorText,
@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
               ),
               kSpacerBox,
               RoundedButton(
-                rbColor: ExpressCarWashRedAccent,
+                rbColor: ECCCBlueAccent,
                 title: 'Sign Up ',
                 onPressed: () async {
                   if(_email  == _confirmEmail){
@@ -155,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     decoration: TextDecoration.underline,
-                    color: ExpressCarWashRED,
+                    color: ECCCBlue,
                     fontSize: 16,
                   ),
                 ),

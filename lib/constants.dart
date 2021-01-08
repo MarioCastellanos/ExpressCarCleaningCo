@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
-const Color ExpressCarWashRED = Color(0xFFFB0013);
-const Color ExpressCarWashREDDark = Color(0xFFBF0000);
-const Color ExpressCarWashRedAccent = Colors.redAccent;
+const Color ECCCBlue = Color(0xFF3A87E9);
+const Color ECCCDarkBlue = Color(0xFF275B97);
+const Color ECCCBlueAccent = Colors.lightBlueAccent;
 
 
 /// GetAppBar returns a custom app bar based on parameters
@@ -12,27 +11,23 @@ const Color ExpressCarWashRedAccent = Colors.redAccent;
 ///   profileButtonPressed
 
 PreferredSizeWidget getAppBar(
-    { @required Function iconButtonPressed , Function profileButtonPressed, @required String title }){
+    { @required Function iconButtonPressed , Function profileButtonPressed, }){
 
   return AppBar(
     title: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container( height: 15, child:  Image.asset('images/RedCarIconAppBar.png', ),
+        Container( height: 15, child:  Image.asset('images/carLogo.jpg', ),
           alignment: Alignment.bottomCenter,),
-        SizedBox(width: 5,),
-        Text(
-          title,
-          style: TextStyle(color: ExpressCarWashRedAccent, fontFamily:  'Vollkorn',),
-        ),
+        SizedBox(width: 25,),
       ],
     ),
     leading: IconButton(
       icon: Icon(
         Icons.arrow_back_ios,
         size: 36,
-        color: ExpressCarWashRedAccent,
+        color: ECCCBlueAccent,
       ),
       onPressed: iconButtonPressed,
     ),
@@ -42,7 +37,7 @@ PreferredSizeWidget getAppBar(
         icon: Icon(
           Icons.person,
           size: 36,
-          color: ExpressCarWashRedAccent,
+          color: ECCCBlueAccent,
         ),
         onPressed: profileButtonPressed,
 //      onPressed: () {
@@ -55,20 +50,20 @@ PreferredSizeWidget getAppBar(
 }
 
 const TextStyle kOutLineButtonTextStyle = TextStyle(
-  color: ExpressCarWashRedAccent,
+  color: ECCCBlueAccent,
   fontSize: 15,
 );
 
 const InputDecoration kUserNameEmailDecoration = InputDecoration(
   hintStyle: TextStyle(color: Colors.white),
   enabledBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 1.0),
+    borderSide: BorderSide(color: ECCCBlueAccent, width: 1.0),
   ),
   disabledBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 1.0),
+    borderSide: BorderSide(color: ECCCBlueAccent, width: 1.0),
   ),
   focusedBorder: UnderlineInputBorder(
-    borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 3.0),
+    borderSide: BorderSide(color: ECCCBlueAccent, width: 3.0),
   ),
 );
 
@@ -81,64 +76,71 @@ const BoxDecoration kBlackBlueGradientDecoration = BoxDecoration(
 );
 
 const kEmailTextFieldDecoration = InputDecoration(
-    fillColor: ExpressCarWashRED,
+    fillColor: ECCCBlue,
     hintText: 'Email',
     hintStyle: TextStyle(color: Colors.grey),
     contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
     prefixIcon: Icon(
       Icons.email,
-      color: ExpressCarWashRedAccent,
+      color: ECCCBlueAccent,
     ),
     border: OutlineInputBorder(
-      borderSide: BorderSide(color: ExpressCarWashRedAccent),
+      borderSide: BorderSide(color: ECCCBlueAccent),
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: ExpressCarWashRedAccent),
+      borderSide: BorderSide(color: ECCCBlueAccent),
       borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
     ),
     focusedBorder: OutlineInputBorder(
         borderRadius: (BorderRadius.all(Radius.circular(10))),
-        borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 2)));
+        borderSide: BorderSide(color: ECCCBlueAccent, width: 2)));
 
 const kPasswordTextFieldDecoration = InputDecoration(
-    fillColor: ExpressCarWashRedAccent,
+    fillColor: ECCCBlueAccent,
     hintText: 'Email',
     hintStyle: TextStyle(color: Colors.grey),
     contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
     prefixIcon: Icon(
       Icons.lock,
-      color: ExpressCarWashRedAccent,
+      color: ECCCBlueAccent,
     ),
     border: OutlineInputBorder(
-      borderSide: BorderSide(color: ExpressCarWashRedAccent),
+      borderSide: BorderSide(color: ECCCBlueAccent),
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: ExpressCarWashRedAccent),
+      borderSide: BorderSide(color: ECCCBlueAccent),
       borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
     ),
     focusedBorder: OutlineInputBorder(
         borderRadius: (BorderRadius.all(Radius.circular(10))),
-        borderSide: BorderSide(color: ExpressCarWashRedAccent, width: 2)));
+        borderSide: BorderSide(color: ECCCBlueAccent, width: 2)));
 
 
 
-class RedCarLogo extends StatelessWidget {
+class ECCCBlueCarLogo extends StatelessWidget {
+
+ final bool adjustLogoSize;
+
+  ECCCBlueCarLogo({this.adjustLogoSize = false});
+
+
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: 'REDCARLOGO',
+      tag: 'BlueCar',
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.all(20),
         alignment: Alignment.topLeft,
-        height: 46,
+        height: adjustLogoSize == false ? 66 : 166,
+        width: 100,
         child: Image.asset(
-          'images/RedCarIcon.png',
+          'images/carLogo.jpg',
         ),
       ),
     );
@@ -147,7 +149,7 @@ class RedCarLogo extends StatelessWidget {
 
 TextStyle kInkWellTextStyle  = TextStyle(
   decoration: TextDecoration.underline,
-  color: ExpressCarWashRED,
+  color: ECCCBlue,
   fontSize: 16,
 );
 
@@ -155,7 +157,7 @@ TextStyle kResetPasswordTextStyle = TextStyle(
   height: 1,
   fontWeight: FontWeight.w400,
   fontFamily: 'Vollkorn',
-  color: ExpressCarWashRedAccent,
+  color: ECCCBlueAccent,
   backgroundColor: Colors.white,
   letterSpacing: 1.0,
   fontSize: 36,

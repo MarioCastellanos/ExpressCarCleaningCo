@@ -28,14 +28,14 @@ class _LaunchScreenState extends State<LaunchScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RedCarLogo(),
+              ECCCBlueCarLogo(adjustLogoSize: false,),
               TextLogo(),
               CarWashDeliveredText(),
               // Sign In Button
               // onPressed: Navigates the user to Sign In screen
 
               RoundedButton(
-                rbColor: ExpressCarWashRedAccent,
+                rbColor: ECCCBlueAccent,
                 title: 'Sign In',
                 onPressed: () {
                   Navigator.pushNamed(context, SignIn.id);
@@ -63,10 +63,10 @@ class _LaunchScreenState extends State<LaunchScreen> {
                   style: kOutLineButtonTextStyle,
                 ),
                 borderSide: BorderSide(
-                  color: ExpressCarWashRedAccent,
+                  color: ECCCBlueAccent,
                   width: 2,
                 ),
-                disabledBorderColor: ExpressCarWashRedAccent,
+                disabledBorderColor: ECCCBlueAccent,
               ),
             ],
           ),

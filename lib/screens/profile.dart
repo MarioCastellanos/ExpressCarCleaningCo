@@ -12,6 +12,10 @@ class ProfileScreen extends StatefulWidget {
 
   static const String id = 'profileScreen';
 
+  ProfileScreen({this.carData});
+
+  final CarData carData;
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -21,9 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
 
-
   List<String> addressList;
-  CarData carData;
 
 
   @override
@@ -32,31 +34,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var carsList = FirebaseFirestore.instance.collection('CarCollection');
     print(carsList);
     addressList = [];
-    carData = CarData();
+    print('Car Data: ${widget.carData.carsList[0].make}');
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          onPressed: (){Navigator.pop(context);},
-          icon: Icon(Icons.arrow_back_ios, color: Colors.redAccent, size: 36,),
-        ),
-        backgroundColor: Colors.white,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container( height: 15, width: 15,  child: Image.asset('images/RedCarIconAppBar.png'),),
-            SizedBox(width: 5,),
-            Text('PROFILE',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: ExpressCarWashRedAccent, fontFamily:  'Vollkorn',),
-            )
-          ],
-        ),
-      ),
+      appBar: getAppBar(iconButtonPressed: (){Navigator.pop(context);}),
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               color: Colors.transparent,
               child: HalfScreenCard(
-                childWidget: CarListGridViewBuilder(carData: carData),
+                childWidget: CarListGridViewBuilder(carData: widget.carData),
               ),
             ),
           )
@@ -83,19 +66,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       floatingActionButton: FloatingActionButton(
 
-        splashColor: ExpressCarWashRED,
+        splashColor: ECCCBlue,
         onPressed: () async{
           var car = await Navigator.pushNamed(context, PopUpCard.id);
           if (car != null){
             List<String> carInfoList = car;
             setState(() {
-              carData.addCar(model: carInfoList[0],make: carInfoList[1],interior: carInfoList[2]);
+              widget.carData.addCar(model: carInfoList[0],make: carInfoList[1],interior: carInfoList[2]);
             });
           }
         },
         backgroundColor: Colors.white,
         elevation: 10,
-        child: Icon(Icons.add, color: ExpressCarWashRED,size: 36,),
+        child: Icon(Icons.add, color: ECCCBlue,size: 36,),
       ),
     );
   }
@@ -103,8 +86,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 class CarListGridViewBuilder extends StatelessWidget {
   const CarListGridViewBuilder({@required this.carData,});
-
-
 
   final CarData carData;
 

@@ -1,4 +1,5 @@
 import 'package:cta_auto_detail/constants.dart';
+import 'package:cta_auto_detail/main.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/screens/GetAQuote.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
@@ -9,6 +10,8 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
 
 /// Home Screen
+///
+
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
@@ -34,9 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: getAppBar(iconButtonPressed: () {
         Navigator.pop(context);
       },
-          title: 'Dashboard',
           profileButtonPressed: () {
-        Navigator.pushNamed(context, ProfileScreen.id);
+        Navigator.pushNamed(context, ProfileScreen.id, arguments: ScreenArguments( _carData));
       }),
       body: SafeArea(
         child: Container(
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ReusableCard(
                 childWidget: Center(
                   child: Text(
-                    'SCHEDULE A WASH',
+                    'SCHEDULE WASH',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
@@ -60,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, ScheduleCarWash.id,
-                      arguments: _carData.toString());
+                      arguments: ScreenArguments(_carData));
                 },
-                cardColor: ExpressCarWashRedAccent,
+                cardColor: ECCCBlueAccent,
               ),
               Row(
                 children: [
                   ReusableCard(
-                      cardColor: ExpressCarWashRedAccent,
+                      cardColor: ECCCBlueAccent,
                       onPressed: () {
                         print('SERVICES OFFERED');
                         Navigator.pushNamed(context, ServicesOffered.id);
@@ -78,14 +80,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 30,
+                            fontSize: 25,
                             fontFamily: 'Vollkorn',
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                       )),
                   ReusableCard(
-                      cardColor: ExpressCarWashRedAccent,
+                      cardColor: ECCCBlueAccent,
                       onPressed: () {
                         Navigator.pushNamed(context, GetAQuote.id);
                       },
@@ -95,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 30,
+                            fontSize: 25,
                             fontFamily: 'Vollkorn',
                             fontWeight: FontWeight.w900,
                           ),
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: UpcomingCarWashCard(
-                    cardColor: ExpressCarWashRedAccent,
+                    cardColor: ECCCBlueAccent,
                     onPressed: () {
                       print('Upcoming washes');
                     },

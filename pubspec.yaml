@@ -44,9 +44,7 @@ dev_dependencies:
 
 flutter:
   assets:
-    - images/ExpressCarCleaningCo.png
-    - images/RedCarIcon.png
-    - images/RedCarIconAppBar.png
+    - images/carLogo.jpg
 
 
   fonts:

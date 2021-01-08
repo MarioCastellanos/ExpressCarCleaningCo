@@ -99,9 +99,7 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RedCarLogo(),
-              // Spacer between email and logo
-              kSpacerBox,
+              ECCCBlueCarLogo(adjustLogoSize: true,),
               EmailTextField(
                 errorText: emailErrorText,
                 onChanged: (value) {
@@ -131,7 +129,7 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
               // users are directed to the home page.
 
               RoundedButton(
-                rbColor: ExpressCarWashRedAccent,
+                rbColor: ECCCBlueAccent,
                 title: 'Sign In',
                 onPressed: () async {
                   if (_email == '') {

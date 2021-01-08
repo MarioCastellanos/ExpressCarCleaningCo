@@ -78,7 +78,7 @@ class _PopUpCardState extends State<PopUpCard> {
           icon: Icon(
             Icons.arrow_back_ios,
             size: 36,
-            color: ExpressCarWashRedAccent,
+            color: ECCCBlueAccent,
           ),
         ),
         backgroundColor: Colors.white,
@@ -87,7 +87,7 @@ class _PopUpCardState extends State<PopUpCard> {
           displayText,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: ExpressCarWashRedAccent,
+              color: ECCCBlueAccent,
               fontFamily: 'Vollkorn',
               fontSize: 26,
               fontWeight: FontWeight.w400),
@@ -108,7 +108,7 @@ class _PopUpCardState extends State<PopUpCard> {
                         blurRadius: 2,
                         offset: Offset(1, 4))
                   ],
-                  color: ExpressCarWashRedAccent,
+                  color: ECCCBlueAccent,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
@@ -125,7 +125,7 @@ class _PopUpCardState extends State<PopUpCard> {
                       return CarInfoCard(
                         info: currList[index],
                         color: currIndex == index
-                            ? ExpressCarWashREDDark
+                            ? ECCCDarkBlue
                             : Colors.white,
                         onTap: () {
                           setState(() {
@@ -162,7 +162,7 @@ class _PopUpCardState extends State<PopUpCard> {
                     }
                   }
                 },
-                cBColor: currIndex == -1 ? Colors.white : ExpressCarWashRedAccent)
+                cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent)
           ],
         ),
       ),

@@ -12,7 +12,6 @@ class GetAQuote extends StatelessWidget {
           iconButtonPressed: () {
             Navigator.pop(context);
           },
-          title: 'Get A Quote'
       ),
       backgroundColor: Colors.white,
     );

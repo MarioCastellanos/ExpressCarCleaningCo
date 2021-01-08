@@ -44,7 +44,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   },
                   errorText: emailErrorText),
               RoundedButton(
-                rbColor: ExpressCarWashRedAccent,
+                rbColor: ECCCBlueAccent,
                 title: 'Send Reset Email',
                 onPressed: () {
                   _auth.sendPasswordResetEmail(email: _email);

@@ -10,7 +10,6 @@ class ServicesOffered extends StatelessWidget {
         iconButtonPressed: () {
           Navigator.pop(context);
         },
-        title: 'Services Offered'
       ),
       backgroundColor: Colors.white,
     );

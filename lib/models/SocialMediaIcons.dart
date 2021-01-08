@@ -14,7 +14,7 @@ class SocialMediaIcons extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
+              color: ECCCBlueAccent,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
@@ -33,7 +33,7 @@ class SocialMediaIcons extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
+              color: ECCCBlueAccent,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
@@ -52,7 +52,7 @@ class SocialMediaIcons extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: ExpressCarWashRedAccent,
+              color: ECCCBlueAccent,
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
