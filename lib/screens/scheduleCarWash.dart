@@ -290,7 +290,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       () {
         _date = day.toString().substring(8, 10);
         _month = day.toString().substring(5, 7);
-        currentTitle = _date + _month;
         print('date $_date');
         print('month $_month');
       },

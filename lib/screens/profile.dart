@@ -22,7 +22,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  String userEmail = FirebaseAuth.instance.currentUser.email;
+  String displayName = FirebaseAuth.instance.currentUser.displayName;
 
 
   List<String> addressList;
@@ -45,6 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           CircleAvatarAndTextFields(
+            email: userEmail,
             onTap: () {
               print('Needs to be implemented');
             },

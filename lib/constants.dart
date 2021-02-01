@@ -186,6 +186,51 @@ const TextStyle logoTextStyle = TextStyle(
   fontSize: 46,
 );
 
+const TextStyle diamondTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Vollkorn',
+  fontStyle: FontStyle.italic,
+  color: Color(0xFFB9F2FF),
+  backgroundColor: ECCCBlueAccent,
+  letterSpacing: 1.0,
+  fontSize: 46,
+);
+
+const TextStyle sapphireTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Vollkorn',
+  fontStyle: FontStyle.italic,
+  color: Color(0xFF0f52ba),
+  backgroundColor: ECCCBlueAccent,
+  letterSpacing: 1.0,
+  fontSize: 46,
+);
+
+const TextStyle rubyTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Vollkorn',
+  fontStyle: FontStyle.italic,
+  color: Color(0xFFE0115F),
+  backgroundColor: ECCCBlueAccent,
+  letterSpacing: 1.0,
+  fontSize: 46,
+);
+
+const TextStyle emeraldTextStyle = TextStyle(
+  height: 1,
+  fontWeight: FontWeight.w700,
+  fontFamily: 'Vollkorn',
+  fontStyle: FontStyle.italic,
+  color: Color(0xFF046307),
+  backgroundColor: ECCCBlueAccent,
+  letterSpacing: 1.0,
+  fontSize: 46,
+);
+
+
 SizedBox  kSpacerBox = SizedBox(
   height: 10,
 );
