@@ -1,6 +1,6 @@
-# cta_auto_detail
+# Express Car Cleaning Company
 
-Mobile Car Washing and Detailing app to provide help on 
+Mock Mobile Car Washing and Detailing app. Designed to allow users to schedule a car wash and request quotes as well as track up coming car washes.  
 
 ## Getting Started
 
