@@ -4,23 +4,30 @@ const Color ECCCBlue = Color(0xFF3A87E9);
 const Color ECCCDarkBlue = Color(0xFF275B97);
 const Color ECCCBlueAccent = Colors.lightBlueAccent;
 
-
 /// GetAppBar returns a custom app bar based on parameters
 /// parameters
 ///   Function iconButtonPressed
 ///   profileButtonPressed
 
-PreferredSizeWidget getAppBar(
-    { @required Function iconButtonPressed , Function profileButtonPressed, }){
-
+PreferredSizeWidget getAppBar({
+  @required Function iconButtonPressed,
+  Function profileButtonPressed,
+}) {
   return AppBar(
     title: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container( height: 15, child:  Image.asset('images/carLogo.jpg', ),
-          alignment: Alignment.bottomCenter,),
-        SizedBox(width: 25,),
+        Container(
+          height: 15,
+          child: Image.asset(
+            'images/carLogo.jpg',
+          ),
+          alignment: Alignment.bottomCenter,
+        ),
+        SizedBox(
+          width: 25,
+        ),
       ],
     ),
     leading: IconButton(
@@ -64,14 +71,6 @@ const InputDecoration kUserNameEmailDecoration = InputDecoration(
   ),
   focusedBorder: UnderlineInputBorder(
     borderSide: BorderSide(color: ECCCBlueAccent, width: 3.0),
-  ),
-);
-
-const BoxDecoration kBlackBlueGradientDecoration = BoxDecoration(
-  gradient: LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [Colors.white, Colors.white], // red to yellow
   ),
 );
 
@@ -121,14 +120,10 @@ const kPasswordTextFieldDecoration = InputDecoration(
         borderRadius: (BorderRadius.all(Radius.circular(10))),
         borderSide: BorderSide(color: ECCCBlueAccent, width: 2)));
 
-
-
 class ECCCBlueCarLogo extends StatelessWidget {
-
- final bool adjustLogoSize;
+  final bool adjustLogoSize;
 
   ECCCBlueCarLogo({this.adjustLogoSize = false});
-
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +142,7 @@ class ECCCBlueCarLogo extends StatelessWidget {
   }
 }
 
-TextStyle kInkWellTextStyle  = TextStyle(
+TextStyle kInkWellTextStyle = TextStyle(
   decoration: TextDecoration.underline,
   color: ECCCBlue,
   fontSize: 16,
@@ -162,7 +157,6 @@ TextStyle kResetPasswordTextStyle = TextStyle(
   letterSpacing: 1.0,
   fontSize: 36,
 );
-
 
 class TextLogo extends StatelessWidget {
   @override
@@ -230,19 +224,13 @@ const TextStyle emeraldTextStyle = TextStyle(
   fontSize: 46,
 );
 
-
-SizedBox  kSpacerBox = SizedBox(
+SizedBox kSpacerBox = SizedBox(
   height: 10,
 );
-
 
 IconData kSetVisibility(bool isObscured) {
   return isObscured ? Icons.visibility_off : Icons.visibility;
 }
-
-
-
-
 
 List<String> kInteriorOptionsList = ['Leather', 'Alcantara', 'Wood', 'Cloth'];
 

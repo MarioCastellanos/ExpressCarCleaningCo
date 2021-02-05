@@ -1,5 +1,5 @@
 import 'package:cta_auto_detail/models/Car_Data.dart';
-import 'package:cta_auto_detail/screens/GetAQuote.dart';
+import 'package:cta_auto_detail/screens/RequestQuote.dart';
 import 'package:cta_auto_detail/screens/home.dart';
 import 'package:cta_auto_detail/screens/launchScreen.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
@@ -14,7 +14,9 @@ import 'screens/signUp.dart';
 import 'screens/singIn.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -24,8 +26,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  // checking 
+  // checking
   bool _initialized = false;
 
   //
@@ -57,73 +58,72 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider(
-        create: (BuildContext context) => CarData(),
-        child: MaterialApp(
-          onGenerateRoute: (settings) {
-            // If you push the PassArguments route
-            if (settings.name == ProfileScreen.id) {
-              // Cast the arguments to the correct type: ScreenArguments.
-              final ScreenArguments args = settings.arguments;
+      create: (BuildContext context) => CarData(),
+      child: MaterialApp(
+        onGenerateRoute: (settings) {
+          // If you push the PassArguments route
+          if (settings.name == ProfileScreen.id) {
+            // Cast the arguments to the correct type: ScreenArguments.
+            final ScreenArguments args = settings.arguments;
 
-              // Then, extract the required data from the arguments and
-              // pass the data to the correct screen.
-              return MaterialPageRoute(
-                builder: (context) {
-                  return ProfileScreen(
-                    carData: args.carData,
-                  );
-                },
-              );
-            }
-            if (settings.name == ScheduleCarWash.id) {
-              // Cast the arguments to the correct type: ScreenArguments.
-              final ScreenArguments args = settings.arguments;
+            // Then, extract the required data from the arguments and
+            // pass the data to the correct screen.
+            return MaterialPageRoute(
+              builder: (context) {
+                return ProfileScreen(
+                  carData: args.carData,
+                );
+              },
+            );
+          }
+          if (settings.name == ScheduleCarWash.id) {
+            // Cast the arguments to the correct type: ScreenArguments.
+            final ScreenArguments args = settings.arguments;
 
-              // Then, extract the required data from the arguments and
-              // pass the data to the correct screen.
-              return MaterialPageRoute(
-                builder: (context) {
-                  return ScheduleCarWash(
-                    carData: args.carData,
-                  );
-                },
-              );
-            }
-            // The code only supports ProfileScreen.id and  right now.
-            // Other values need to be implemented if we add them. The assertion
-            // here will help remind us of that higher up in the call stack, since
-            // this assertion would otherwise fire somewhere in the framework.
-            assert(false, 'Need to implement ${settings.name}');
-            return null;
-          },
-          theme: ThemeData(
-            primaryColor: Color(0xFF025298),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          initialRoute: LaunchScreen.id,
-          routes: {
-            SignIn.id: (context) => SignIn(),
-            SignUp.id: (context) => SignUp(),
-            HomeScreen.id: (context) => HomeScreen(),
-            //ProfileScreen.id: (context) => ProfileScreen(),
-            LaunchScreen.id: (context) => LaunchScreen(),
-            PopUpCard.id: (context) => PopUpCard(),
-            //ScheduleCarWash.id: (context) => ScheduleCarWash(),
-            WelcomeScreen.id: (context) => WelcomeScreen(),
-            ResetPasswordScreen.id : (context) => ResetPasswordScreen(),
-            ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
-            ServicesOffered.id : (context) => ServicesOffered(),
-            GetAQuote.id : (context) => GetAQuote(),
-          },
+            // Then, extract the required data from the arguments and
+            // pass the data to the correct screen.
+            return MaterialPageRoute(
+              builder: (context) {
+                return ScheduleCarWash(
+                  carData: args.carData,
+                );
+              },
+            );
+          }
+          // The code only supports ProfileScreen.id and  right now.
+          // Other values need to be implemented if we add them. The assertion
+          // here will help remind us of that higher up in the call stack, since
+          // this assertion would otherwise fire somewhere in the framework.
+          assert(false, 'Need to implement ${settings.name}');
+          return null;
+        },
+        theme: ThemeData(
+          primaryColor: Color(0xFF025298),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-      );
+        initialRoute: LaunchScreen.id,
+        routes: {
+          SignIn.id: (context) => SignIn(),
+          SignUp.id: (context) => SignUp(),
+          HomeScreen.id: (context) => HomeScreen(),
+          //ProfileScreen.id: (context) => ProfileScreen(),
+          LaunchScreen.id: (context) => LaunchScreen(),
+          PopUpCard.id: (context) => PopUpCard(),
+          //ScheduleCarWash.id: (context) => ScheduleCarWash(),
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          ResetPasswordScreen.id: (context) => ResetPasswordScreen(),
+          ExtractArgumentsScreen.routeName: (context) =>
+              ExtractArgumentsScreen(),
+          ServicesOffered.id: (context) => ServicesOffered(),
+          RequestQuote.id: (context) => RequestQuote(),
+        },
+      ),
+    );
   }
 }
 
 class ScreenArguments {
   final CarData carData;
-
-  ScreenArguments( this.carData);
+  ScreenArguments(this.carData);
 }

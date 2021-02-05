@@ -1,7 +1,7 @@
 import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/main.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
-import 'package:cta_auto_detail/screens/GetAQuote.dart';
+import 'package:cta_auto_detail/screens/RequestQuote.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
 import 'package:cta_auto_detail/screens/servicesOffered.dart';
@@ -66,11 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 cardColor: ECCCBlueAccent,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ReusableCard(
                     cardColor: ECCCBlueAccent,
                     onPressed: () {
-                      print('SERVICES OFFERED');
                       Navigator.pushNamed(context, ServicesOffered.id);
                     },
                     childWidget: Center(
@@ -89,11 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ReusableCard(
                     cardColor: ECCCBlueAccent,
                     onPressed: () {
-                      Navigator.pushNamed(context, GetAQuote.id);
+                      Navigator.pushNamed(context, RequestQuote.id);
                     },
                     childWidget: Center(
                       child: Text(
-                        'GET A QUOTE',
+                        'REQUEST \n  QUOTE',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.black,
