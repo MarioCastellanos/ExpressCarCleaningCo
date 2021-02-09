@@ -16,20 +16,37 @@ class RequestQuote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: getAppBar(
-          iconButtonPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: ReusableCard(
-            childWidget: CarListGridViewBuilder(
-              carData: carData,
+      appBar: getAppBar(
+        iconButtonPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            ReusableCard(
+              childWidget: CarListGridViewBuilder(
+                carData: carData,
+              ),
+              onPressed: () {
+                print('fart');
+              },
+              cardColor: ECCCBlueAccent,
             ),
-            onPressed: null,
-            cardColor: ECCCBlueAccent,
-          ),
-        ));
+            ReusableCard(
+              childWidget: null,
+              onPressed: null,
+              cardColor: ECCCBlueAccent,
+            ),
+            ReusableCard(
+              childWidget: null,
+              onPressed: null,
+              cardColor: ECCCBlueAccent,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

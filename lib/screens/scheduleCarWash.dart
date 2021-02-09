@@ -5,6 +5,15 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cta_auto_detail/screens/PopUpScreen.dart';
+import 'package:cta_auto_detail/models/CarWashPackage.dart';
+
+/// TODO : Need add cars to car list permanently
+/// TODO 1: Change selected car color to dark blue
+/// TODO 2: Track car selection, date selection and time selection and add it to firebase database
+/// TODO 3: ADD case 3 for package selection
+/// TODO 4: ADD all of car wash info to firebase database
+///
 
 enum ScreenContent {
   CarSelection,
@@ -27,14 +36,12 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   String currentTitle = '';
   String _month;
   String _date;
-  String _time;
-
+  int _time;
   int selectedCarIndex;
   int contentIndex;
-
   bool dateSelected;
-
   CalendarController _calendarController;
+  ScrollController scrollController = ScrollController();
 
   void incrementContentSwitch() {
     contentIndex++;
@@ -47,16 +54,11 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     _calendarController = CalendarController();
     contentIndex = 1;
     dateSelected = false;
-    print('Car Data: ${widget.carData.carsList[0].make}');
 
     //widget.carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
 
     _holidays = {
-      DateTime(2020, 1, 1): ['New Year\'s Day'],
-      DateTime(2020, 1, 6): ['Epiphany'],
-      DateTime(2020, 2, 14): ['Valentine\'s Day'],
-      DateTime(2020, 4, 21): ['Easter Sunday'],
-      DateTime(2020, 4, 22): ['Easter Monday'],
+      DateTime(2021, 1, 1): ['New Year\'s Day'],
     };
 
     _scheduledWashes = {
@@ -128,6 +130,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             // Car List widget
             ReusableCard(
               childWidget: CarListGridViewBuilder(
+                selectedCarIndex: selectedCarIndex,
                 carData: widget.carData,
               ),
               onPressed: () {
@@ -146,8 +149,17 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
-                    print('Ohh Uhh im in danger');
+                  onPressed: () async {
+                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    if (car != null) {
+                      List<String> carInfoList = car;
+                      setState(() {
+                        widget.carData.addCar(
+                            model: carInfoList[0],
+                            make: carInfoList[1],
+                            interior: carInfoList[2]);
+                      });
+                    }
                   },
                   cardColor: ECCCBlueAccent,
                 ),
@@ -160,8 +172,17 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () {
-                    print('Ohh Uhh im in danger');
+                  onPressed: () async {
+                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    if (car != null) {
+                      List<String> carInfoList = car;
+                      setState(() {
+                        widget.carData.addCar(
+                            model: carInfoList[0],
+                            make: carInfoList[1],
+                            interior: carInfoList[2]);
+                      });
+                    }
                   },
                   cardColor: ECCCBlueAccent,
                 ),
@@ -185,6 +206,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       // user selecting time and
       case 2:
         {
+          int time = 9;
           // currentTitle = 'Select A Date';
           return <Widget>[
             tableCalendarBuilder(),
@@ -200,16 +222,25 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       crossAxisCount: 3),
-                  itemCount: 10,
+                  itemCount: 9,
                   itemBuilder: (BuildContext context, int index) {
                     Widget widget;
                     switch (index) {
                       default:
                         widget = UpcomingCarWashCard(
-                            childWidget: null,
-                            onPressed: null,
-                            cardColor: null);
+                          scheduledTime: time,
+                          childWidget: Center(
+                            child: Text(
+                              '$time:00  ',
+                            ),
+                          ),
+                          onPressed: () {
+                            print('Selected time is :');
+                          },
+                          cardColor: ECCCBlue,
+                        );
                     }
+                    time++;
                     return widget;
                   },
                 ),
@@ -219,10 +250,14 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
               },
             ),
             ContinueButton(
-              cBColor: ECCCBlueAccent,
               title: 'Continue',
+              textColor: Colors.white,
+              cBColor: ECCCDarkBlue,
               onPressed: () {
-                print('continue');
+                setState(() {
+                  contentIndex++;
+                  currentTitle = 'Select Car Wash Package';
+                });
               },
             )
           ];
@@ -231,7 +266,57 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
 
       case 3:
         {
-          return <Widget>[];
+          return <Widget>[
+            Expanded(
+              child: Scrollbar(
+                isAlwaysShown: true,
+                controller: scrollController,
+                child: ListView(
+                  controller: scrollController,
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Card(
+                      color: ECCCBlueAccent,
+                      child: Container(
+                        width: 400,
+                        child: kDiamondPackageDetails,
+                      ),
+                    ),
+                    Card(
+                      color: ECCCBlueAccent,
+                      child: Container(
+                        width: 400,
+                        child: kDiamondPackageDetails,
+                      ),
+                    ),
+                    Card(
+                      color: ECCCBlueAccent,
+                      child: Container(
+                        width: 400,
+                        child: kDiamondPackageDetails,
+                      ),
+                    ),
+                    Card(
+                      color: ECCCBlueAccent,
+                      child: Container(
+                        width: 400,
+                        child: kDiamondPackageDetails,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ContinueButton(
+              title: 'Schedule Wash',
+              textColor: Colors.white,
+              cBColor: ECCCDarkBlue,
+              onPressed: () {
+                print('car wash scheduled');
+                Navigator.pop(context);
+              },
+            )
+          ];
         }
         break;
     }

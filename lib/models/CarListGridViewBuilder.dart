@@ -1,13 +1,15 @@
+import 'package:cta_auto_detail/constants.dart';
 import 'package:flutter/material.dart';
 import 'Car_Data.dart';
-import 'ReusableCard.dart';
-import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
+import 'package:cta_auto_detail/models/CarCard.dart';
 
 class CarListGridViewBuilder extends StatelessWidget {
   const CarListGridViewBuilder({
     @required this.carData,
+    @required this.selectedCarIndex,
   });
 
+  final selectedCarIndex;
   final CarData carData;
 
   @override
@@ -21,9 +23,10 @@ class CarListGridViewBuilder extends StatelessWidget {
       ),
       itemBuilder: (BuildContext context, int index) {
         return CarCard(
+          index: index,
+          carCardColor: selectedCarIndex == index ? ECCCDarkBlue : Colors.white,
           onPressed: () {
-            print('title:  ${carData.carsList[index].make} ');
-            // Navigator.pushNamed(context, ScheduleCarWash.id);
+            print('title:  ${carData.carsList[index].make} at index $index ');
           },
           title: carData.carsList[index].make,
         );

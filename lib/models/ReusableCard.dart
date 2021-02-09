@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/constants.dart';
 
-
-
 /// Reusable Card Class
 
 class ReusableCard extends StatelessWidget {
@@ -34,16 +32,18 @@ class ReusableCard extends StatelessWidget {
   }
 }
 
-
 class UpcomingCarWashCard extends StatelessWidget {
   final Widget childWidget;
   final Function onPressed;
+  final int scheduledTime;
   final Color cardColor;
 
-  UpcomingCarWashCard(
-      {@required this.childWidget,
-        @required this.onPressed,
-        @required this.cardColor});
+  UpcomingCarWashCard({
+    @required this.childWidget,
+    @required this.onPressed,
+    @required this.scheduledTime,
+    @required this.cardColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,73 +76,12 @@ class HalfScreenCard extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
-
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
       ),
       child: childWidget,
-    );
-  }
-}
-
-class CarCard extends StatelessWidget {
-  final Function onPressed;
-  final String title;
-  CarCard({this.onPressed, this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Stack(
-        alignment: Alignment.bottomLeft,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black45.withOpacity(.4),
-                    spreadRadius: 4,
-                    blurRadius: 2 ,
-                    offset: Offset(4, 5))
-              ],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Icon(Icons.camera, size: 60 ,),
-            height: 150.0,
-            width: 150.0,
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: ECCCDarkBlue,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black45.withOpacity(.4),
-                    spreadRadius: 2,
-                    blurRadius: 3,
-                    offset: Offset(1, 4))
-              ],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            height: 50.0,
-            width: 200.0,
-            child: Center(
-              child: Text(
-                title,
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

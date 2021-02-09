@@ -58,14 +58,15 @@ class ServicesOffered extends StatelessWidget {
                 ),
               ),
               ReusableCard(
-                  onPressed: () {},
-                  cardColor: ECCCBlueAccent,
-                  childWidget: CarWashPackage(
-                    scrollController: _emeraldScrollController,
-                    packageTitle: 'Emerald \$ 100',
-                    packageTitleStyle: emeraldTextStyle,
-                    packageDetails: kEmeraldPackageDetails,
-                  )),
+                onPressed: () {},
+                cardColor: ECCCBlueAccent,
+                childWidget: CarWashPackage(
+                  scrollController: _emeraldScrollController,
+                  packageTitle: 'Emerald \$ 100',
+                  packageTitleStyle: emeraldTextStyle,
+                  packageDetails: kEmeraldPackageDetails,
+                ),
+              ),
             ],
           ),
         ),
