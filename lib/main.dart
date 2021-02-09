@@ -91,6 +91,21 @@ class _MyAppState extends State<MyApp> {
               },
             );
           }
+
+          if (settings.name == RequestQuote.id) {
+            // Cast the arguments to the correct type: ScreenArguments.
+            final ScreenArguments args = settings.arguments;
+
+            // Then, extract the required data from the arguments and
+            // pass the data to the correct screen.
+            return MaterialPageRoute(
+              builder: (context) {
+                return ScheduleCarWash(
+                  carData: args.carData,
+                );
+              },
+            );
+          }
           // The code only supports ProfileScreen.id and  right now.
           // Other values need to be implemented if we add them. The assertion
           // here will help remind us of that higher up in the call stack, since
@@ -116,7 +131,7 @@ class _MyAppState extends State<MyApp> {
           ExtractArgumentsScreen.routeName: (context) =>
               ExtractArgumentsScreen(),
           ServicesOffered.id: (context) => ServicesOffered(),
-          RequestQuote.id: (context) => RequestQuote(),
+          //RequestQuote.id: (context) => RequestQuote(),
         },
       ),
     );

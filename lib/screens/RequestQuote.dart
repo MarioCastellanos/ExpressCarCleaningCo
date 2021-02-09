@@ -1,3 +1,4 @@
+import 'package:cta_auto_detail/models/CarListGridViewBuilder.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,10 @@ import '';
 class RequestQuote extends StatelessWidget {
   static const String id = 'GetAQuote';
 
-  RequestQuote({this.carData});
+  RequestQuote({this.carData, this.selectedCarIndex});
 
   final CarData carData;
-  int selectedCarIndex;
+  final int selectedCarIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -23,22 +24,8 @@ class RequestQuote extends StatelessWidget {
         backgroundColor: Colors.white,
         body: SafeArea(
           child: ReusableCard(
-            childWidget: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: 1,
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: 1, //widget.carData.carsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return CarCard(
-                  onPressed: () {
-                    print('title: ${carData.carsList[index].make}');
-                    selectedCarIndex = index;
-                  },
-                  title: carData.carsList[index].make,
-                );
-              },
+            childWidget: CarListGridViewBuilder(
+              carData: carData,
             ),
             onPressed: null,
             cardColor: ECCCBlueAccent,

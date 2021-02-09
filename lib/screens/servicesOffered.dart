@@ -52,7 +52,7 @@ class ServicesOffered extends StatelessWidget {
                 cardColor: ECCCBlueAccent,
                 childWidget: CarWashPackage(
                   scrollController: _rubyScrollController,
-                  packageTitle: 'Ruby',
+                  packageTitle: 'Ruby \$ 140',
                   packageTitleStyle: rubyTextStyle,
                   packageDetails: kRubyPackageDetails,
                 ),
@@ -62,7 +62,7 @@ class ServicesOffered extends StatelessWidget {
                   cardColor: ECCCBlueAccent,
                   childWidget: CarWashPackage(
                     scrollController: _emeraldScrollController,
-                    packageTitle: 'Emerald',
+                    packageTitle: 'Emerald \$ 100',
                     packageTitleStyle: emeraldTextStyle,
                     packageDetails: kEmeraldPackageDetails,
                   )),

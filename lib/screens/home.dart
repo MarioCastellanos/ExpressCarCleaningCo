@@ -89,7 +89,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ReusableCard(
                     cardColor: ECCCBlueAccent,
                     onPressed: () {
-                      Navigator.pushNamed(context, RequestQuote.id);
+                      Navigator.pushNamed(context, RequestQuote.id,
+                          arguments: ScreenArguments(_carData));
                     },
                     childWidget: Center(
                       child: Text(
