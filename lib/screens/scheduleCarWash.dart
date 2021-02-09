@@ -1,4 +1,5 @@
 import 'package:cta_auto_detail/constants.dart';
+import 'package:cta_auto_detail/models/CarListGridViewBuilder.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
@@ -12,8 +13,7 @@ enum ScreenContent {
 }
 
 class ScheduleCarWash extends StatefulWidget {
-
-  ScheduleCarWash({ this.carData});
+  ScheduleCarWash({this.carData});
   final CarData carData;
   static const String id = 'ScheduleCarWash';
   @override
@@ -21,7 +21,6 @@ class ScheduleCarWash extends StatefulWidget {
 }
 
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
-
   Map<DateTime, List> _holidays;
   Map<DateTime, List> _scheduledWashes;
 
@@ -35,22 +34,20 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
 
   bool dateSelected;
 
-
   CalendarController _calendarController;
 
-  void incrementContentSwitch(){
-    contentIndex ++;
+  void incrementContentSwitch() {
+    contentIndex++;
   }
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     currentTitle = 'Select A Car';
     _calendarController = CalendarController();
     contentIndex = 1;
     dateSelected = false;
     print('Car Data: ${widget.carData.carsList[0].make}');
-
 
     //widget.carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
 
@@ -130,24 +127,12 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           return <Widget>[
             // Car List widget
             ReusableCard(
-              childWidget: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                ),
-                itemCount: 1, //widget.carData.carsList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return CarCard(
-                    onPressed: () {
-                      print('title: ${widget.carData.carsList[index].make}');
-                      selectedCarIndex = index;
-                    },
-                    title: widget.carData.carsList[index].make,
-                  );
-                },
+              childWidget: CarListGridViewBuilder(
+                carData: widget.carData,
               ),
-              onPressed: null,
+              onPressed: () {
+                print('carSelected');
+              },
               cardColor: ECCCBlueAccent,
             ),
             Row(
@@ -297,7 +282,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   }
 }
 
-
 // A widget that extracts the necessary arguments from the ModalRoute.
 class ExtractArgumentsScreen extends StatelessWidget {
   static const routeName = '/extractArguments';
@@ -310,9 +294,7 @@ class ExtractArgumentsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Fart'
-        ),
+        title: Text('Fart'),
       ),
       body: Center(
         child: Text(args.carsList.toString()),

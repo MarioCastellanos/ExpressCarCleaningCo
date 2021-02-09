@@ -12,7 +12,6 @@ class PopUpCard extends StatefulWidget {
 }
 
 class _PopUpCardState extends State<PopUpCard> {
-
   bool splash;
 
   Function continueFunction;
@@ -72,7 +71,7 @@ class _PopUpCardState extends State<PopUpCard> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           icon: Icon(
@@ -100,6 +99,9 @@ class _PopUpCardState extends State<PopUpCard> {
           children: [
             Expanded(
               child: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -124,18 +126,15 @@ class _PopUpCardState extends State<PopUpCard> {
                     itemBuilder: (BuildContext context, int index) {
                       return CarInfoCard(
                         info: currList[index],
-                        color: currIndex == index
-                            ? ECCCDarkBlue
-                            : Colors.white,
+                        color: currIndex == index ? ECCCDarkBlue : Colors.white,
                         onTap: () {
                           setState(() {
                             splash = true;
                             currIndex = index;
                           });
                         },
-                        textColor: currIndex == index
-                            ? Colors.white
-                            : Colors.black,
+                        textColor:
+                            currIndex == index ? Colors.white : Colors.black,
                       );
                     },
                   ),
@@ -145,24 +144,29 @@ class _PopUpCardState extends State<PopUpCard> {
             SizedBox(
               height: 10,
             ),
-            ContinueButton(
-              splashValue: splash,
-                title: currIndex == -1 ? '' : 'CONTINUE',
-                textColor: Colors.white,
-                onPressed: () {
-                  if (currIndex != -1 && currScreen != 3) {
-                    setState(() {
-                      currScreen++;
-                      upDateUI(currScreen);
-                    });
-                  } else {
-                    if (currScreen == 3) {
-                      Navigator.pop(
-                          context, [make, model, currList[currIndex]]);
+            Container(
+              margin: EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: ContinueButton(
+                  splashValue: splash,
+                  title: currIndex == -1 ? '' : 'CONTINUE',
+                  textColor: Colors.white,
+                  onPressed: () {
+                    if (currIndex != -1 && currScreen != 3) {
+                      setState(() {
+                        currScreen++;
+                        upDateUI(currScreen);
+                      });
+                    } else {
+                      if (currScreen == 3) {
+                        Navigator.pop(
+                            context, [make, model, currList[currIndex]]);
+                      }
                     }
-                  }
-                },
-                cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent)
+                  },
+                  cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent),
+            )
           ],
         ),
       ),

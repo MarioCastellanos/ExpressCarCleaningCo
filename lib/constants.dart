@@ -180,7 +180,7 @@ const TextStyle logoTextStyle = TextStyle(
   fontSize: 46,
 );
 
-const TextStyle diamondTextStyle = TextStyle(
+const TextStyle kDiamondTextStyle = TextStyle(
   height: 1,
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
@@ -231,6 +231,52 @@ SizedBox kSpacerBox = SizedBox(
 IconData kSetVisibility(bool isObscured) {
   return isObscured ? Icons.visibility_off : Icons.visibility;
 }
+
+TextStyle kPackageDetailsTS = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Vollkorn',
+);
+
+Text kDiamondPackageDetails = Text(
+  '• Hand Wax \n'
+  '• Detailed Exterior Wash\n'
+  '• Tires & Rims hand wash\n'
+  '• Interior Super Clean \n'
+  '• All carpet shampoo \n'
+  '• Full seats deep cleaning \n'
+  '• Trunk deep cleaning',
+  style: kPackageDetailsTS,
+);
+
+Text kSapphirePackageDetails = Text(
+  '• Hand Wax \n'
+  '• Detailed Exterior Wash \n'
+  '• Tires & Rims Hand Wash \n'
+  '• Interior Super Clean \n'
+  '• All Carpet Shampoo \n'
+  '• Full Seats Deep Cleaning \n'
+  '• Trunk Deep Cleaning',
+  style: kPackageDetailsTS,
+);
+
+Text kRubyPackageDetails = Text(
+  '• Exterior Wash\n'
+  '• Tires & Rims hand wash\n'
+  '• Interior Light Clean \n'
+  '• All carpet shampoo \n'
+  '• Car Seats light cleaning \n'
+  '• Car Seats Vacuum ',
+  style: kPackageDetailsTS,
+);
+
+Text kEmeraldPackageDetails = Text(
+  '• Exterior Wash\n'
+  '• Tires & Rims\n'
+  '• Carpet Light Cleaning\n'
+  '• Seats Light Cleaning\n'
+  '• Interior Light Cleaning',
+  style: kPackageDetailsTS,
+);
 
 List<String> kInteriorOptionsList = ['Leather', 'Alcantara', 'Wood', 'Cloth'];
 

@@ -1,10 +1,17 @@
 import 'package:cta_auto_detail/constants.dart';
+import 'package:cta_auto_detail/models/CarWashPackage.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
 
 class ServicesOffered extends StatelessWidget {
   static const String id = 'Services Offered';
 
+  /// TODO: Make scrollbar visible at all times to make ui more user friendly
+
+  final ScrollController _diamondScrollController = ScrollController();
+  final ScrollController _sapphireScrollController = ScrollController();
+  final ScrollController _rubyScrollController = ScrollController();
+  final ScrollController _emeraldScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,97 +31,41 @@ class ServicesOffered extends StatelessWidget {
               ReusableCard(
                 onPressed: () {},
                 cardColor: ECCCBlueAccent,
-                childWidget: ListView(
-                  children: const <Widget>[
-                    Text(
-                      'Diamond',
-                      style: diamondTextStyle,
-                    ),
-                    Text(
-                      
-                      '• Hand Wax \n'
-                      '• Detailed Exterior Wash\n'
-                      '• Tires & Rims hand wash\n'
-                      '• Interior Super Clean \n'
-                      '• All carpet shampoo \n'
-                      '• Full seats deep cleaning \n'
-                      '• Trunk deep cleaning',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Vollkorn',
-                      ),
-                    ),
-                  ],
+                childWidget: CarWashPackage(
+                  scrollController: _diamondScrollController,
+                  packageTitle: 'Diamond \$ 220',
+                  packageTitleStyle: kDiamondTextStyle,
+                  packageDetails: kDiamondPackageDetails,
                 ),
               ),
               ReusableCard(
-                onPressed: () {},
-                cardColor: ECCCBlueAccent,
-                childWidget: ListView(
-                  children: const <Widget>[
-                    Text(
-                      'Sapphire',
-                      style: sapphireTextStyle,
-                    ),
-                    Text(
-                      '• Hand Wax \n'
-                      '• Detailed Exterior Wash \n'
-                      '• Tires & Rims Hand Wash \n'
-                      '• Interior Super Clean \n'
-                      '• All Carpet Shampoo \n'
-                      '• Full Seats Deep Cleaning \n'
-                      '• Trunk Deep Cleaning',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Vollkorn',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  onPressed: () {},
+                  cardColor: ECCCBlueAccent,
+                  childWidget: CarWashPackage(
+                    scrollController: _sapphireScrollController,
+                    packageTitle: 'Sapphire \$ 160',
+                    packageTitleStyle: sapphireTextStyle,
+                    packageDetails: kSapphirePackageDetails,
+                  )),
               ReusableCard(
                 onPressed: () {},
                 cardColor: ECCCBlueAccent,
-                childWidget: ListView(
-                  children: const <Widget>[
-                    Text(
-                      'Ruby',
-                      style: rubyTextStyle,
-                    ),
-                    Text(
-                      '• Exterior Wash\n'
-                      '• Tires & Rims hand wash\n'
-                      '• Interior Light Clean \n'
-                      '• All carpet shampoo \n',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Vollkorn',
-                      ),
-                    ),
-                  ],
+                childWidget: CarWashPackage(
+                  scrollController: _rubyScrollController,
+                  packageTitle: 'Ruby',
+                  packageTitleStyle: rubyTextStyle,
+                  packageDetails: kRubyPackageDetails,
                 ),
               ),
               ReusableCard(
-                onPressed: () {},
-                cardColor: ECCCBlueAccent,
-                childWidget: ListView(
-                  children: const <Widget>[
-                    Text(
-                      'Emerald',
-                      style: emeraldTextStyle,
-                    ),
-                    Text(
-                      '• Exterior Wash\n'
-                      '• Tires & Rims\n'
-                      '• Interior Light Cleaning',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'Vollkorn',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  onPressed: () {},
+                  cardColor: ECCCBlueAccent,
+                  childWidget: CarWashPackage(
+                    scrollController: _emeraldScrollController,
+                    packageTitle: 'Emerald',
+                    packageTitleStyle: emeraldTextStyle,
+                    packageDetails: kEmeraldPackageDetails,
+                  )),
             ],
           ),
         ),

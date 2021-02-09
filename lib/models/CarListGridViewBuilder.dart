@@ -22,7 +22,8 @@ class CarListGridViewBuilder extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return CarCard(
           onPressed: () {
-            Navigator.pushNamed(context, ScheduleCarWash.id);
+            print('title:  ${carData.carsList[index].make} ');
+            // Navigator.pushNamed(context, ScheduleCarWash.id);
           },
           title: carData.carsList[index].make,
         );
