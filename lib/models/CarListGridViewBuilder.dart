@@ -5,10 +5,12 @@ import 'package:cta_auto_detail/models/CarCard.dart';
 
 class CarListGridViewBuilder extends StatelessWidget {
   const CarListGridViewBuilder({
+    @required this.onPressed,
     @required this.carData,
     @required this.selectedCarIndex,
   });
 
+  final Function onPressed;
   final selectedCarIndex;
   final CarData carData;
 
@@ -23,11 +25,9 @@ class CarListGridViewBuilder extends StatelessWidget {
       ),
       itemBuilder: (BuildContext context, int index) {
         return CarCard(
-          index: index,
-          carCardColor: selectedCarIndex == index ? ECCCDarkBlue : Colors.white,
-          onPressed: () {
-            print('title:  ${carData.carsList[index].make} at index $index ');
-          },
+          carIndex: index,
+          carCardColor: selectedCarIndex == index ? ECCCBlue : Colors.white,
+          onPressed: onPressed,
           title: carData.carsList[index].make,
         );
       },

@@ -4,10 +4,10 @@ import 'package:cta_auto_detail/constants.dart';
 class CarCard extends StatelessWidget {
   final Function onPressed;
   final String title;
-  final int index;
+  final int carIndex;
   final Color carCardColor;
 
-  CarCard({this.onPressed, this.title, this.index, this.carCardColor});
+  CarCard({this.onPressed, this.title, this.carIndex, this.carCardColor});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class CarCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Icon(
-              Icons.camera,
+              Icons.car_rental,
               size: 60,
             ),
             height: 150.0,

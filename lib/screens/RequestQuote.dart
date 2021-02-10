@@ -3,7 +3,6 @@ import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/constants.dart';
-import '';
 
 class RequestQuote extends StatelessWidget {
   static const String id = 'GetAQuote';

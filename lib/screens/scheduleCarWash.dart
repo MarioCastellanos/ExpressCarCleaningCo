@@ -1,19 +1,16 @@
 import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/CarListGridViewBuilder.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:flutter/material.dart';
+import 'package:cta_auto_detail/models/CarCard.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
-import 'package:cta_auto_detail/models/CarWashPackage.dart';
 
-/// TODO : Need add cars to car list permanently
-/// TODO 1: Change selected car color to dark blue
+/// TODO : Need add cars to car list permanently be able to add a car and pass the new list back
 /// TODO 2: Track car selection, date selection and time selection and add it to firebase database
 /// TODO 3: ADD case 3 for package selection
 /// TODO 4: ADD all of car wash info to firebase database
-///
 
 enum ScreenContent {
   CarSelection,
@@ -38,6 +35,9 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   String _date;
   int _time;
   int selectedCarIndex;
+  String selectedCarMake;
+  String selectedCarModel;
+  String selectedCarTrim;
   int contentIndex;
   bool dateSelected;
   CalendarController _calendarController;
@@ -118,10 +118,9 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   ///
   /// Returns: List of widgets representing the current content
 
-  List<Widget> contentSwitch(int index) {
+  List<Widget> contentSwitch(int screenIndex) {
     // content switch
-    switch (index) {
-
+    switch (screenIndex) {
       // user car selection
       case 1:
         {
@@ -129,13 +128,28 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           return <Widget>[
             // Car List widget
             ReusableCard(
-              childWidget: CarListGridViewBuilder(
-                selectedCarIndex: selectedCarIndex,
-                carData: widget.carData,
+              childWidget: GridView.builder(
+                itemCount: widget.carData.carsList.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 1,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return CarCard(
+                    carIndex: index,
+                    carCardColor:
+                        selectedCarIndex == index ? ECCCBlue : Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        selectedCarIndex = index;
+                      });
+                    },
+                    title: widget.carData.carsList[index].make,
+                  );
+                },
               ),
-              onPressed: () {
-                print('carSelected');
-              },
+              onPressed: () {},
               cardColor: ECCCBlueAccent,
             ),
             Row(
@@ -154,10 +168,11 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     if (car != null) {
                       List<String> carInfoList = car;
                       setState(() {
-                        widget.carData.addCar(
-                            model: carInfoList[0],
-                            make: carInfoList[1],
-                            interior: carInfoList[2]);
+                        selectedCarMake = carInfoList[1];
+                        selectedCarModel = carInfoList[0];
+                        selectedCarTrim = carInfoList[2];
+                        contentIndex++;
+                        currentTitle = 'Select A Date';
                       });
                     }
                   },
@@ -178,9 +193,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       List<String> carInfoList = car;
                       setState(() {
                         widget.carData.addCar(
-                            model: carInfoList[0],
-                            make: carInfoList[1],
-                            interior: carInfoList[2]);
+                          model: carInfoList[0],
+                          make: carInfoList[1],
+                          interior: carInfoList[2],
+                        );
+                        selectedCarMake = carInfoList[1];
+                        selectedCarModel = carInfoList[0];
+                        selectedCarTrim = carInfoList[2];
+                        contentIndex++;
+                        currentTitle = 'Select A Date';
                       });
                     }
                   },
