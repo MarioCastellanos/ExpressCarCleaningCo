@@ -4,7 +4,7 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/constants.dart';
 
-class RequestQuote extends StatelessWidget {
+class RequestQuote extends StatefulWidget {
   static const String id = 'GetAQuote';
 
   RequestQuote({this.carData, this.selectedCarIndex});
@@ -12,6 +12,11 @@ class RequestQuote extends StatelessWidget {
   final CarData carData;
   final int selectedCarIndex;
 
+  @override
+  _RequestQuoteState createState() => _RequestQuoteState();
+}
+
+class _RequestQuoteState extends State<RequestQuote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +31,7 @@ class RequestQuote extends StatelessWidget {
           children: [
             ReusableCard(
               childWidget: CarListGridViewBuilder(
-                carData: carData,
+                carData: widget.carData,
               ),
               onPressed: () {
                 print('fart');

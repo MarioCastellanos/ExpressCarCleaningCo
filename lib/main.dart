@@ -100,16 +100,12 @@ class _MyAppState extends State<MyApp> {
             // pass the data to the correct screen.
             return MaterialPageRoute(
               builder: (context) {
-                return ScheduleCarWash(
+                return RequestQuote(
                   carData: args.carData,
                 );
               },
             );
           }
-          // The code only supports ProfileScreen.id and  right now.
-          // Other values need to be implemented if we add them. The assertion
-          // here will help remind us of that higher up in the call stack, since
-          // this assertion would otherwise fire somewhere in the framework.
           assert(false, 'Need to implement ${settings.name}');
           return null;
         },
@@ -122,16 +118,13 @@ class _MyAppState extends State<MyApp> {
           SignIn.id: (context) => SignIn(),
           SignUp.id: (context) => SignUp(),
           HomeScreen.id: (context) => HomeScreen(),
-          //ProfileScreen.id: (context) => ProfileScreen(),
           LaunchScreen.id: (context) => LaunchScreen(),
           PopUpCard.id: (context) => PopUpCard(),
-          //ScheduleCarWash.id: (context) => ScheduleCarWash(),
           WelcomeScreen.id: (context) => WelcomeScreen(),
           ResetPasswordScreen.id: (context) => ResetPasswordScreen(),
           ExtractArgumentsScreen.routeName: (context) =>
               ExtractArgumentsScreen(),
           ServicesOffered.id: (context) => ServicesOffered(),
-          //RequestQuote.id: (context) => RequestQuote(),
         },
       ),
     );
