@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesDemo extends StatefulWidget {
-  SharedPreferencesDemo({Key key}) : super(key: key);
+  static const id = 'SharedPreferencesDemo';
 
   @override
   SharedPreferencesDemoState createState() => SharedPreferencesDemoState();
@@ -11,24 +12,27 @@ class SharedPreferencesDemo extends StatefulWidget {
 
 class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<int> _counter;
+  Future<List<String>> _carsList;
+  List<String> carsList = ['Buggati', 'Chiron', 'Alcantara'];
 
   Future<void> _incrementCounter() async {
     final SharedPreferences prefs = await _prefs;
-    final int counter = (prefs.getInt('counter') ?? 0) + 1;
-
+    carsList.add('hello');
     setState(() {
-      _counter = prefs.setInt("counter", counter).then((bool success) {
-        return counter;
+      _carsList =
+          prefs.setStringList("carsList", carsList).then((bool success) {
+        return carsList;
       });
     });
+    final List<String> farsList = (prefs.getStringList('carsList'));
+    print('carsList $farsList');
   }
 
   @override
   void initState() {
     super.initState();
-    _counter = _prefs.then((SharedPreferences prefs) {
-      return (prefs.getInt('counter') ?? 0);
+    _carsList = _prefs.then((SharedPreferences prefs) {
+      return (prefs.getStringList('carsList') ?? carsList);
     });
   }
 
@@ -38,10 +42,13 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
       appBar: AppBar(
         title: const Text("SharedPreferences Demo"),
       ),
-      body: Center(
-          child: FutureBuilder<int>(
-              future: _counter,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+      body: Column(
+        children: [
+          Center(
+            child: FutureBuilder<List<String>>(
+              future: _carsList,
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
                     return const CircularProgressIndicator();
@@ -50,12 +57,16 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       return Text(
-                        'Button tapped ${snapshot.data} time${snapshot.data == 1 ? '' : 's'}.\n\n'
+                        'Button tapped ${snapshot.data} time.\n\n'
                         'This should persist across restarts.',
                       );
                     }
                 }
-              })),
+              },
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

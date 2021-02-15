@@ -48,6 +48,7 @@ class SocialMediaIcon extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('icon tapped');
+        Navigator.pushNamed(context, SharedPreferencesDemo.id);
       },
       child: Container(
         padding: EdgeInsets.all(10),

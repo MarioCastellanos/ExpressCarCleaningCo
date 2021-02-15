@@ -11,6 +11,9 @@ import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
 
 /// Home Screen
 ///
+///
+/// TODO: Add shared preferences so that users car list will be saved to phone
+/// TODO : Extract data and use it to pass around the car list.
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';

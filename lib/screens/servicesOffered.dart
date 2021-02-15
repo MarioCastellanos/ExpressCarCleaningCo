@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 class ServicesOffered extends StatelessWidget {
   static const String id = 'Services Offered';
 
-  /// TODO: Make scrollbar visible at all times to make ui more user friendly
-
   final ScrollController _diamondScrollController = ScrollController();
   final ScrollController _sapphireScrollController = ScrollController();
   final ScrollController _rubyScrollController = ScrollController();
