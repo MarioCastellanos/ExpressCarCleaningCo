@@ -8,12 +8,10 @@ import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Home Screen
-///
-///
-/// TODO: Add shared preferences so that users car list will be saved to phone
-/// TODO : Extract data and use it to pass around the car list.
+/// TODO : Extract data from sharedPreferences and wait for it then load screen.
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
@@ -29,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _carData = widget.carData;
+    _carData.initializeCarList();
     _carData.addCar(make: 'Buggati', model: 'chiron', interior: 'Leather');
     print(_carData.carsList[0].make);
   }

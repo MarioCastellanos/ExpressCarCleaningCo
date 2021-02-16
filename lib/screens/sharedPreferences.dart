@@ -7,10 +7,8 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
 
-///TODO : 1 Need to sharedPreferences to primary RequestQuote and generate carCards from list of strings
-///TODO : 2 Need to incorporate sharedPreferences StringList to car addition process in profile screen.
-///TODO : 3 Need to use sharedPreferences in Schedule a carWash to generate car list.
 ///
+
 class SharedPreferencesDemo extends StatefulWidget {
   static const id = 'SharedPreferencesDemo';
 
@@ -30,6 +28,11 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
     final List<String> carsList2 = (prefs.getStringList('carsList'));
     carsList2.add('Buggatti');
     setState(() {
+      carData.addCar(
+        make: carsList[0],
+        model: carsList[1],
+        interior: carsList[2],
+      );
       _carsList =
           prefs.setStringList("carsList", carsList2).then((bool success) {
         return carsList2;

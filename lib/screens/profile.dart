@@ -7,13 +7,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+/// TODO : Generate CarCards from shared preferences data using list of strings
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';
+  final CarData carData;
 
   ProfileScreen({this.carData});
-
-  final CarData carData;
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -28,8 +30,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    var carsList = FirebaseFirestore.instance.collection('CarCollection');
-    print(carsList);
     addressList = [];
     print('Car Data: ${widget.carData.carsList[0].make}');
   }
