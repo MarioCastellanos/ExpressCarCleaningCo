@@ -16,6 +16,7 @@ class CarData extends ChangeNotifier {
   List<Car> _carList = [];
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  Future<bool> initialized;
   Future<List<String>> _futuresCarsList;
   List<String> tempCarsList = [];
 
@@ -23,48 +24,74 @@ class CarData extends ChangeNotifier {
       String make, String model, String interior) async {
     final SharedPreferences prefs = await _prefs;
     final List<String> carsList2 = (prefs.getStringList('carsList'));
+
+    carsList2.add(make);
+    carsList2.add(model);
+    carsList2.add(interior);
+    print('carsList in addCarTo SharedPreferences $carsList2');
     _futuresCarsList =
         prefs.setStringList("carsList", carsList2).then((bool success) {
       return carsList2;
     });
-    print('carsList $carsList2');
-  }
-
-  void convertFutureToStr() async {
-    tempCarsList = await _futuresCarsList;
-    print('tempCarsList convert from future $tempCarsList');
+    prefs.setStringList('carsList', carsList2);
   }
 
   // Initializes car list from shared preferences,
   void initializeCarList() async {
-    _futuresCarsList = _prefs.then((SharedPreferences prefs) {
-      return (prefs.getStringList('carsList') == null
-          ? ['Buggati', 'Chiron', 'Alcantara']
-          : prefs.getStringList('carsList'));
-    });
-    tempCarsList = await _futuresCarsList;
-    print('carsList from initialize $tempCarsList');
-    String make;
-    String model;
+    final SharedPreferences prefs = await _prefs;
+    if (prefs.getBool('init') == null) {
+      print('Ain\'t shit initialized sooon');
+      prefs.setBool('init', true);
+      _futuresCarsList = _prefs.then((SharedPreferences prefs) {
+        return (prefs.getStringList('carsList') == null
+            ? ['Buggati', 'Chiron', 'Alcantara']
+            : prefs.getStringList('carsList'));
+      });
+      tempCarsList = await _futuresCarsList;
+      prefs.setStringList('carsList', tempCarsList);
+      for (int i = 0; i < tempCarsList.length; i++) {
+        print(' $i mod 3 = : ${i % 3}');
+        if (i % 3 == 0) {
+          print('make: ${tempCarsList[i]}');
+          print('model: ${tempCarsList[i + 1]}');
+          print('interior: ${tempCarsList[i + 2]}');
+          addCar(
+            make: tempCarsList[i],
+            model: tempCarsList[i + 1],
+            interior: tempCarsList[i + 2],
+            newCar: true,
+          );
+        }
+      }
+    } else {
+      print('Initialization was completed before');
+    }
+    tempCarsList = prefs.getStringList('carsList');
     for (int i = 0; i < tempCarsList.length; i++) {
       print(' $i mod 3 = : ${i % 3}');
       if (i % 3 == 0) {
-        print('make: ${tempCarsList[0]}');
-        print('model: ${tempCarsList[1]}');
-        print('interior: ${tempCarsList[2]}');
+        print('make: ${tempCarsList[i]}');
+        print('model: ${tempCarsList[i + 1]}');
+        print('interior: ${tempCarsList[i + 2]}');
         addCar(
-          make: tempCarsList[0],
-          model: tempCarsList[1],
-          interior: tempCarsList[2],
+          make: tempCarsList[i],
+          model: tempCarsList[i + 1],
+          interior: tempCarsList[i + 2],
+          newCar: false,
         );
       }
     }
+
+    print('carsList from initialize $tempCarsList');
   }
 
-  void addCar({String make, String model, String interior}) {
+  void addCar({String make, String model, String interior, bool newCar}) {
     _carList.add(Car(make, model, interior));
-    print('CAR list has Been update');
     notifyListeners();
+    if (newCar == true) {
+      _addCarToSharedPreferences(make, model, interior);
+    }
+    print('CAR list has Been update');
   }
 
   UnmodifiableListView<Car> get carsList {

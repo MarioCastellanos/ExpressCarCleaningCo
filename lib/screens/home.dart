@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _carData = widget.carData;
     _carData.initializeCarList();
-    //print(_carData.carsList[0].make);
   }
 
   @override

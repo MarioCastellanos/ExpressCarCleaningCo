@@ -71,9 +71,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             List<String> carInfoList = car;
             setState(() {
               widget.carData.addCar(
-                  model: carInfoList[0],
-                  make: carInfoList[1],
-                  interior: carInfoList[2]);
+                model: carInfoList[0],
+                make: carInfoList[1],
+                interior: carInfoList[2],
+                newCar: true,
+              );
             });
           }
         },
