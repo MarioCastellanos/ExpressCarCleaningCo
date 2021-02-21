@@ -9,7 +9,7 @@ import 'package:cta_auto_detail/models/TextFieldModels.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// TODO : Generate CarCards from shared preferences data using list of strings
+/// TODO : Add car to shared preferences data using list of strings
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';

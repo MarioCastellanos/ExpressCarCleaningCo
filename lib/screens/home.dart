@@ -28,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _carData = widget.carData;
     _carData.initializeCarList();
-    _carData.addCar(make: 'Buggati', model: 'chiron', interior: 'Leather');
-    print(_carData.carsList[0].make);
+    //print(_carData.carsList[0].make);
   }
 
   @override

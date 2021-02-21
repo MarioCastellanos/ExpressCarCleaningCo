@@ -42,8 +42,8 @@ class CarData extends ChangeNotifier {
           ? ['Buggati', 'Chiron', 'Alcantara']
           : prefs.getStringList('carsList'));
     });
-    await convertFutureToStr();
-    print(tempCarsList.length);
+    tempCarsList = await _futuresCarsList;
+    print('carsList from initialize $tempCarsList');
     String make;
     String model;
     for (int i = 0; i < tempCarsList.length; i++) {
