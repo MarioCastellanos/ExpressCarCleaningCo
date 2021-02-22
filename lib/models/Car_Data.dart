@@ -29,10 +29,6 @@ class CarData extends ChangeNotifier {
     carsList2.add(model);
     carsList2.add(interior);
     print('carsList in addCarTo SharedPreferences $carsList2');
-    _futuresCarsList =
-        prefs.setStringList("carsList", carsList2).then((bool success) {
-      return carsList2;
-    });
     prefs.setStringList('carsList', carsList2);
   }
 
@@ -40,7 +36,6 @@ class CarData extends ChangeNotifier {
   void initializeCarList() async {
     final SharedPreferences prefs = await _prefs;
     if (prefs.getBool('init') == null) {
-      print('Ain\'t shit initialized sooon');
       prefs.setBool('init', true);
       _futuresCarsList = _prefs.then((SharedPreferences prefs) {
         return (prefs.getStringList('carsList') == null
@@ -59,29 +54,31 @@ class CarData extends ChangeNotifier {
             make: tempCarsList[i],
             model: tempCarsList[i + 1],
             interior: tempCarsList[i + 2],
-            newCar: true,
+            newCar: false,
           );
         }
       }
     } else {
+      tempCarsList = prefs.getStringList('carsList');
       print('Initialization was completed before');
-    }
-    tempCarsList = prefs.getStringList('carsList');
-    for (int i = 0; i < tempCarsList.length; i++) {
-      print(' $i mod 3 = : ${i % 3}');
-      if (i % 3 == 0) {
-        print('make: ${tempCarsList[i]}');
-        print('model: ${tempCarsList[i + 1]}');
-        print('interior: ${tempCarsList[i + 2]}');
-        addCar(
-          make: tempCarsList[i],
-          model: tempCarsList[i + 1],
-          interior: tempCarsList[i + 2],
-          newCar: false,
-        );
+      for (int i = 0; i < tempCarsList.length; i++) {
+        print(' $i mod 3 = : ${i % 3}');
+        if (i % 3 == 0) {
+          print('make: ${tempCarsList[i]}');
+          print('model: ${tempCarsList[i + 1]}');
+          print('interior: ${tempCarsList[i + 2]}');
+          addCar(
+            make: tempCarsList[i],
+            model: tempCarsList[i + 1],
+            interior: tempCarsList[i + 2],
+            newCar: false,
+          );
+        }
       }
     }
 
+    // Having this here is causing my cars to exist twice on initialization
+    // How can i fix this?
     print('carsList from initialize $tempCarsList');
   }
 
