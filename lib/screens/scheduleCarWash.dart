@@ -7,10 +7,7 @@ import 'package:cta_auto_detail/models/CarCard.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
 
-/// TODO : Need add cars to car list permanently be able to add a car and pass the new list back
-/// TODO 2: Track car selection, date selection and time selection and add it to firebase database
 /// TODO 3: ADD case 3 for package selection
-/// TODO 4: ADD all of car wash info to firebase database
 
 enum ScreenContent {
   CarSelection,
@@ -54,15 +51,12 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     _calendarController = CalendarController();
     contentIndex = 1;
     dateSelected = false;
-
-    //widget.carData.addCar(make: 'Masserati', model: 'Quatrovole', interior: 'leather');
-
     _holidays = {
       DateTime(2021, 1, 1): ['New Year\'s Day'],
     };
 
     _scheduledWashes = {
-      DateTime(2020, 12, 1): ['3:00']
+      DateTime(2021, 12, 1): ['3:00']
     };
   }
 
@@ -196,6 +190,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                           model: carInfoList[0],
                           make: carInfoList[1],
                           interior: carInfoList[2],
+                          newCar: true,
                         );
                         selectedCarMake = carInfoList[1];
                         selectedCarModel = carInfoList[0];
@@ -249,7 +244,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     switch (index) {
                       default:
                         widget = UpcomingCarWashCard(
-                          scheduledTime: time,
+                          scheduledTime: time.toString(),
                           childWidget: Center(
                             child: Text(
                               '$time:00  ',

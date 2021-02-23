@@ -6,8 +6,10 @@ import 'package:cta_auto_detail/screens/singIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-// LAUNCH SCREEN
-// First screen the user interacts with.
+/// LAUNCH SCREEN
+/// First screen the user interacts with.
+/// Gives the user the option between signing in and registering for the app
+///
 
 class LaunchScreen extends StatefulWidget {
   static const String id = 'LaunchScreen';
@@ -15,7 +17,11 @@ class LaunchScreen extends StatefulWidget {
   _LaunchScreenState createState() => _LaunchScreenState();
 }
 
-class _LaunchScreenState extends State<LaunchScreen> {
+class _LaunchScreenState extends State<LaunchScreen>
+    with SingleTickerProviderStateMixin {
+  AnimationController controller;
+  Animation animation;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +29,12 @@ class _LaunchScreenState extends State<LaunchScreen> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Column(
-
-
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ECCCBlueCarLogo(adjustLogoSize: false,),
+              ECCCBlueCarLogo(
+                adjustLogoSize: false,
+              ),
               TextLogo(),
               CarWashDeliveredText(),
               // Sign In Button
@@ -38,7 +44,10 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 rbColor: ECCCBlueAccent,
                 title: 'Sign In',
                 onPressed: () {
-                  Navigator.pushNamed(context, SignIn.id);
+                  Navigator.pushNamed(
+                    context,
+                    SignIn.id,
+                  );
                 },
               ),
 
@@ -47,12 +56,13 @@ class _LaunchScreenState extends State<LaunchScreen> {
 
               // Sign Up Button
               // onPressed:  Navigates the user to the Sign in screen
-              // Outline color is ExpressCarWasRedAccent
 
               OutlineButton(
-
                 onPressed: () {
-                  Navigator.pushNamed(context, SignUp.id);
+                  Navigator.pushNamed(
+                    context,
+                    SignUp.id,
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

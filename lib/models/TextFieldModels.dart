@@ -229,7 +229,6 @@ class EditHomeAddress extends StatelessWidget {
                       TextField(
                         onChanged: (value) {
                           //print(value);
-                          /// TODO : Add home addresses
                         },
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -308,7 +307,6 @@ class AddNewAddress extends StatelessWidget {
                       TextField(
                         onChanged: (value) {
                           //print(value);
-                          /// TODO : Add home addresses
                         },
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(

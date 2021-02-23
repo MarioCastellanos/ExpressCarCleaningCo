@@ -2,14 +2,10 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
-import 'package:cta_auto_detail/models/CarListGridViewBuilder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-/// TODO : Add car to shared preferences data using list of strings
+import 'package:cta_auto_detail/models/CarCard.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';
@@ -24,8 +20,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String userEmail = FirebaseAuth.instance.currentUser.email;
   String displayName = FirebaseAuth.instance.currentUser.displayName;
-
   List<String> addressList;
+  int selectedCarIndex = -1;
 
   @override
   void initState() {
@@ -57,7 +53,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Container(
               color: Colors.transparent,
               child: HalfScreenCard(
-                childWidget: CarListGridViewBuilder(carData: widget.carData),
+                childWidget: GridView.builder(
+                  itemCount: widget.carData.carsList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 1,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return CarCard(
+                      carIndex: index,
+                      carCardColor:
+                          selectedCarIndex == index ? ECCCBlue : Colors.white,
+                      onPressed: () {
+                        print(
+                            'Selected car index:  ${widget.carData.carsList[index].make}');
+                        setState(() {
+                          selectedCarIndex = index;
+                        });
+                      },
+                      title: widget.carData.carsList[index].make,
+                    );
+                  },
+                ),
               ),
             ),
           )

@@ -16,12 +16,41 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   String _email;
   String emailErrorText;
+  bool emailError;
+
+  void setErrorText(String errorCode) {
+    setState(
+      () {
+        switch (errorCode) {
+          // Email left blank
+          case '':
+            {
+              emailErrorText = 'Email left blank';
+            }
+            break;
+          // invalid email
+          case 'invalid-email':
+            {
+              emailErrorText = 'Invalid Email';
+            }
+            break;
+          // no user found with that email
+          case 'user-not-found':
+            {
+              emailErrorText = 'User not found';
+            }
+            break;
+        }
+      },
+    );
+  }
 
   @override
   void initState() {
     super.initState();
     _email = '';
     emailErrorText = '';
+    emailError = false;
   }
 
   @override
@@ -29,7 +58,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,11 +75,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               RoundedButton(
                 rbColor: ECCCBlueAccent,
                 title: 'Send Reset Email',
-                onPressed: () {
-                  _auth.sendPasswordResetEmail(email: _email);
-
+                onPressed: () async {
+                  if (_email == '') {
+                    setErrorText(_email);
+                  } else {
+                    try {
+                      print('email: $_email');
+                      await _auth.sendPasswordResetEmail(email: _email);
+                    } on FirebaseAuthException catch (e) {
+                      print('e.code: ${e.code}');
+                      setErrorText(e.code);
+                    }
+                  }
                 },
-              )
+              ),
+              // RoundedButton(
+              //   rbColor: ECCCBlueAccent,
+              //   title: 'Send Reset Email',
+              //   onPressed: () {
+              //     _auth.sendPasswordResetEmail(email: _email);
+              //
+              //   },
+              // )
             ],
           ),
         ),

@@ -9,9 +9,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// facilitates the updating of widgets dependent of the CarData for content as the  change notifier
 /// immediate rebuilds these widgets.
 
-/// TODO : Make CarData run on SharedPreferences stored List<String>
-/// TODO :
-
 class CarData extends ChangeNotifier {
   List<Car> _carList = [];
 

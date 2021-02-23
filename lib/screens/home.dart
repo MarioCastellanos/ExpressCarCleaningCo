@@ -8,10 +8,6 @@ import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-/// Home Screen
-/// TODO : Extract data from sharedPreferences and wait for it then load screen.
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
@@ -109,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: UpcomingCarWashCard(
+                  scheduledTime: '8:00',
                   cardColor: ECCCBlueAccent,
                   onPressed: () {
                     print('Upcoming washes');

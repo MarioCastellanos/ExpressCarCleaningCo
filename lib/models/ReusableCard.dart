@@ -35,7 +35,7 @@ class ReusableCard extends StatelessWidget {
 class UpcomingCarWashCard extends StatelessWidget {
   final Widget childWidget;
   final Function onPressed;
-  final int scheduledTime;
+  final String scheduledTime;
   final Color cardColor;
 
   UpcomingCarWashCard({

@@ -21,9 +21,6 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
   // Manages the obscureText state of the password textField; default set to true;
   bool obscureText = true;
 
-  // Manages email error state
-  bool emailError;
-
   // Manages password error state
   bool passwordError;
 
@@ -76,7 +73,6 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
     );
   }
 
-
   // initializing values, chose to set email and password to '' in order to avoid null errors.
   // set email and password error values to initial values.
 
@@ -85,7 +81,6 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
     super.initState();
     _email = '';
     _password = '';
-    emailError = false;
     passwordError = false;
   }
 
@@ -99,7 +94,9 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ECCCBlueCarLogo(adjustLogoSize: true,),
+              ECCCBlueCarLogo(
+                adjustLogoSize: true,
+              ),
               EmailTextField(
                 errorText: emailErrorText,
                 onChanged: (value) {
@@ -122,11 +119,11 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
               ),
               kSpacerBox,
 
-              // Sign In Button,
-              // onPressed: is an async function that performs validation of email,
-              // and text field not being left empty. Additionally if no error is detected
-              // a user login is attempted with the given parameters. If a successful login occurs
-              // users are directed to the home page.
+              /// Sign In Button,
+              /// onPressed: is an async function that performs validation of email,
+              /// and text field not being left empty. Additionally if no error is detected
+              /// a user login is attempted with the given parameters. If a successful login occurs
+              /// users are directed to the home page.
 
               RoundedButton(
                 rbColor: ECCCBlueAccent,
@@ -138,8 +135,8 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
                     setErrorText(' ');
                   } else {
                     try {
-                      UserCredential userCredential = await _auth
-                          .signInWithEmailAndPassword(
+                      UserCredential userCredential =
+                          await _auth.signInWithEmailAndPassword(
                         email: _email,
                         password: _password,
                       );
@@ -154,7 +151,7 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
                 },
               ),
 
-             kSpacerBox,
+              kSpacerBox,
 
               /* RESET PASSWORD INKWELL
               * onPressed Directs user to resetPasswordScreen
