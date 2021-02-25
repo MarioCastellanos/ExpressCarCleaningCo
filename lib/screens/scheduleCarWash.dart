@@ -81,8 +81,13 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            print('pop');
-            Navigator.pop(context);
+            setState(() {
+              if (contentIndex > 1) {
+                contentIndex--;
+              } else {
+                Navigator.pop(context);
+              }
+            });
           },
           icon: Icon(
             Icons.arrow_back_ios,
