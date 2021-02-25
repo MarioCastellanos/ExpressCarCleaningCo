@@ -2,6 +2,7 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
+import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -81,13 +82,13 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () {
-            setState(() {
-              if (contentIndex > 1) {
+            if (contentIndex > 1) {
+              setState(() {
                 contentIndex--;
-              } else {
-                Navigator.pop(context);
-              }
-            });
+              });
+            } else {
+              Navigator.pop(context);
+            }
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -95,6 +96,29 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             size: 36,
           ),
         ),
+        actions: [
+          contentIndex > 1
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    size: 36,
+                    color: ECCCBlueAccent,
+                  ),
+                )
+              : IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, ProfileScreen.id);
+                  },
+                  icon: Icon(
+                    Icons.person,
+                    size: 36,
+                    color: ECCCBlueAccent,
+                  ),
+                )
+        ],
       ),
       body: SafeArea(
         child: Padding(
