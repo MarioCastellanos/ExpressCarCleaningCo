@@ -5,6 +5,7 @@ import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
+import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
 
@@ -48,10 +49,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     currentTitle = 'Select A Car';
     _calendarController = CalendarController();
     contentIndex = 1;
     dateSelected = false;
+    selectedCarIndex = -1;
     _holidays = {
       DateTime(2021, 1, 1): ['New Year\'s Day'],
     };

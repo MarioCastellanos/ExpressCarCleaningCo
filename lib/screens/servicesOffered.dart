@@ -2,6 +2,7 @@ import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/CarWashPackage.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ServicesOffered extends StatelessWidget {
   static const String id = 'Services Offered';

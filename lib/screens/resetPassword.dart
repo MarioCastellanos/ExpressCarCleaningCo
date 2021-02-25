@@ -3,6 +3,7 @@ import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
+import 'package:flutter/services.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String id = "ResetPasswordScreen";
@@ -51,6 +52,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     _email = '';
     emailErrorText = '';
     emailError = false;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
+import 'package:flutter/services.dart';
 
 // SignIn Screen handles users trying to log in. Only log in method available is
 // email and password at the moment.
@@ -82,6 +83,10 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
     _email = '';
     _password = '';
     passwordError = false;
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

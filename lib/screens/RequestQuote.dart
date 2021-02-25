@@ -3,6 +3,7 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
+import 'package:flutter/services.dart';
 
 class RequestQuote extends StatefulWidget {
   static const String id = 'RequestQuote';
@@ -18,6 +19,15 @@ class RequestQuote extends StatefulWidget {
 }
 
 class _RequestQuoteState extends State<RequestQuote> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   int selectedCarIndex = -1;
   @override
   Widget build(BuildContext context) {

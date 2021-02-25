@@ -14,6 +14,22 @@ import 'screens/PopUpScreen.dart';
 import 'screens/signUp.dart';
 import 'screens/singIn.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+
+mixin PortraitModeMixin on StatefulWidget {
+  @override
+  Widget build(BuildContext context) {
+    _portraitModeOnly();
+    return null;
+  }
+}
+
+void _portraitModeOnly() {
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +37,7 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatefulWidget with PortraitModeMixin {
   @override
   _MyAppState createState() => _MyAppState();
 }

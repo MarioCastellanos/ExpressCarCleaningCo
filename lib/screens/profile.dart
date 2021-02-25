@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
+import 'package:flutter/services.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';
@@ -27,7 +28,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     addressList = [];
-    print('Car Data: ${widget.carData.carsList[0].make}');
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

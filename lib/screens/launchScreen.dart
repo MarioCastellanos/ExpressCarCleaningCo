@@ -5,6 +5,7 @@ import 'package:cta_auto_detail/screens/signUp.dart';
 import 'package:cta_auto_detail/screens/singIn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 
 /// LAUNCH SCREEN
 /// First screen the user interacts with.
@@ -21,6 +22,15 @@ class _LaunchScreenState extends State<LaunchScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

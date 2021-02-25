@@ -3,6 +3,7 @@ import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PopUpCard extends StatefulWidget {
   static const id = 'PopUpCard';
@@ -63,6 +64,10 @@ class _PopUpCardState extends State<PopUpCard> {
   void initState() {
     currList = [];
     upDateUI(1);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

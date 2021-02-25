@@ -5,6 +5,7 @@ import 'package:cta_auto_detail/screens/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/TextFieldModels.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 // Sign up Screen
 
@@ -15,73 +16,76 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   final _auth = FirebaseAuth.instance;
-  
+
   bool obscureText = true;
 
   String _password;
   String _email;
   String _confirmEmail;
 
-
   // Used to manage error text state
   String emailErrorText;
   String confirmEmailErrorText;
   String passwordErrorText;
 
-
   // Sets the error message for the email or password field depending on error
   // with email taking priority over password.
   void setErrorText(String errorCode) {
     setState(
-          () {
+      () {
         switch (errorCode) {
-        // Email left blank
+          // Email left blank
           case '':
             {
               emailErrorText = 'Email left blank';
             }
             break;
-        // invalid email
+          // invalid email
           case 'invalid-email':
             {
               emailErrorText = 'Invalid Email';
             }
             break;
-        // no user found with that email
+          // no user found with that email
           case 'user-not-found':
             {
               emailErrorText = 'User not found';
             }
             break;
 
-        // email-already-in-use
+          // email-already-in-use
           case 'email-already-in-use':
             {
               emailErrorText = 'Email already in use';
             }
             break;
 
-        // Password left blank
+          // Password left blank
           case ' ':
             {
               passwordErrorText = 'Password left blank';
             }
             break;
-        // Wrong password.
+          // Wrong password.
           case 'wrong-password':
             {
               passwordErrorText = 'Incorrect password';
             }
             break;
-
-
         }
       },
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +97,9 @@ class _SignUpState extends State<SignUp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ECCCBlueCarLogo(adjustLogoSize: true,),
+              ECCCBlueCarLogo(
+                adjustLogoSize: true,
+              ),
               kSpacerBox,
               EmailTextField(
                 errorText: emailErrorText,
@@ -103,7 +109,7 @@ class _SignUpState extends State<SignUp> {
               ),
               kSpacerBox,
               EmailTextField(
-                errorText:  confirmEmailErrorText,
+                errorText: confirmEmailErrorText,
                 onChanged: (value) {
                   _confirmEmail = value;
                 },
@@ -128,24 +134,26 @@ class _SignUpState extends State<SignUp> {
                 rbColor: ECCCBlueAccent,
                 title: 'Sign Up ',
                 onPressed: () async {
-                  if(_email  == _confirmEmail){
+                  if (_email == _confirmEmail) {
                     try {
-                      final newUser = await _auth.createUserWithEmailAndPassword(
-                          email: _email, password: _password);
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                              email: _email, password: _password);
                       if (newUser != null) {
                         Navigator.pushNamed(context, WelcomeScreen.id);
                       }
                     } catch (e) {
-                      print(e.code );
+                      print(e.code);
                       setErrorText(e.code);
                     }
-                  }else{
+                  } else {
                     setState(() {
-                      emailErrorText  = 'email does not match confirmation email';
-                      confirmEmailErrorText = 'confirmation email does not match email';
+                      emailErrorText =
+                          'email does not match confirmation email';
+                      confirmEmailErrorText =
+                          'confirmation email does not match email';
                     });
                   }
-
                 },
               ),
               kSpacerBox,

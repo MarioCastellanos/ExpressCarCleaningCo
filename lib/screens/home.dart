@@ -8,6 +8,7 @@ import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/SocialMediaIcons.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
@@ -24,6 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _carData = widget.carData;
     _carData.initializeCarList();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter/services.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'WelcomeScreen';
@@ -14,14 +14,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   User _loggedInUser;
 
-  void getCurrentUser () {
+  void getCurrentUser() {
     try {
       final _user = _auth.currentUser;
       if (_user != null) {
         _loggedInUser = _user;
         print(_loggedInUser.email);
       }
-    }catch (e){
+    } catch (e) {
       print(e);
     }
   }
@@ -30,6 +30,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
     getCurrentUser();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override
