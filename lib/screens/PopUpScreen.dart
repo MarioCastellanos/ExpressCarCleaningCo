@@ -136,6 +136,7 @@ class _PopUpCardState extends State<PopUpCard> {
                           color:
                               currIndex == index ? ECCCDarkBlue : Colors.white,
                           onTap: () {
+                            selectedIndex = index;
                             if (selectedIndex == currIndex) {
                               setState(() {
                                 selectedIndex = -2;

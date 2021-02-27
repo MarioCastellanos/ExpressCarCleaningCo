@@ -23,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String displayName = FirebaseAuth.instance.currentUser.displayName;
   List<String> addressList;
   int selectedCarIndex = -1;
+  int currentIndex;
 
   @override
   void initState() {
@@ -67,15 +68,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   itemBuilder: (BuildContext context, int index) {
                     return CarCard(
                       carIndex: index,
+                      onPressed: () {
+                        selectedCarIndex = index;
+                        if (currentIndex == selectedCarIndex) {
+                          setState(() {
+                            print(index);
+                            currentIndex = -2;
+                            selectedCarIndex = -1;
+                          });
+                        } else {
+                          setState(() {
+                            print(index);
+                            selectedCarIndex = index;
+                            currentIndex = index;
+                          });
+                        }
+                      },
                       carCardColor:
                           selectedCarIndex == index ? ECCCBlue : Colors.white,
-                      onPressed: () {
-                        print(
-                            'Selected car index:  ${widget.carData.carsList[index].make}');
-                        setState(() {
-                          selectedCarIndex = index;
-                        });
-                      },
                       title: widget.carData.carsList[index].make,
                     );
                   },
