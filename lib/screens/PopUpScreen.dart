@@ -16,12 +16,12 @@ class _PopUpCardState extends State<PopUpCard> {
   bool splash;
 
   Function continueFunction;
-
   String displayText;
   String make;
   String model;
 
   int currScreen = 1;
+  int selectedIndex;
   int currIndex;
 
   List<String> currList = [];
@@ -98,81 +98,93 @@ class _PopUpCardState extends State<PopUpCard> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black54.withOpacity(.5),
-                        spreadRadius: 2,
-                        blurRadius: 2,
-                        offset: Offset(1, 4))
-                  ],
-                  color: ECCCBlueAccent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 4 / 1,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 10,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black54.withOpacity(.5),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(1, 4))
+                    ],
+                    color: ECCCBlueAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 4 / 1,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: currList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CarInfoCard(
+                          info: currList[index],
+                          color:
+                              currIndex == index ? ECCCDarkBlue : Colors.white,
+                          onTap: () {
+                            if (selectedIndex == currIndex) {
+                              setState(() {
+                                selectedIndex = -2;
+                                currIndex = -1;
+                              });
+                            } else {
+                              setState(() {
+                                splash = true;
+                                currIndex = index;
+                                selectedIndex = index;
+                              });
+                            }
+                          },
+                          textColor:
+                              currIndex == index ? Colors.white : Colors.black,
+                        );
+                      },
                     ),
-                    itemCount: currList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CarInfoCard(
-                        info: currList[index],
-                        color: currIndex == index ? ECCCDarkBlue : Colors.white,
-                        onTap: () {
-                          setState(() {
-                            splash = true;
-                            currIndex = index;
-                          });
-                        },
-                        textColor:
-                            currIndex == index ? Colors.white : Colors.black,
-                      );
-                    },
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: 10,
+              SizedBox(
+                height: 10,
               ),
-              child: ContinueButton(
-                  splashValue: splash,
-                  title: currIndex == -1 ? '' : 'CONTINUE',
-                  textColor: Colors.white,
-                  onPressed: () {
-                    if (currIndex != -1 && currScreen != 3) {
-                      setState(() {
-                        currScreen++;
-                        upDateUI(currScreen);
-                      });
-                    } else {
-                      if (currScreen == 3) {
-                        Navigator.pop(
-                            context, [make, model, currList[currIndex]]);
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: ContinueButton(
+                    splashValue: splash,
+                    title: currIndex == -1 ? '' : 'CONTINUE',
+                    textColor: Colors.white,
+                    onPressed: () {
+                      if (currIndex != -1 && currScreen != 3) {
+                        setState(() {
+                          currScreen++;
+                          upDateUI(currScreen);
+                        });
+                      } else {
+                        if (currScreen == 3) {
+                          Navigator.pop(
+                              context, [make, model, currList[currIndex]]);
+                        }
                       }
-                    }
-                  },
-                  cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent),
-            )
-          ],
+                    },
+                    cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -47,9 +47,6 @@ PreferredSizeWidget getAppBar({
           color: ECCCBlueAccent,
         ),
         onPressed: profileButtonPressed,
-//      onPressed: () {
-//        Navigator.pushNamed(context, ProfileScreen.id);
-//      },
       )
     ],
     backgroundColor: Colors.white,
