@@ -19,6 +19,7 @@ class ServicesOffered extends StatelessWidget {
         iconButtonPressed: () {
           Navigator.pop(context);
         },
+        needsProfileButton: true,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(

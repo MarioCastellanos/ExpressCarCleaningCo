@@ -34,12 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(iconButtonPressed: () {
-        Navigator.pop(context);
-      }, profileButtonPressed: () {
-        Navigator.pushNamed(context, ProfileScreen.id,
-            arguments: ScreenArguments(_carData));
-      }),
+      appBar: getAppBar(
+          iconButtonPressed: () {
+            Navigator.pop(context);
+          },
+          needsProfileButton: true,
+          profileButtonPressed: () {
+            Navigator.pushNamed(context, ProfileScreen.id,
+                arguments: ScreenArguments(_carData));
+          }),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10),

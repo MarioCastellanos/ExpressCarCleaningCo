@@ -36,6 +36,7 @@ class _RequestQuoteState extends State<RequestQuote> {
         iconButtonPressed: () {
           Navigator.pop(context);
         },
+        needsProfileButton: true,
       ),
       backgroundColor: Colors.white,
       body: SafeArea(

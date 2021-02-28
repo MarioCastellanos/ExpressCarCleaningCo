@@ -38,9 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: getAppBar(iconButtonPressed: () {
-        Navigator.pop(context);
-      }),
+      appBar: getAppBar(
+        iconButtonPressed: () {
+          Navigator.pop(context);
+        },
+        needsProfileButton: false,
+      ),
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

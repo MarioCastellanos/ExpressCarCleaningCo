@@ -170,9 +170,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     carCardColor:
                         selectedCarIndex == index ? ECCCBlue : Colors.white,
                     onPressed: () {
-                      setState(() {
-                        selectedCarIndex = index;
-                      });
+                      if (index == selectedCarIndex) {
+                        setState(() {
+                          selectedCarIndex = -1;
+                        });
+                      } else {
+                        setState(() {
+                          selectedCarIndex = index;
+                        });
+                      }
                     },
                     title: widget.carData.carsList[index].make,
                   );
