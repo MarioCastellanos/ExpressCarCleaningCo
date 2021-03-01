@@ -179,6 +179,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                           selectedCarIndex = index;
                         });
                       }
+                      selectedCarMake = widget.carData.carsList[index].make;
+                      selectedCarModel =
+                          widget.carData.carsList[index].classification;
+                      selectedCarTrim = widget.carData.carsList[index].interior;
                     },
                     title: widget.carData.carsList[index].make,
                   );
@@ -248,8 +252,11 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             ContinueButton(
               title: 'Continue',
               textColor: Colors.white,
-              cBColor: ECCCDarkBlue,
+              cBColor: selectedCarIndex != -1 ? ECCCBlue : Colors.grey,
               onPressed: () {
+                print(selectedCarMake);
+                print(selectedCarModel);
+                print(selectedCarTrim);
                 setState(() {
                   contentIndex++;
                   currentTitle = 'Select A Date';

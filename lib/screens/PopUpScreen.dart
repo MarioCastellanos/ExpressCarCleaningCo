@@ -77,7 +77,14 @@ class _PopUpCardState extends State<PopUpCard> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            setState(() {
+              if (currScreen > 1) {
+                currScreen--;
+                upDateUI(currScreen);
+              } else {
+                Navigator.pop(context);
+              }
+            });
           },
           icon: Icon(
             Icons.arrow_back_ios,
@@ -139,6 +146,7 @@ class _PopUpCardState extends State<PopUpCard> {
                             selectedIndex = index;
                             if (selectedIndex == currIndex) {
                               setState(() {
+                                splash = false;
                                 selectedIndex = -2;
                                 currIndex = -1;
                               });
@@ -167,7 +175,7 @@ class _PopUpCardState extends State<PopUpCard> {
                 ),
                 child: ContinueButton(
                     splashValue: splash,
-                    title: currIndex == -1 ? '' : 'CONTINUE',
+                    title: 'CONTINUE',
                     textColor: Colors.white,
                     onPressed: () {
                       if (currIndex != -1 && currScreen != 3) {
@@ -182,7 +190,7 @@ class _PopUpCardState extends State<PopUpCard> {
                         }
                       }
                     },
-                    cBColor: currIndex == -1 ? Colors.white : ECCCBlueAccent),
+                    cBColor: currIndex == -1 ? Colors.grey : ECCCBlueAccent),
               )
             ],
           ),
