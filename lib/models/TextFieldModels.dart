@@ -169,7 +169,9 @@ class AddressesRow extends StatelessWidget {
                     offset: Offset(0, 4))
               ],
               color: ECCCBlue),
-          child: EditHomeAddress(),
+          child: EditHomeAddress(
+            homeAddress: 'TressyAve',
+          ),
           alignment: Alignment.center,
         ),
         Container(
@@ -194,6 +196,9 @@ class AddressesRow extends StatelessWidget {
 }
 
 class EditHomeAddress extends StatelessWidget {
+  EditHomeAddress({@required this.homeAddress});
+
+  final String homeAddress;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -213,16 +218,21 @@ class EditHomeAddress extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
                         children: [
                           Icon(
                             Icons.home,
-                            color: Colors.black,
+                            color: ECCCBlue,
                             size: 36,
                           ),
                           Text(
                             'Edit home address',
-                            style: TextStyle(fontSize: 36, color: Colors.black),
+                            style: TextStyle(
+                              fontSize: 36,
+                              color: Colors.black,
+                              fontFamily: 'Vollkorn',
+                            ),
                           )
                         ],
                       ),

@@ -161,7 +161,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 itemCount: widget.carData.carsList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10,
+                  crossAxisSpacing: 5,
                   mainAxisSpacing: 1,
                 ),
                 itemBuilder: (BuildContext context, int index) {
@@ -180,8 +180,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                         });
                       }
                       selectedCarMake = widget.carData.carsList[index].make;
-                      selectedCarModel =
-                          widget.carData.carsList[index].classification;
+                      selectedCarModel = widget.carData.carsList[index].model;
                       selectedCarTrim = widget.carData.carsList[index].interior;
                     },
                     title: widget.carData.carsList[index].make,
@@ -285,6 +284,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
+                      childAspectRatio: 1,
                       crossAxisCount: 3),
                   itemCount: 9,
                   itemBuilder: (BuildContext context, int index) {

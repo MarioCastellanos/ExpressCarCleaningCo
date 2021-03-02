@@ -14,7 +14,7 @@ class CarCard extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Stack(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
             alignment: Alignment.center,
@@ -23,11 +23,11 @@ class CarCard extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                     color: Colors.black45.withOpacity(.4),
-                    spreadRadius: 4,
+                    spreadRadius: 2,
                     blurRadius: 2,
                     offset: Offset(4, 5))
               ],
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Icon(
               Icons.car_rental,
@@ -37,19 +37,16 @@ class CarCard extends StatelessWidget {
             width: 150.0,
           ),
           Container(
+            alignment: Alignment.center,
             decoration: BoxDecoration(
               color: ECCCDarkBlue,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black45.withOpacity(.4),
-                    spreadRadius: 2,
-                    blurRadius: 3,
-                    offset: Offset(1, 4))
-              ],
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20.0),
+                bottomRight: Radius.circular(20.0),
+              ),
             ),
             height: 50.0,
-            width: 200.0,
+            width: 150.0,
             child: Center(
               child: Text(
                 title,

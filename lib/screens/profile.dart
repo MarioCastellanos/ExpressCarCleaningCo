@@ -21,7 +21,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String userEmail = FirebaseAuth.instance.currentUser.email;
   String displayName = FirebaseAuth.instance.currentUser.displayName;
-  List<String> addressList;
+  List<List<String>> addressList;
   int selectedCarIndex = -1;
   int currentIndex;
 
@@ -29,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     addressList = [];
+    addressList.add(['726 Tressy Ave', 'Glendora', 'California', '91740']);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

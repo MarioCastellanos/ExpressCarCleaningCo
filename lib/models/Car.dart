@@ -5,7 +5,7 @@
 class Car {
   // Make of the car Subaru Mercedez,
   final String _make;
-  // Model of car
+  // Model of car // Wrx, Boxster / SLk, C63
   final String _model;
   // Leather / Faux Leather / Vinyl / Wood / Fabric
   final String _interior;
@@ -14,7 +14,7 @@ class Car {
 
   String get interior => _interior;
 
-  String get classification => _model;
+  String get model => _model;
 
   String get make => _make;
 }
