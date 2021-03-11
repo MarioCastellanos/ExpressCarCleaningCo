@@ -27,11 +27,7 @@ dependencies:
   cloud_firestore: ^0.14.3
   http: ^0.12.2
   shared_preferences: ^0.5.12+4
-
-
-
-
-
+  flutter_swiper: ^1.1.6
 
 dev_dependencies:
   flutter_test:

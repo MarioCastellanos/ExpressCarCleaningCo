@@ -220,7 +220,7 @@ const TextStyle kDiamondTextStyle = TextStyle(
   fontSize: 46,
 );
 
-const TextStyle sapphireTextStyle = TextStyle(
+const TextStyle kSapphireTextStyle = TextStyle(
   height: 1,
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
@@ -231,7 +231,7 @@ const TextStyle sapphireTextStyle = TextStyle(
   fontSize: 46,
 );
 
-const TextStyle rubyTextStyle = TextStyle(
+const TextStyle kRubyTextStyle = TextStyle(
   height: 1,
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
@@ -242,7 +242,7 @@ const TextStyle rubyTextStyle = TextStyle(
   fontSize: 46,
 );
 
-const TextStyle emeraldTextStyle = TextStyle(
+const TextStyle kEmeraldTextStyle = TextStyle(
   height: 1,
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',

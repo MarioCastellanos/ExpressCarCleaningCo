@@ -266,7 +266,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         }
         break;
 
-      // user selecting time and
+      // user selecting date and time
       case 2:
         {
           int time = 9;
@@ -426,6 +426,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         _month = day.toString().substring(5, 7);
         print('date $_date');
         print('month $_month');
+        print(_calendarController.focusedDay);
       },
     );
   }
