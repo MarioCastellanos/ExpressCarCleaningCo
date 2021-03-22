@@ -1,5 +1,4 @@
 import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/screens/sharedPreferences.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -48,7 +47,7 @@ class SocialMediaIcon extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print('icon tapped');
-        Navigator.pushNamed(context, SharedPreferencesDemo.id);
+        // Navigator.pushNamed(context, SharedPreferencesDemo.id);
       },
       child: Container(
         padding: EdgeInsets.all(10),

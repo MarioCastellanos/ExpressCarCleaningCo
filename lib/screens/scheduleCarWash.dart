@@ -3,6 +3,7 @@ import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cta_auto_detail/models/CarCard.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,12 @@ class ScheduleCarWash extends StatefulWidget {
 }
 
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
+  Color selectedDateColor = ECCCBlue;
+  Color todayDateColor = ECCCDarkBlue;
+  String todaysDate;
+  String todayMonth;
+  String todayDay;
+
   Map<DateTime, List> _holidays;
   Map<DateTime, List> _scheduledWashes;
 
@@ -55,6 +62,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     ]);
     currentTitle = 'Select A Car';
     _calendarController = CalendarController();
+
     contentIndex = 1;
     dateSelected = false;
     selectedCarIndex = -1;
@@ -393,8 +401,8 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       calendarController: _calendarController,
       onDaySelected: _onDaySelected,
       calendarStyle: CalendarStyle(
-        todayColor: ECCCBlueAccent,
-        selectedColor: ECCCDarkBlue,
+        todayColor: todayDateColor,
+        selectedColor: selectedDateColor,
         outsideDaysVisible: true,
         // Setting the color for weekend dates
         weekendStyle: TextStyle().copyWith(color: Colors.black),
@@ -420,13 +428,25 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
+    DateTime now = DateTime.now();
+    int nowMonth = int.parse(now.toString().substring(5, 7));
+    int nowDay = int.parse(now.toString().substring(8, 10));
+    print('Now Month $nowMonth');
+    print('Now Day $nowDay');
+
+    int dayMonth = int.parse(day.toString().substring(5, 7));
+    int dayDay = int.parse(day.toString().substring(8, 10));
+
     setState(
       () {
-        _date = day.toString().substring(8, 10);
-        _month = day.toString().substring(5, 7);
-        print('date $_date');
-        print('month $_month');
-        print(_calendarController.focusedDay);
+        if (dayMonth < nowMonth) {
+          print('OLLLLDDD');
+          selectedDateColor = Colors.red;
+        } else if (dayMonth == nowMonth && dayDay < nowDay) {
+          selectedDateColor = Colors.red;
+        } else {
+          selectedDateColor = ECCCBlue;
+        }
       },
     );
   }

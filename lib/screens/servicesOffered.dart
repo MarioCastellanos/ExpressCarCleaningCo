@@ -1,17 +1,15 @@
 import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/models/CarWashPackage.dart';
-import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-class Chevron extends CustomPainter {
+class Wave extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Gradient gradient = new LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: [Colors.black, Colors.blue],
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [ECCCDarkBlue, Colors.blueAccent, ECCCDarkBlue],
       tileMode: TileMode.clamp,
     );
 
@@ -90,7 +88,7 @@ class CarWashPackageSwiper extends StatelessWidget {
                 child: Container(
                   color: ECCCBlueAccent,
                   child: CustomPaint(
-                    painter: Chevron(),
+                    painter: Wave(),
                     child: Container(
                       width: 100.0,
                       height: 120.0,
@@ -98,10 +96,13 @@ class CarWashPackageSwiper extends StatelessWidget {
                         padding: EdgeInsets.only(top: 30.0),
                         child: Align(
                           alignment: Alignment.topCenter,
-                          child: CarWashPackage(
-                            packageTitle: packageNameList[index],
-                            packageTitleStyle: packageTextStyleList[index],
-                            packageDetails: packageList[index],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CarWashPackage(
+                              packageTitle: packageNameList[index],
+                              packageTitleStyle: packageTextStyleList[index],
+                              packageDetails: packageList[index],
+                            ),
                           ),
                         ),
                       ),

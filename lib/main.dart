@@ -6,7 +6,6 @@ import 'package:cta_auto_detail/screens/profile.dart';
 import 'package:cta_auto_detail/screens/resetPassword.dart';
 import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
 import 'package:cta_auto_detail/screens/servicesOffered.dart';
-import 'package:cta_auto_detail/screens/sharedPreferences.dart';
 import 'package:cta_auto_detail/screens/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -128,7 +127,6 @@ class _MyAppState extends State<MyApp> {
           SignUp.id: (context) => SignUp(),
           HomeScreen.id: (context) => HomeScreen(),
           LaunchScreen.id: (context) => LaunchScreen(),
-          SharedPreferencesDemo.id: (context) => SharedPreferencesDemo(),
           PopUpCard.id: (context) => PopUpCard(),
           WelcomeScreen.id: (context) => WelcomeScreen(),
           ResetPasswordScreen.id: (context) => ResetPasswordScreen(),
