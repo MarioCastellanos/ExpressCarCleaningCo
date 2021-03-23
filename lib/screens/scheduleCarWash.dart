@@ -10,14 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
 
-/// TODO 3: ADD case 3 for package selection
-
-enum ScreenContent {
-  CarSelection,
-  DateAndTimeSelection,
-  LocationSelection,
-}
-
 class ScheduleCarWash extends StatefulWidget {
   ScheduleCarWash({this.carData});
   final CarData carData;
@@ -29,29 +21,24 @@ class ScheduleCarWash extends StatefulWidget {
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Color selectedDateColor = ECCCBlue;
   Color todayDateColor = ECCCDarkBlue;
-  String todaysDate;
-  String todayMonth;
-  String todayDay;
 
   Map<DateTime, List> _holidays;
   Map<DateTime, List> _scheduledWashes;
 
   String currentTitle = '';
-  String _month;
-  String _date;
+  int _month = -1;
+  int _date = -1;
   int _time;
+
+  bool dateSelected = false;
+  int scheduledTime = -1;
   int selectedCarIndex;
   String selectedCarMake;
   String selectedCarModel;
   String selectedCarTrim;
   int contentIndex;
-  bool dateSelected;
   CalendarController _calendarController;
   ScrollController scrollController = ScrollController();
-
-  void incrementContentSwitch() {
-    contentIndex++;
-  }
 
   @override
   void initState() {
@@ -64,7 +51,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     _calendarController = CalendarController();
 
     contentIndex = 1;
-    dateSelected = false;
     selectedCarIndex = -1;
     _holidays = {
       DateTime(2021, 1, 1): ['New Year\'s Day'],
@@ -296,24 +282,19 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       crossAxisCount: 3),
                   itemCount: 9,
                   itemBuilder: (BuildContext context, int index) {
-                    Widget widget;
-                    switch (index) {
-                      default:
-                        widget = UpcomingCarWashCard(
-                          scheduledTime: time.toString(),
-                          childWidget: Center(
-                            child: Text(
-                              '$time:00  ',
-                            ),
-                          ),
-                          onPressed: () {
-                            print('Selected time is :');
-                          },
-                          cardColor: ECCCBlue,
-                        );
-                    }
-                    time++;
-                    return widget;
+                    return UpcomingCarWashCard(
+                      scheduledTime: (index + 9).toString(),
+                      childWidget: Center(
+                        child: Text(
+                          '${(index + 9) % 12}:00  ',
+                        ),
+                      ),
+                      onPressed: () {
+                        print('Selected time is : ${index + 9}');
+                        scheduledTime = (index + 9) % 12;
+                      },
+                      cardColor: ECCCBlue,
+                    );
                   },
                 ),
               ),
@@ -324,13 +305,23 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             ContinueButton(
               title: 'Continue',
               textColor: Colors.white,
-              cBColor: ECCCDarkBlue,
-              onPressed: () {
-                setState(() {
-                  contentIndex++;
-                  currentTitle = 'Select Car Wash Package';
-                });
-              },
+              cBColor: dateSelected == false ? Colors.grey : ECCCBlue,
+              onPressed: dateSelected == false
+                  ? () {
+                      print('NO date selected ');
+                    }
+                  : () {
+                      setState(() {
+                        contentIndex++;
+                        currentTitle = 'Select Car Wash Package';
+                      });
+                    },
+              //     () {
+              //   setState(() {
+              //     contentIndex++;
+              //     currentTitle = 'Select Car Wash Package';
+              //   });
+              // },
             )
           ];
         }
@@ -431,8 +422,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     DateTime now = DateTime.now();
     int nowMonth = int.parse(now.toString().substring(5, 7));
     int nowDay = int.parse(now.toString().substring(8, 10));
-    print('Now Month $nowMonth');
-    print('Now Day $nowDay');
 
     int dayMonth = int.parse(day.toString().substring(5, 7));
     int dayDay = int.parse(day.toString().substring(8, 10));
@@ -440,11 +429,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     setState(
       () {
         if (dayMonth < nowMonth) {
-          print('OLLLLDDD');
           selectedDateColor = Colors.red;
+          dateSelected = false;
         } else if (dayMonth == nowMonth && dayDay < nowDay) {
+          dateSelected = false;
           selectedDateColor = Colors.red;
         } else {
+          dateSelected = true;
+          _month = dayMonth;
+          _date = dayDay;
           selectedDateColor = ECCCBlue;
         }
       },
