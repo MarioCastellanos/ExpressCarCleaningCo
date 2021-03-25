@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color ECCCBlue = Color(0xFF3A87E9);
 const Color ECCCDarkBlue = Color(0xFF275B97);
 const Color ECCCBlueAccent = Colors.lightBlueAccent;
+Color OpacBlue = Colors.lightBlueAccent.withOpacity(.5);
 
 /// GetAppBar returns a custom app bar based on parameters
 /// parameters
@@ -215,7 +216,6 @@ const TextStyle kDiamondTextStyle = TextStyle(
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
   color: Color(0xFFB9F2FF),
-  backgroundColor: ECCCBlueAccent,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -226,7 +226,6 @@ const TextStyle kSapphireTextStyle = TextStyle(
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
   color: Color(0xFF0f52ba),
-  backgroundColor: ECCCBlueAccent,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -237,7 +236,6 @@ const TextStyle kRubyTextStyle = TextStyle(
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
   color: Color(0xFFE0115F),
-  backgroundColor: ECCCBlueAccent,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -248,7 +246,6 @@ const TextStyle kEmeraldTextStyle = TextStyle(
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
   color: Color(0xFF046307),
-  backgroundColor: ECCCBlueAccent,
   letterSpacing: 1.0,
   fontSize: 46,
 );

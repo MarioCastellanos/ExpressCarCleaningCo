@@ -9,6 +9,11 @@ import 'package:cta_auto_detail/models/CarCard.dart';
 import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:cta_auto_detail/models/CarWashPackage.dart';
+
+/// TODO : REFACTOR CODE
+///
 
 class ScheduleCarWash extends StatefulWidget {
   ScheduleCarWash({this.carData});
@@ -22,6 +27,26 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Color selectedDateColor = ECCCBlue;
   Color todayDateColor = ECCCDarkBlue;
 
+  final List<String> packageNameList = [
+    'Diamond',
+    'Sapphire',
+    'Ruby',
+    'Emerald',
+  ];
+  final List<Text> packageList = [
+    kDiamondPackageDetails,
+    kSapphirePackageDetails,
+    kRubyPackageDetails,
+    kEmeraldPackageDetails,
+  ];
+
+  final List<TextStyle> packageTextStyleList = [
+    kDiamondTextStyle,
+    kSapphireTextStyle,
+    kRubyTextStyle,
+    kEmeraldTextStyle,
+  ];
+
   Map<DateTime, List> _holidays;
   Map<DateTime, List> _scheduledWashes;
 
@@ -31,6 +56,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   int _time;
 
   bool dateSelected = false;
+  bool timeSelected = false;
   int scheduledTime = -1;
   int selectedCarIndex;
   String selectedCarMake;
@@ -247,9 +273,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
               textColor: Colors.white,
               cBColor: selectedCarIndex != -1 ? ECCCBlue : Colors.grey,
               onPressed: () {
-                print(selectedCarMake);
-                print(selectedCarModel);
-                print(selectedCarTrim);
                 setState(() {
                   contentIndex++;
                   currentTitle = 'Select A Date';
@@ -264,7 +287,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       case 2:
         {
           int time = 9;
-          // currentTitle = 'Select A Date';
           return <Widget>[
             tableCalendarBuilder(),
             ReusableCard(
@@ -291,9 +313,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                       ),
                       onPressed: () {
                         print('Selected time is : ${index + 9}');
-                        scheduledTime = (index + 9) % 12;
+                        setState(() {
+                          scheduledTime = (index + 9) % 12;
+                        });
+                        print(scheduledTime);
+                        timeSelected = true;
                       },
-                      cardColor: ECCCBlue,
+                      cardColor: scheduledTime == ((index + 9) % 12)
+                          ? ECCCDarkBlue
+                          : ECCCBlue,
                     );
                   },
                 ),
@@ -305,23 +333,21 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             ContinueButton(
               title: 'Continue',
               textColor: Colors.white,
-              cBColor: dateSelected == false ? Colors.grey : ECCCBlue,
-              onPressed: dateSelected == false
+              cBColor: dateSelected != false && timeSelected != false
+                  ? ECCCBlue
+                  : Colors.grey,
+              onPressed: dateSelected != false && timeSelected != false
                   ? () {
-                      print('NO date selected ');
-                    }
-                  : () {
                       setState(() {
                         contentIndex++;
                         currentTitle = 'Select Car Wash Package';
                       });
+                    }
+                  : () {
+                      setState(() {
+                        currentTitle = 'Select a Date & Time';
+                      });
                     },
-              //     () {
-              //   setState(() {
-              //     contentIndex++;
-              //     currentTitle = 'Select Car Wash Package';
-              //   });
-              // },
             )
           ];
         }
@@ -330,44 +356,55 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       case 3:
         {
           return <Widget>[
-            Expanded(
-              child: Scrollbar(
-                isAlwaysShown: true,
-                controller: scrollController,
-                child: ListView(
-                  controller: scrollController,
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    Card(
-                      color: ECCCBlueAccent,
-                      child: Container(
-                        width: 400,
-                        child: kDiamondPackageDetails,
-                      ),
+            Flexible(
+              child: Swiper(
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 10,
                     ),
-                    Card(
-                      color: ECCCBlueAccent,
-                      child: Container(
-                        width: 400,
-                        child: kDiamondPackageDetails,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: ECCCBlueAccent.withOpacity(.5),
+                            child: CustomPaint(
+                              painter: Wave(),
+                              child: Container(
+                                width: 100.0,
+                                height: 120.0,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 30.0),
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CarWashPackage(
+                                        packageTitle: packageNameList[index],
+                                        packageTitleStyle:
+                                            packageTextStyleList[index],
+                                        packageDetails: packageList[index],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    Card(
-                      color: ECCCBlueAccent,
-                      child: Container(
-                        width: 400,
-                        child: kDiamondPackageDetails,
-                      ),
-                    ),
-                    Card(
-                      color: ECCCBlueAccent,
-                      child: Container(
-                        width: 400,
-                        child: kDiamondPackageDetails,
-                      ),
-                    ),
-                  ],
+                  );
+                },
+                itemCount: 4,
+                loop: false,
+                outer: true,
+                pagination: new SwiperPagination(
+                  margin: EdgeInsets.all(10),
                 ),
+                control: null,
               ),
             ),
             ContinueButton(
@@ -443,6 +480,37 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       },
     );
   }
+}
+
+class Wave extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Gradient gradient = new LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [ECCCDarkBlue, Colors.blueAccent, ECCCDarkBlue],
+      tileMode: TileMode.clamp,
+    );
+
+    final Rect colorBounds = Rect.fromLTRB(0, 0, size.width, size.height);
+    final Paint paint = new Paint()
+      ..shader = gradient.createShader(colorBounds);
+
+    Path path = Path();
+    path.moveTo(0, size.height * 0.9167);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.875,
+        size.width * 0.5, size.height * 0.9167);
+    path.quadraticBezierTo(size.width * 0.75, size.height * 0.9584,
+        size.width * 1.0, size.height * 0.9167);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
 // A widget that extracts the necessary arguments from the ModalRoute.
