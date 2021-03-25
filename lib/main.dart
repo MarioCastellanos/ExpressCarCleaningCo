@@ -122,8 +122,6 @@ class _MyAppState extends State<MyApp> {
           PopUpCard.id: (context) => PopUpCard(),
           WelcomeScreen.id: (context) => WelcomeScreen(),
           ResetPasswordScreen.id: (context) => ResetPasswordScreen(),
-          ExtractArgumentsScreen.routeName: (context) =>
-              ExtractArgumentsScreen(),
           ServicesOffered.id: (context) => ServicesOffered(),
         },
       ),

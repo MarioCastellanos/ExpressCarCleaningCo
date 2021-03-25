@@ -11,6 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:cta_auto_detail/screens/PopUpScreen.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cta_auto_detail/models/CarWashPackage.dart';
+import 'package:cta_auto_detail/models/WaveCustomPainter.dart';
 
 /// TODO : REFACTOR CODE
 ///
@@ -478,58 +479,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           selectedDateColor = ECCCBlue;
         }
       },
-    );
-  }
-}
-
-class Wave extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Gradient gradient = new LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [ECCCDarkBlue, Colors.blueAccent, ECCCDarkBlue],
-      tileMode: TileMode.clamp,
-    );
-
-    final Rect colorBounds = Rect.fromLTRB(0, 0, size.width, size.height);
-    final Paint paint = new Paint()
-      ..shader = gradient.createShader(colorBounds);
-
-    Path path = Path();
-    path.moveTo(0, size.height * 0.9167);
-    path.quadraticBezierTo(size.width * 0.25, size.height * 0.875,
-        size.width * 0.5, size.height * 0.9167);
-    path.quadraticBezierTo(size.width * 0.75, size.height * 0.9584,
-        size.width * 1.0, size.height * 0.9167);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-
-// A widget that extracts the necessary arguments from the ModalRoute.
-class ExtractArgumentsScreen extends StatelessWidget {
-  static const routeName = '/extractArguments';
-
-  @override
-  Widget build(BuildContext context) {
-    // Extract the arguments from the current ModalRoute settings and cast
-    // them as ScreenArguments.
-    final CarData args = ModalRoute.of(context).settings.arguments;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Fart'),
-      ),
-      body: Center(
-        child: Text(args.carsList.toString()),
-      ),
     );
   }
 }
