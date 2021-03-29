@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:cta_auto_detail/constants.dart';
 
 class Wave extends CustomPainter {
+  final initColor;
+  final endColor;
+
+  Wave({this.initColor, this.endColor});
   @override
   void paint(Canvas canvas, Size size) {
     final Gradient gradient = new LinearGradient(
       begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [ECCCDarkBlue, Colors.blueAccent, ECCCDarkBlue],
+      end: Alignment.bottomRight,
+      colors: [
+        initColor,
+        initColor,
+        initColor,
+        initColor,
+        endColor,
+      ],
       tileMode: TileMode.clamp,
     );
 

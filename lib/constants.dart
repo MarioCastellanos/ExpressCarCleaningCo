@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 const Color ECCCBlue = Color(0xFF3A87E9);
 const Color ECCCDarkBlue = Color(0xFF275B97);
 const Color ECCCBlueAccent = Colors.lightBlueAccent;
-Color OpacBlue = Colors.lightBlueAccent.withOpacity(.5);
+
+const Color Diamond = Color(0xFFB9F2FF);
+const Color Sapphire = Color(0xFF0f52ba);
+const Color Ruby = Color(0xFFE0115F);
+const Color Emerald = Color(0xFF046307);
 
 /// GetAppBar returns a custom app bar based on parameters
 /// parameters
@@ -215,7 +219,7 @@ const TextStyle kDiamondTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
-  color: Color(0xFFB9F2FF),
+  color: Diamond,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -225,7 +229,7 @@ const TextStyle kSapphireTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
-  color: Color(0xFF0f52ba),
+  color: Sapphire,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -235,7 +239,7 @@ const TextStyle kRubyTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
-  color: Color(0xFFE0115F),
+  color: Ruby,
   letterSpacing: 1.0,
   fontSize: 46,
 );
@@ -245,7 +249,7 @@ const TextStyle kEmeraldTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontFamily: 'Vollkorn',
   fontStyle: FontStyle.italic,
-  color: Color(0xFF046307),
+  color: Emerald,
   letterSpacing: 1.0,
   fontSize: 46,
 );

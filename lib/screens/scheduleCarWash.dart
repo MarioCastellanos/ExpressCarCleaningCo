@@ -28,20 +28,20 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Color selectedDateColor = ECCCBlue;
   Color todayDateColor = ECCCDarkBlue;
 
-  final List<String> packageNameList = [
+  List<String> packageNameList = [
     'Diamond',
     'Sapphire',
     'Ruby',
     'Emerald',
   ];
-  final List<Text> packageList = [
+  List<Text> packageList = [
     kDiamondPackageDetails,
     kSapphirePackageDetails,
     kRubyPackageDetails,
     kEmeraldPackageDetails,
   ];
 
-  final List<TextStyle> packageTextStyleList = [
+  List<TextStyle> packageTextStyleList = [
     kDiamondTextStyle,
     kSapphireTextStyle,
     kRubyTextStyle,
@@ -56,6 +56,9 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   int _date = -1;
   int _time;
 
+  int todayTime;
+  int timesAvailable;
+
   bool dateSelected = false;
   bool timeSelected = false;
   int scheduledTime = -1;
@@ -64,12 +67,46 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   String selectedCarModel;
   String selectedCarTrim;
   int contentIndex;
+
+  Color initColor = Diamond;
+  Color endColor = Ruby;
+
   CalendarController _calendarController;
-  ScrollController scrollController = ScrollController();
+
+  void getFocusDayAvailableTime() {
+    String selectedTime = _calendarController.focusedDay.toString();
+    DateTime now = DateTime.now();
+    DateTime day = _calendarController.focusedDay;
+    todayTime = int.parse(now.toString().substring(11, 13));
+    int nowMonth = int.parse(now.toString().substring(5, 7));
+    int nowDay = int.parse(now.toString().substring(8, 10));
+    int dayMonth = int.parse(day.toString().substring(5, 7));
+    int dayDay = int.parse(day.toString().substring(8, 10));
+
+    if (nowMonth == dayMonth && nowDay == dayDay) {
+      getTodayAvailableTime();
+    } else {
+      timesAvailable = 9;
+    }
+  }
+
+  void getTodayAvailableTime() {
+    DateTime now = DateTime.now();
+    todayTime = int.parse(now.toString().substring(11, 13));
+    print("current time : $todayTime");
+    if (todayTime < 9) {
+      timesAvailable = 9;
+    } else if (todayTime < 15) {
+      timesAvailable = 17 - 2 - todayTime;
+    } else {
+      timesAvailable = 0;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    getTodayAvailableTime();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -287,46 +324,11 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       // user selecting date and time
       case 2:
         {
-          int time = 9;
           return <Widget>[
             tableCalendarBuilder(),
             ReusableCard(
               cardColor: ECCCBlueAccent.withOpacity(.5),
-              childWidget: MediaQuery.removePadding(
-                context: context,
-                removeTop: true,
-                child: GridView.builder(
-                  primary: false,
-                  padding: EdgeInsets.all(20),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
-                      crossAxisCount: 3),
-                  itemCount: 9,
-                  itemBuilder: (BuildContext context, int index) {
-                    return UpcomingCarWashCard(
-                      scheduledTime: (index + 9).toString(),
-                      childWidget: Center(
-                        child: Text(
-                          '${(index + 9) % 12}:00  ',
-                        ),
-                      ),
-                      onPressed: () {
-                        print('Selected time is : ${index + 9}');
-                        setState(() {
-                          scheduledTime = (index + 9) % 12;
-                        });
-                        print(scheduledTime);
-                        timeSelected = true;
-                      },
-                      cardColor: scheduledTime == ((index + 9) % 12)
-                          ? ECCCDarkBlue
-                          : ECCCBlue,
-                    );
-                  },
-                ),
-              ),
+              childWidget: timeAvailabilityGenerator(),
               onPressed: () {
                 print('What the fudge');
               },
@@ -354,11 +356,29 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         }
         break;
 
+      // User selects a car wash package
       case 3:
         {
           return <Widget>[
             Flexible(
               child: Swiper(
+                onIndexChanged: (index) {
+                  setState(() {
+                    if (index == 0) {
+                      initColor = Diamond;
+                      endColor = Sapphire;
+                    } else if (index == 1) {
+                      initColor = Sapphire;
+                      endColor = Ruby;
+                    } else if (index == 2) {
+                      initColor = Ruby;
+                      endColor = Emerald;
+                    } else {
+                      initColor = Emerald;
+                      endColor = Emerald;
+                    }
+                  });
+                },
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -367,29 +387,30 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Container(
-                            color: ECCCBlueAccent.withOpacity(.5),
+                            decoration: BoxDecoration(
+                              color: ECCCBlueAccent.withOpacity(.5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: CustomPaint(
-                              painter: Wave(),
-                              child: Container(
-                                width: 100.0,
-                                height: 120.0,
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 30.0),
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CarWashPackage(
-                                        packageTitle: packageNameList[index],
-                                        packageTitleStyle:
-                                            packageTextStyleList[index],
-                                        packageDetails: packageList[index],
-                                      ),
-                                    ),
-                                  ),
+                              painter: Wave(
+                                initColor: initColor,
+                                endColor: endColor,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 30.0,
+                                    right: 8.0,
+                                    bottom: 8.0,
+                                    left: 8.0),
+                                child: CarWashPackage(
+                                  packageTitle: packageNameList[index],
+                                  packageTitleStyle:
+                                      packageTextStyleList[index],
+                                  packageDetails: packageList[index],
                                 ),
                               ),
                             ),
@@ -422,6 +443,52 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         break;
     }
     return <Widget>[];
+  }
+
+  Widget timeAvailabilityGenerator() {
+    if (timesAvailable == 0) {
+      return Center(
+          child: Text(
+        'No times available',
+        style: TextStyle(
+          color: ECCCDarkBlue,
+        ),
+      ));
+    }
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: GridView.builder(
+        primary: false,
+        padding: EdgeInsets.all(20),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 1,
+            crossAxisCount: 3),
+        itemCount: timesAvailable,
+        itemBuilder: (BuildContext context, int index) {
+          return UpcomingCarWashCard(
+            scheduledTime: (index + 9 + timesAvailable).toString(),
+            childWidget: Center(
+              child: Text(
+                '${(index + 9 + timesAvailable) % 12}:00  ',
+              ),
+            ),
+            onPressed: () {
+              print('Selected time is : ${index + 9}');
+              setState(() {
+                scheduledTime = (index + 9) % 12;
+              });
+              print(scheduledTime);
+              timeSelected = true;
+            },
+            cardColor:
+                scheduledTime == ((index + 9) % 12) ? ECCCDarkBlue : ECCCBlue,
+          );
+        },
+      ),
+    );
   }
 
   TableCalendar tableCalendarBuilder() {
@@ -458,6 +525,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
 
   void _onDaySelected(DateTime day, List events, List holidays) {
     DateTime now = DateTime.now();
+    todayTime = int.parse(now.toString().substring(11, 13));
     int nowMonth = int.parse(now.toString().substring(5, 7));
     int nowDay = int.parse(now.toString().substring(8, 10));
 
@@ -468,12 +536,20 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       () {
         if (dayMonth < nowMonth) {
           selectedDateColor = Colors.red;
-          dateSelected = false;
-        } else if (dayMonth == nowMonth && dayDay < nowDay) {
+          timesAvailable = 0;
           dateSelected = false;
           selectedDateColor = Colors.red;
+          _month = -1;
+          _date = -1;
+        } else if (dayMonth == nowMonth && dayDay < nowDay) {
+          dateSelected = false;
+          timesAvailable = 0;
+          selectedDateColor = Colors.red;
+          _month = -1;
+          _date = -1;
         } else {
           dateSelected = true;
+          getFocusDayAvailableTime();
           _month = dayMonth;
           _date = dayDay;
           selectedDateColor = ECCCBlue;
