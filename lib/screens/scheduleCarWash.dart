@@ -55,12 +55,14 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   int _month = -1;
   int _date = -1;
   int _time;
+  int packageNumber;
 
   int todayTime;
   int timesAvailable;
 
   bool dateSelected = false;
   bool timeSelected = false;
+  bool packageSelected = false;
   int scheduledTime = -1;
   int selectedCarIndex;
   String selectedCarMake;
@@ -362,23 +364,30 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           return <Widget>[
             Flexible(
               child: Swiper(
-                onIndexChanged: (index) {
+                onTap: (int index) {
+                  packageNumber = index;
+                  print('PackageNumber = $packageNumber');
                   setState(() {
-                    if (index == 0) {
-                      initColor = Diamond;
-                      endColor = Sapphire;
-                    } else if (index == 1) {
-                      initColor = Sapphire;
-                      endColor = Ruby;
-                    } else if (index == 2) {
-                      initColor = Ruby;
-                      endColor = Emerald;
-                    } else {
-                      initColor = Emerald;
-                      endColor = Emerald;
-                    }
+                    packageSelected = true;
                   });
                 },
+                // onIndexChanged: (index) {
+                //   setState(() {
+                //     if (index == 0) {
+                //       initColor = Diamond;
+                //       endColor = Sapphire;
+                //     } else if (index == 1) {
+                //       initColor = Sapphire;
+                //       endColor = Ruby;
+                //     } else if (index == 2) {
+                //       initColor = Ruby;
+                //       endColor = Emerald;
+                //     } else {
+                //       initColor = Emerald;
+                //       endColor = Emerald;
+                //     }
+                //   });
+                // },
                 itemBuilder: (BuildContext context, int index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -430,14 +439,23 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
               ),
             ),
             ContinueButton(
-              title: 'Schedule Wash',
-              textColor: Colors.white,
-              cBColor: ECCCDarkBlue,
-              onPressed: () {
-                print('car wash scheduled');
-                Navigator.pop(context);
-              },
-            )
+                title: 'Schedule Wash',
+                textColor: Colors.white,
+                cBColor: packageSelected == true ? ECCCBlue : Colors.grey,
+                onPressed: packageSelected == true
+                    ? () {
+                        print('car wash scheduled');
+                        Navigator.pop(context, [
+                          selectedCarIndex,
+                          _month,
+                          _date,
+                          _time,
+                          packageNumber,
+                        ]);
+                      }
+                    : () {
+                        print('No package Selected');
+                      })
           ];
         }
         break;
@@ -469,14 +487,17 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         itemCount: timesAvailable,
         itemBuilder: (BuildContext context, int index) {
           return UpcomingCarWashCard(
-            scheduledTime: (index + 9 + timesAvailable).toString(),
+            scheduledTime: (index + timesAvailable).toString(),
             childWidget: Center(
-              child: Text(
-                '${(index + 9 + timesAvailable) % 12}:00  ',
-              ),
+              child: index == 3
+                  ? Text('12:00')
+                  : Text(
+                      '${(index + timesAvailable) % 12}:00  ',
+                    ),
             ),
             onPressed: () {
               print('Selected time is : ${index + 9}');
+              _time = index + 9;
               setState(() {
                 scheduledTime = (index + 9) % 12;
               });
