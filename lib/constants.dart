@@ -276,6 +276,7 @@ Text kDiamondPackageDetails = Text(
   '• Full seats deep cleaning \n'
   '• Trunk deep cleaning',
   style: kPackageDetailsTS,
+  textAlign: TextAlign.center,
 );
 
 Text kSapphirePackageDetails = Text(
@@ -287,6 +288,7 @@ Text kSapphirePackageDetails = Text(
   '• Full Seats Deep Cleaning \n'
   '• Trunk Deep Cleaning',
   style: kPackageDetailsTS,
+  textAlign: TextAlign.center,
 );
 
 Text kRubyPackageDetails = Text(
@@ -297,6 +299,7 @@ Text kRubyPackageDetails = Text(
   '• Car Seats light cleaning \n'
   '• Car Seats Vacuum ',
   style: kPackageDetailsTS,
+  textAlign: TextAlign.center,
 );
 
 Text kEmeraldPackageDetails = Text(
@@ -306,6 +309,7 @@ Text kEmeraldPackageDetails = Text(
   '• Seats Light Cleaning\n'
   '• Interior Light Cleaning',
   style: kPackageDetailsTS,
+  textAlign: TextAlign.center,
 );
 
 List<String> kInteriorOptionsList = ['Leather', 'Alcantara', 'Wood', 'Cloth'];
