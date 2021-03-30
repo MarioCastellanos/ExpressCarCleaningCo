@@ -12,13 +12,17 @@ class CarWashPackage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          packageTitle,
-          style: packageTitleStyle,
+        Expanded(
+          child: Text(
+            packageTitle,
+            textAlign: TextAlign.center,
+            style: packageTitleStyle,
+          ),
         ),
-        packageDetails,
+        Expanded(child: packageDetails),
       ],
     );
   }
