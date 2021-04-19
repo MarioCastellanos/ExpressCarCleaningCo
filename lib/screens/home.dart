@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<int> _scheduledWashInfo = [];
   CarData _carData;
 
   @override
@@ -63,9 +64,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, ScheduleCarWash.id,
-                      arguments: ScreenArguments(_carData));
+                onPressed: () async {
+                  var carWashInfoList = await Navigator.pushNamed(
+                    context,
+                    ScheduleCarWash.id,
+                    arguments: ScreenArguments(
+                      _carData,
+                    ),
+                  );
+                  setState(() {
+                    _scheduledWashInfo.addAll(carWashInfoList);
+                    print(_scheduledWashInfo);
+                  });
                 },
                 cardColor: ECCCBlueAccent,
               ),
@@ -111,22 +121,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Expanded(
-                child: UpcomingCarWashCard(
-                  scheduledTime: '8:00',
-                  cardColor: ECCCBlueAccent,
-                  onPressed: () {
-                    print('Upcoming washes');
-                  },
-                  childWidget: Text(
-                    'UPCOMING WASHES',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontFamily: 'Vollkorn',
-                      fontWeight: FontWeight.w900,
-                    ),
+              SizedBox(
+                height: 5,
+              ),
+              Flexible(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ECCCBlueAccent,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'UPCOMING WASHES',
+                          style: TextStyle(
+                            fontFamily: 'Vollkorn',
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: _scheduledWashInfo.length == 0
+                            ? Center(
+                                child: Text(
+                                  'No car washes scheduled',
+                                  style: TextStyle(
+                                    fontFamily: 'Vollkorn',
+                                    fontSize: 25,
+                                    color: Colors.black.withOpacity(.5),
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              )
+                            : UpcomingWashList(),
+                      ),
+                    ],
                   ),
                 ),
               ),

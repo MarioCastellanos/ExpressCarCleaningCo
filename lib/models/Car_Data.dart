@@ -11,11 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CarData extends ChangeNotifier {
   List<Car> _carList = [];
+  List<String> tempCarsList = [];
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Future<bool> initialized;
   Future<List<String>> _futuresCarsList;
-  List<String> tempCarsList = [];
 
   Future<void> _addCarToSharedPreferences(
       String make, String model, String interior) async {

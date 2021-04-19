@@ -219,7 +219,6 @@ class EditHomeAddress extends StatelessWidget {
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
                         children: [
                           Icon(
                             Icons.home,

@@ -32,13 +32,94 @@ class ReusableCard extends StatelessWidget {
   }
 }
 
-class UpcomingCarWashCard extends StatelessWidget {
+class UpcomingWashList extends StatelessWidget {
+  final int itemCount;
+  final String car;
+  final String month;
+  final String date;
+  final String time;
+  final String package;
+
+  const UpcomingWashList({
+    this.itemCount,
+    this.car,
+    this.month,
+    this.date,
+    this.time,
+    this.package,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: itemCount,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      child: Icon(
+                        Icons.car_rental,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '$car',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            '$package',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        '$month $date',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class TimeAvailabilityCard extends StatelessWidget {
   final Widget childWidget;
   final Function onPressed;
   final String scheduledTime;
   final Color cardColor;
 
-  UpcomingCarWashCard({
+  TimeAvailabilityCard({
     @required this.childWidget,
     @required this.onPressed,
     @required this.scheduledTime,

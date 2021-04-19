@@ -45,6 +45,9 @@ class CarWashPackageSwiper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Swiper(
+      onTap: (int index) {
+        print(index);
+      },
       itemBuilder: (BuildContext context, int index) {
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -56,7 +59,10 @@ class CarWashPackageSwiper extends StatelessWidget {
             children: [
               Expanded(
                 child: Container(
-                  color: ECCCBlueAccent,
+                  decoration: BoxDecoration(
+                    color: ECCCBlueAccent.withOpacity(.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: CustomPaint(
                     painter: Wave(),
                     child: Container(

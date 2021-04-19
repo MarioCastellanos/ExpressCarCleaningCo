@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const Color ECCCBlue = Color(0xFF3A87E9);
 const Color ECCCDarkBlue = Color(0xFF275B97);
+const Color LightGrey = Color(0xFFBFCBD2);
 const Color ECCCBlueAccent = Colors.lightBlueAccent;
 
 const Color Diamond = Color(0xFFB9F2FF);
@@ -221,7 +222,7 @@ const TextStyle kDiamondTextStyle = TextStyle(
   fontStyle: FontStyle.italic,
   color: Diamond,
   letterSpacing: 1.0,
-  fontSize: 46,
+  fontSize: 30,
 );
 
 const TextStyle kSapphireTextStyle = TextStyle(
@@ -231,7 +232,7 @@ const TextStyle kSapphireTextStyle = TextStyle(
   fontStyle: FontStyle.italic,
   color: Sapphire,
   letterSpacing: 1.0,
-  fontSize: 46,
+  fontSize: 30,
 );
 
 const TextStyle kRubyTextStyle = TextStyle(
@@ -241,7 +242,7 @@ const TextStyle kRubyTextStyle = TextStyle(
   fontStyle: FontStyle.italic,
   color: Ruby,
   letterSpacing: 1.0,
-  fontSize: 46,
+  fontSize: 30,
 );
 
 const TextStyle kEmeraldTextStyle = TextStyle(
@@ -251,7 +252,7 @@ const TextStyle kEmeraldTextStyle = TextStyle(
   fontStyle: FontStyle.italic,
   color: Emerald,
   letterSpacing: 1.0,
-  fontSize: 46,
+  fontSize: 30,
 );
 
 SizedBox kSpacerBox = SizedBox(

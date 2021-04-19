@@ -73,6 +73,8 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Color initColor = Diamond;
   Color endColor = Ruby;
 
+  Color packageColor = Colors.white;
+
   CalendarController _calendarController;
 
   void getFocusDayAvailableTime() {
@@ -362,80 +364,155 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       case 3:
         {
           return <Widget>[
-            Flexible(
-              child: Swiper(
-                onTap: (int index) {
-                  packageNumber = index;
-                  print('PackageNumber = $packageNumber');
-                  setState(() {
-                    packageSelected = true;
-                  });
-                },
-                // onIndexChanged: (index) {
-                //   setState(() {
-                //     if (index == 0) {
-                //       initColor = Diamond;
-                //       endColor = Sapphire;
-                //     } else if (index == 1) {
-                //       initColor = Sapphire;
-                //       endColor = Ruby;
-                //     } else if (index == 2) {
-                //       initColor = Ruby;
-                //       endColor = Emerald;
-                //     } else {
-                //       initColor = Emerald;
-                //       endColor = Emerald;
-                //     }
-                //   });
-                // },
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 10,
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ECCCBlueAccent.withOpacity(.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          'Saved Locations',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontFamily: 'Vollkorn',
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                ReusableCard(
+                  childWidget: Text(
+                    'Guest Location',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: ECCCBlueAccent.withOpacity(.5),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: CustomPaint(
-                              painter: Wave(
-                                initColor: initColor,
-                                endColor: endColor,
+                  ),
+                  onPressed: () async {
+                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    if (car != null) {
+                      List<String> carInfoList = car;
+                      setState(() {
+                        selectedCarMake = carInfoList[1];
+                        selectedCarModel = carInfoList[0];
+                        selectedCarTrim = carInfoList[2];
+                        contentIndex++;
+                        currentTitle = 'Select A Date';
+                      });
+                    }
+                  },
+                  cardColor: ECCCBlueAccent,
+                ),
+                ReusableCard(
+                  childWidget: Text(
+                    'New Location',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () async {
+                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    if (car != null) {
+                      List<String> carInfoList = car;
+                      setState(() {
+                        widget.carData.addCar(
+                          model: carInfoList[0],
+                          make: carInfoList[1],
+                          interior: carInfoList[2],
+                          newCar: true,
+                        );
+                        selectedCarMake = carInfoList[1];
+                        selectedCarModel = carInfoList[0];
+                        selectedCarTrim = carInfoList[2];
+                        contentIndex++;
+                        currentTitle = 'Select A Date';
+                      });
+                    }
+                  },
+                  cardColor: ECCCBlueAccent,
+                ),
+              ],
+            ),
+            Flexible(
+              flex: 2,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: packageColor,
+                ),
+                child: Swiper(
+                  onTap: (int index) {
+                    packageNumber = index;
+                    print('PackageNumber = $packageNumber');
+                    setState(() {
+                      packageSelected = true;
+                      packageColor = Colors.blue;
+                    });
+                  },
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: ECCCBlueAccent.withOpacity(.5),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: 30.0,
-                                    right: 8.0,
-                                    bottom: 8.0,
-                                    left: 8.0),
-                                child: CarWashPackage(
-                                  packageTitle: packageNameList[index],
-                                  packageTitleStyle:
-                                      packageTextStyleList[index],
-                                  packageDetails: packageList[index],
+                              child: CustomPaint(
+                                painter: Wave(),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 30.0,
+                                      right: 8.0,
+                                      bottom: 8.0,
+                                      left: 8.0),
+                                  child: CarWashPackage(
+                                    packageTitle: packageNameList[index],
+                                    packageTitleStyle:
+                                        packageTextStyleList[index],
+                                    packageDetails: packageList[index],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: 4,
-                loop: false,
-                outer: true,
-                pagination: new SwiperPagination(
-                  margin: EdgeInsets.all(10),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: 4,
+                  loop: false,
+                  outer: true,
+                  pagination: new SwiperPagination(
+                    margin: EdgeInsets.all(10),
+                  ),
+                  control: null,
                 ),
-                control: null,
               ),
             ),
             ContinueButton(
@@ -459,6 +536,16 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           ];
         }
         break;
+      case 4:
+        {
+          return <Widget>[
+            Expanded(
+                child: Container(
+              color: Colors.blue,
+            ))
+          ];
+        }
+        break;
     }
     return <Widget>[];
   }
@@ -467,8 +554,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     if (timesAvailable == 0) {
       return Center(
           child: Text(
-        'No times available',
+        'No times available for  ${_calendarController.focusedDay.toString().substring(0, 10)}',
         style: TextStyle(
+          fontFamily: 'Vollkorn',
+          fontSize: 30,
           color: ECCCDarkBlue,
         ),
       ));
@@ -486,7 +575,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
             crossAxisCount: 3),
         itemCount: timesAvailable,
         itemBuilder: (BuildContext context, int index) {
-          return UpcomingCarWashCard(
+          return TimeAvailabilityCard(
             scheduledTime: (index + timesAvailable).toString(),
             childWidget: Center(
               child: index == 3
