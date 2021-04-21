@@ -1,5 +1,7 @@
 import 'package:cta_auto_detail/constants.dart';
 import 'package:cta_auto_detail/main.dart';
+import 'package:cta_auto_detail/models/Address.dart';
+import 'package:cta_auto_detail/models/Address_Data.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/screens/RequestQuote.dart';
 import 'package:cta_auto_detail/screens/profile.dart';
@@ -13,6 +15,8 @@ import 'package:flutter/services.dart';
 class HomeScreen extends StatefulWidget {
   static const String id = 'homeScreen';
   final CarData carData = CarData();
+  final AddressData addressData = AddressData();
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -20,12 +24,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<int> _scheduledWashInfo = [];
   CarData _carData;
+  AddressData _addressData;
 
   @override
   void initState() {
     super.initState();
     _carData = widget.carData;
     _carData.initializeCarList();
+    _addressData = widget.addressData;
+    _addressData.initializeAddressList();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -42,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           needsProfileButton: true,
           profileButtonPressed: () {
             Navigator.pushNamed(context, ProfileScreen.id,
-                arguments: ScreenArguments(_carData));
+                arguments: ScreenArguments(_carData, _addressData));
           }),
       body: SafeArea(
         child: Padding(
@@ -68,14 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   var carWashInfoList = await Navigator.pushNamed(
                     context,
                     ScheduleCarWash.id,
-                    arguments: ScreenArguments(
-                      _carData,
-                    ),
+                    arguments: ScreenArguments(_carData, _addressData),
                   );
-                  setState(() {
-                    _scheduledWashInfo.addAll(carWashInfoList);
-                    print(_scheduledWashInfo);
-                  });
+                  if (carWashInfoList != null) {
+                    setState(() {
+                      _scheduledWashInfo.addAll(carWashInfoList);
+                      print(_scheduledWashInfo);
+                    });
+                  }
                 },
                 cardColor: ECCCBlueAccent,
               ),
@@ -104,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     cardColor: ECCCBlueAccent,
                     onPressed: () {
                       Navigator.pushNamed(context, RequestQuote.id,
-                          arguments: ScreenArguments(_carData));
+                          arguments: ScreenArguments(_carData, _addressData));
                     },
                     childWidget: Center(
                       child: Text(
