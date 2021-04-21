@@ -44,9 +44,6 @@ class CarData extends ChangeNotifier {
       for (int i = 0; i < tempCarsList.length; i++) {
         print(' $i mod 3 = : ${i % 3}');
         if (i % 3 == 0) {
-          print('make: ${tempCarsList[i]}');
-          print('model: ${tempCarsList[i + 1]}');
-          print('interior: ${tempCarsList[i + 2]}');
           addCar(
             make: tempCarsList[i],
             model: tempCarsList[i + 1],
@@ -73,9 +70,6 @@ class CarData extends ChangeNotifier {
         }
       }
     }
-
-    // Having this here is causing my cars to exist twice on initialization
-    // How can i fix this?
     print('carsList from initialize $tempCarsList');
   }
 
