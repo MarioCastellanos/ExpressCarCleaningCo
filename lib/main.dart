@@ -9,6 +9,7 @@ import 'package:cta_auto_detail/screens/servicesOffered.dart';
 import 'package:cta_auto_detail/screens/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'models/Address_Data.dart';
 import 'screens/PopUpScreen.dart';
 import 'screens/signUp.dart';
 import 'screens/singIn.dart';
@@ -131,5 +132,6 @@ class _MyAppState extends State<MyApp> {
 
 class ScreenArguments {
   final CarData carData;
-  ScreenArguments(this.carData);
+  final AddressData addressData;
+  ScreenArguments(this.carData, this.addressData);
 }
