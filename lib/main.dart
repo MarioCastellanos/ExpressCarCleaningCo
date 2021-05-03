@@ -74,6 +74,7 @@ class _MyAppState extends State<MyApp> {
               builder: (context) {
                 return ProfileScreen(
                   carData: args.carData,
+                  addressData: args.addressData,
                 );
               },
             );
@@ -88,6 +89,7 @@ class _MyAppState extends State<MyApp> {
               builder: (context) {
                 return ScheduleCarWash(
                   carData: args.carData,
+                  addressData: args.addressData,
                 );
               },
             );
