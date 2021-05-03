@@ -110,50 +110,76 @@ const InputDecoration kUserNameEmailDecoration = InputDecoration(
 );
 
 const kEmailTextFieldDecoration = InputDecoration(
-    fillColor: ECCCBlue,
-    hintText: 'Email',
-    hintStyle: TextStyle(color: Colors.grey),
-    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-    prefixIcon: Icon(
-      Icons.email,
-      color: ECCCBlueAccent,
+  fillColor: ECCCBlue,
+  hintText: 'Email',
+  hintStyle: TextStyle(color: Colors.grey),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  prefixIcon: Icon(
+    Icons.email,
+    color: ECCCBlueAccent,
+  ),
+  border: OutlineInputBorder(
+    borderSide: BorderSide(color: ECCCBlueAccent),
+    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: ECCCBlueAccent),
+    borderRadius: BorderRadius.all(
+      Radius.circular(10.0),
     ),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(color: ECCCBlueAccent),
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: ECCCBlueAccent),
-      borderRadius: BorderRadius.all(
-        Radius.circular(10.0),
-      ),
-    ),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: (BorderRadius.all(Radius.circular(10))),
-        borderSide: BorderSide(color: ECCCBlueAccent, width: 2)));
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: (BorderRadius.all(Radius.circular(10))),
+    borderSide: BorderSide(color: ECCCBlueAccent, width: 2),
+  ),
+);
 
 const kPasswordTextFieldDecoration = InputDecoration(
-    fillColor: ECCCBlueAccent,
-    hintText: 'Email',
-    hintStyle: TextStyle(color: Colors.grey),
-    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-    prefixIcon: Icon(
-      Icons.lock,
-      color: ECCCBlueAccent,
+  fillColor: ECCCBlueAccent,
+  hintText: 'Email',
+  hintStyle: TextStyle(color: Colors.grey),
+  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+  prefixIcon: Icon(
+    Icons.lock,
+    color: ECCCBlueAccent,
+  ),
+  border: OutlineInputBorder(
+    borderSide: BorderSide(color: ECCCBlueAccent),
+    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(color: ECCCBlueAccent),
+    borderRadius: BorderRadius.all(
+      Radius.circular(10.0),
     ),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(color: ECCCBlueAccent),
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    ),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: ECCCBlueAccent),
-      borderRadius: BorderRadius.all(
-        Radius.circular(10.0),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderRadius: (BorderRadius.all(
+      Radius.circular(10),
+    )),
+    borderSide: BorderSide(color: ECCCBlueAccent, width: 2),
+  ),
+);
+
+class SavedLocationsTextWidget extends StatelessWidget {
+  const SavedLocationsTextWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Saved Locations',
+      style: TextStyle(
+        color: ECCCDarkBlue,
+        fontSize: 30,
+        fontFamily: 'Vollkorn',
+        fontWeight: FontWeight.w700,
       ),
-    ),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: (BorderRadius.all(Radius.circular(10))),
-        borderSide: BorderSide(color: ECCCBlueAccent, width: 2)));
+      textAlign: TextAlign.center,
+    );
+  }
+}
 
 class ECCCBlueCarLogo extends StatelessWidget {
   final bool adjustLogoSize;
@@ -214,6 +240,55 @@ const TextStyle logoTextStyle = TextStyle(
   letterSpacing: 1.0,
   fontSize: 46,
 );
+
+String kSetErrorText(String errorCode) {
+  switch (errorCode) {
+    // Email left blank
+    case '':
+      {
+        return 'Email left blank';
+      }
+      break;
+    // invalid email
+    case 'invalid-email':
+      {
+        return 'Invalid Email';
+      }
+      break;
+    // no user found with that email
+    case 'user-not-found':
+      {
+        return 'User not found';
+      }
+      break;
+
+    // email-already-in-use
+    case 'email-already-in-use':
+      {
+        return 'Email already in use';
+      }
+      break;
+
+    // Password left blank
+    case ' ':
+      {
+        return 'Password left blank';
+      }
+      break;
+    // Wrong password.
+    case 'wrong-password':
+      {
+        return 'Incorrect password';
+      }
+      break;
+    case 'network-request-failed':
+      {
+        return 'No Internet Connection';
+      }
+      break;
+  }
+  return 'Something broke please report this to app store';
+}
 
 const TextStyle kDiamondTextStyle = TextStyle(
   height: 1,
