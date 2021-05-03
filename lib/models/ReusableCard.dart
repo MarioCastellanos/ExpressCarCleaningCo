@@ -150,16 +150,14 @@ class HalfScreenCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(8),
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, ECCCBlue],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+        color: ECCCBlueAccent.withOpacity(.5),
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            10,
+          ),
         ),
       ),
       child: childWidget,
