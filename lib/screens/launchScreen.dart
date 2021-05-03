@@ -66,27 +66,33 @@ class _LaunchScreenState extends State<LaunchScreen>
 
               // Sign Up Button
               // onPressed:  Navigates the user to the Sign in screen
-
-              OutlineButton(
+              OutlinedButton(
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
                     SignUp.id,
                   );
                 },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.all(12),
                 child: Text(
                   'Sign Up',
                   style: kOutLineButtonTextStyle,
                 ),
-                borderSide: BorderSide(
-                  color: ECCCBlueAccent,
-                  width: 2,
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(
+                    color: ECCCBlueAccent,
+                    width: 2,
+                  ),
+                  padding: EdgeInsets.all(
+                    12,
+                  ),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(
+                        10,
+                      ),
+                    ),
+                  ),
                 ),
-                disabledBorderColor: ECCCBlueAccent,
               ),
             ],
           ),
