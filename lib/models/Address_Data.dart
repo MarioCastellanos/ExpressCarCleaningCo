@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'package:cta_auto_detail/models/Address.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,17 +8,15 @@ class AddressData extends ChangeNotifier {
   List<String> tempAddressList = [];
 
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  Future<bool> initialized;
   Future<List<String>> _futureAddressList;
 
-  /// Initializing the address list
+  /// Initializing the address list from stored shared preferences or for the first time with default values
 
   void initializeAddressList() async {
     final SharedPreferences prefs = await _prefs;
 
     /// checking if initialization has been performed before
     if (prefs.getBool('initAddress') == null) {
-      print('!!!!!!!!!!!!!CARSLIST INITIALIZED FOR FIRST TIME!!!!!!!!!!!!');
       prefs.setBool('initAddress', true);
       _futureAddressList = _prefs.then(
         (SharedPreferences prefs) {
@@ -31,12 +30,9 @@ class AddressData extends ChangeNotifier {
               : prefs.getStringList('addressList'));
         },
       );
-      prefs.setStringList('addressList', await _futureAddressList);
-    } else {
-      tempAddressList = prefs.getStringList('addressList');
-      print('Initialization was completed before $tempAddressList');
+      tempAddressList = await _futureAddressList;
+      prefs.setStringList('addressList', tempAddressList);
       for (int i = 0; i < tempAddressList.length; i++) {
-        print(' $i mod 3 = : ${i % 3}');
         if (i % 4 == 0) {
           addAddress(
             streetAddress: tempAddressList[i],
@@ -47,7 +43,19 @@ class AddressData extends ChangeNotifier {
           );
         }
       }
-      print('Address list was intialized from temp list $tempAddressList');
+    } else {
+      tempAddressList = prefs.getStringList('addressList');
+      for (int i = 0; i < tempAddressList.length; i++) {
+        if (i % 4 == 0) {
+          addAddress(
+            streetAddress: tempAddressList[i],
+            city: tempAddressList[i + 1],
+            state: tempAddressList[i + 2],
+            zipCode: tempAddressList[i + 3],
+            newAddress: false,
+          );
+        }
+      }
     }
   }
 
@@ -57,7 +65,14 @@ class AddressData extends ChangeNotifier {
       String state,
       String zipCode,
       bool newAddress}) {
-    _addressList.add(Address(streetAddress, city, state, zipCode));
+    _addressList.add(
+      Address(
+        streetAddress,
+        city,
+        state,
+        zipCode,
+      ),
+    );
     notifyListeners();
     if (newAddress == true) {
       _addAddressToSharedPreferences(
@@ -67,19 +82,35 @@ class AddressData extends ChangeNotifier {
         zipCode,
       );
     }
-    print('Address List has been updated ');
   }
 
   Future<void> _addAddressToSharedPreferences(
-      String streetAddress, String city, String state, String zipCode) async {
+    String streetAddress,
+    String city,
+    String state,
+    String zipCode,
+  ) async {
     final SharedPreferences prefs = await _prefs;
-    final List<String> addressListTemp = (prefs.getStringList('carsList'));
+    final List<String> addressListTemp = (prefs.getStringList('addressList'));
 
     addressListTemp.add(streetAddress);
     addressListTemp.add(city);
     addressListTemp.add(state);
     addressListTemp.add(zipCode);
-    print('addressList in addCarTo SharedPreferences $addressListTemp');
     prefs.setStringList('addressList', addressListTemp);
+  }
+
+  UnmodifiableListView<Address> get addressList {
+    return UnmodifiableListView(_addressList);
+  }
+
+  int get addressCount {
+    return _addressList.length;
+  }
+
+  // removes a address at selected index;
+  void removeAddress(int index) {
+    _addressList.removeAt(index);
+    notifyListeners();
   }
 }
