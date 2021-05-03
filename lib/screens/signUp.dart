@@ -82,6 +82,12 @@ class _SignUpState extends State<SignUp> {
               passwordErrorText = 'Incorrect password';
             }
             break;
+          case 'network-request-failed':
+            {
+              passwordErrorText = 'No Internet Connection';
+              emailErrorText = 'No Internet Connection';
+            }
+            break;
         }
       },
     );

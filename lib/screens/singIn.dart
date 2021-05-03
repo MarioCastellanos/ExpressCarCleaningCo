@@ -69,6 +69,13 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
               passwordErrorText = 'Incorrect password';
             }
             break;
+          // network-request-failed
+          case 'network-request-failed':
+            {
+              emailErrorText = 'No network detected';
+              passwordErrorText = 'No network detected';
+            }
+            break;
         }
       },
     );
