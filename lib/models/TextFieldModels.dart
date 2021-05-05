@@ -188,7 +188,7 @@ class AddressesRow extends StatelessWidget {
             shape: BoxShape.circle,
             color: ECCCBlue,
           ),
-          child: AddNewAddress(),
+          child: AddNewAddressButton(),
         ),
       ],
     );
@@ -196,8 +196,9 @@ class AddressesRow extends StatelessWidget {
 }
 
 class EditHomeAddress extends StatelessWidget {
-  EditHomeAddress({@required this.homeAddress});
+  EditHomeAddress({@required this.homeAddress, this.continueFunction});
 
+  final Function continueFunction;
   final String homeAddress;
   @override
   Widget build(BuildContext context) {
@@ -264,6 +265,7 @@ class EditHomeAddress extends StatelessWidget {
                         title: 'Update Address',
                         textColor: Colors.white,
                         cBColor: ECCCDarkBlue,
+                        onPressed: continueFunction,
                       )
                     ],
                   ),
@@ -280,72 +282,80 @@ class EditHomeAddress extends StatelessWidget {
   }
 }
 
-class AddNewAddress extends StatelessWidget {
+class AddNewAddressButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          showModalBottomSheet<void>(
+          showModalBottomSheet<dynamic>(
+            backgroundColor: Colors.transparent,
             context: context,
             builder: (BuildContext context) {
-              return Container(
-                color: Color(0xFF6D777A),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.add_location,
-                            color: Colors.black,
-                            size: 36,
+              return Wrap(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 20,
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          'Adding Address',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontFamily: 'Vollkorn',
+                            color: ECCCDarkBlue,
                           ),
-                          Text(
-                            'Add Address',
-                            style: TextStyle(fontSize: 36, color: Colors.black),
-                          )
-                        ],
-                      ),
-                      TextField(
-                        onChanged: (value) {
-                          //print(value);
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ECCCBlue, width: 2)),
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: ECCCBlue)),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: ECCCBlue)),
+                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: ECCCBlue, width: 2)),
-                          disabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: ECCCBlue)),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: ECCCBlue)),
+                        StreetAddressTF(
+                            // onTAP: (value) {
+                            //   print(value);
+                            // },
+                            ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            CityTF(),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            StateTF(),
+                          ],
                         ),
-                      ),
-                      ContinueButton(
-                        title: 'Add Address',
-                        textColor: Colors.white,
-                        cBColor: ECCCDarkBlue,
-                      )
-                    ],
+                        kSpacerBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ZipCodeTF(),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                                flex: 1,
+                                child: Container(
+                                  color: Colors.transparent,
+                                )),
+                          ],
+                        ),
+                        kSpacerBox,
+                        ContinueButton(
+                          title: 'Add Address',
+                          textColor: Colors.white,
+                          cBColor: ECCCDarkBlue,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
                   ),
-                ),
+                ],
               );
             },
           );
@@ -355,5 +365,160 @@ class AddNewAddress extends StatelessWidget {
           color: Colors.white,
           size: 36,
         ));
+  }
+}
+
+class CityTF extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: TextField(
+        decoration: InputDecoration(
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCBlueAccent, width: 2),
+          ),
+          hintText: 'City',
+          hintStyle: TextStyle(color: Colors.grey),
+          icon: Icon(
+            Icons.location_city,
+            color: ECCCDarkBlue,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ZipCodeTF extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: TextField(
+        keyboardType: TextInputType.number,
+        maxLength: 5,
+        decoration: InputDecoration(
+          counterText: '',
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: ECCCDarkBlue,
+              width: 2,
+            ),
+          ),
+          disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: ECCCDarkBlue,
+              width: 2,
+            ),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: ECCCDarkBlue,
+              width: 2,
+            ),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: ECCCBlueAccent,
+              width: 2,
+            ),
+          ),
+          hintText: 'Zip Code',
+          hintStyle: TextStyle(color: Colors.grey),
+          icon: Icon(
+            Icons.pin_drop,
+            color: ECCCDarkBlue,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class StateTF extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 1,
+      child: TextField(
+        maxLength: 2,
+        decoration: InputDecoration(
+          counterText: '',
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          disabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: ECCCBlueAccent, width: 2),
+          ),
+          hintText: 'State',
+          hintStyle: TextStyle(color: Colors.grey),
+          icon: Icon(
+            Icons.location_pin,
+            color: ECCCDarkBlue,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class StreetAddressTF extends StatelessWidget {
+  final Function onCHANGE;
+
+  StreetAddressTF({this.onCHANGE});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      onChanged: onCHANGE,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ECCCDarkBlue,
+            width: 2,
+          ),
+        ),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ECCCDarkBlue,
+            width: 2,
+          ),
+        ),
+        border: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ECCCDarkBlue,
+            width: 2,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ECCCBlueAccent,
+            width: 2,
+          ),
+        ),
+        hintText: 'Street Address',
+        hintStyle: TextStyle(color: Colors.grey),
+        icon: Icon(
+          Icons.house,
+          color: ECCCDarkBlue,
+        ),
+      ),
+    );
   }
 }
