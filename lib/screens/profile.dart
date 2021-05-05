@@ -23,6 +23,10 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String userEmail = FirebaseAuth.instance.currentUser.email;
+  String streetAddress = '';
+  String city = '';
+  String state = '';
+  String zipCode = '';
   int selectedCarIndex = -1;
   int currentIndex;
 
@@ -45,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         needsProfileButton: false,
       ),
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: ListView.builder(
                             itemCount: widget.addressData.addressCount,
                             itemBuilder: (context, index) {
-                              return addressRow(index);
+                              return addressContainer(index);
                             },
                           ),
                         )
@@ -175,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Container addressRow(int index) {
+  Container addressContainer(int index) {
     return Container(
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -244,10 +249,10 @@ class AddNewAddressButton extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         StreetAddressTF(
-                            // onTAP: (value) {
-                            //   print(value);
-                            // },
-                            ),
+                          onCHANGE: (value) {
+                            print(value);
+                          },
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
