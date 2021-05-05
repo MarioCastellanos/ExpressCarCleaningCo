@@ -1,4 +1,5 @@
 import 'package:cta_auto_detail/constants.dart';
+import 'package:cta_auto_detail/models/Address_Data.dart';
 import 'package:cta_auto_detail/models/Car_Data.dart';
 import 'package:cta_auto_detail/models/ReusableCard.dart';
 import 'package:cta_auto_detail/models/RoundedButton.dart';
@@ -13,12 +14,10 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cta_auto_detail/models/CarWashPackage.dart';
 import 'package:cta_auto_detail/models/WaveCustomPainter.dart';
 
-/// TODO : REFACTOR CODE
-///
-
 class ScheduleCarWash extends StatefulWidget {
-  ScheduleCarWash({this.carData});
+  ScheduleCarWash({this.carData, this.addressData});
   final CarData carData;
+  final AddressData addressData;
   static const String id = 'ScheduleCarWash';
   @override
   _ScheduleCarWashState createState() => _ScheduleCarWashState();
@@ -27,6 +26,35 @@ class ScheduleCarWash extends StatefulWidget {
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
   Color selectedDateColor = ECCCBlue;
   Color todayDateColor = ECCCDarkBlue;
+  Color selectedAddressColor = Colors.black;
+  Color initColor = Diamond;
+  Color endColor = Ruby;
+  Color packageColor = Colors.white;
+
+  Map<DateTime, List> _holidays;
+  Map<DateTime, List> _scheduledWashes;
+
+  int _month = -1;
+  int _date = -1;
+  int _time;
+  int packageNumber;
+  int todayTime;
+  int timesAvailable;
+  int scheduledTime = -1;
+  int selectedCarIndex;
+  int selectedAddressIndex;
+
+  bool dateSelected = false;
+  bool timeSelected = false;
+  bool packageSelected = false;
+
+  String currentTitle = '';
+  String selectedCarMake;
+  String selectedCarModel;
+  String selectedCarTrim;
+  int contentIndex;
+
+  CalendarController _calendarController;
 
   List<String> packageNameList = [
     'Diamond',
@@ -47,65 +75,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     kRubyTextStyle,
     kEmeraldTextStyle,
   ];
-
-  Map<DateTime, List> _holidays;
-  Map<DateTime, List> _scheduledWashes;
-
-  String currentTitle = '';
-  int _month = -1;
-  int _date = -1;
-  int _time;
-  int packageNumber;
-
-  int todayTime;
-  int timesAvailable;
-
-  bool dateSelected = false;
-  bool timeSelected = false;
-  bool packageSelected = false;
-  int scheduledTime = -1;
-  int selectedCarIndex;
-  String selectedCarMake;
-  String selectedCarModel;
-  String selectedCarTrim;
-  int contentIndex;
-
-  Color initColor = Diamond;
-  Color endColor = Ruby;
-
-  Color packageColor = Colors.white;
-
-  CalendarController _calendarController;
-
-  void getFocusDayAvailableTime() {
-    String selectedTime = _calendarController.focusedDay.toString();
-    DateTime now = DateTime.now();
-    DateTime day = _calendarController.focusedDay;
-    todayTime = int.parse(now.toString().substring(11, 13));
-    int nowMonth = int.parse(now.toString().substring(5, 7));
-    int nowDay = int.parse(now.toString().substring(8, 10));
-    int dayMonth = int.parse(day.toString().substring(5, 7));
-    int dayDay = int.parse(day.toString().substring(8, 10));
-
-    if (nowMonth == dayMonth && nowDay == dayDay) {
-      getTodayAvailableTime();
-    } else {
-      timesAvailable = 9;
-    }
-  }
-
-  void getTodayAvailableTime() {
-    DateTime now = DateTime.now();
-    todayTime = int.parse(now.toString().substring(11, 13));
-    print("current time : $todayTime");
-    if (todayTime < 9) {
-      timesAvailable = 9;
-    } else if (todayTime < 15) {
-      timesAvailable = 17 - 2 - todayTime;
-    } else {
-      timesAvailable = 0;
-    }
-  }
 
   @override
   void initState() {
@@ -165,7 +134,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           ),
         ),
         actions: [
-          contentIndex > 1
+          contentIndex > 0
               ? IconButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -250,7 +219,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 },
               ),
               onPressed: () {},
-              cardColor: ECCCBlueAccent,
+              cardColor: ECCCBlueAccent.withOpacity(.5),
             ),
             Row(
               children: [
@@ -385,6 +354,72 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                             fontWeight: FontWeight.w700,
                           ),
                           textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: widget.addressData.addressCount,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    if (selectedAddressIndex == index) {
+                                      selectedAddressIndex = -1;
+                                    } else {
+                                      selectedAddressIndex = index;
+                                    }
+                                  });
+                                },
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        decoration: BoxDecoration(),
+                                        child: Icon(
+                                          Icons.home,
+                                          color: ECCCBlueAccent,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '${widget.addressData.addressList[index].streetAddress}\n'
+                                          '${widget.addressData.addressList[index].city}\t ${widget.addressData.addressList[index].state}\n'
+                                          '${widget.addressData.addressList[index].zipCode}',
+                                          style: TextStyle(
+                                            color: ECCCBlueAccent,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                        decoration: BoxDecoration(),
+                                        child: Icon(
+                                          Icons.check,
+                                          color: selectedAddressIndex == index
+                                              ? ECCCBlueAccent
+                                              : Colors.black,
+                                          size: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       )
                     ],
@@ -554,7 +589,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     if (timesAvailable == 0) {
       return Center(
           child: Text(
-        'No times available for  ${_calendarController.focusedDay.toString().substring(0, 10)}',
+        'No times available for selected date  ',
         style: TextStyle(
           fontFamily: 'Vollkorn',
           fontSize: 30,
@@ -607,8 +642,15 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       calendarController: _calendarController,
       onDaySelected: _onDaySelected,
       calendarStyle: CalendarStyle(
-        todayColor: todayDateColor,
-        selectedColor: selectedDateColor,
+        todayStyle: TextStyle(
+          color: Colors.red,
+        ),
+        todayColor: todayDateColor == selectedDateColor
+            ? Colors.transparent
+            : todayDateColor,
+        selectedColor: todayDateColor == selectedDateColor
+            ? Colors.transparent
+            : selectedDateColor,
         outsideDaysVisible: true,
         // Setting the color for weekend dates
         weekendStyle: TextStyle().copyWith(color: Colors.black),
@@ -631,6 +673,35 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           )),
       startingDayOfWeek: StartingDayOfWeek.monday,
     );
+  }
+
+  void getFocusDayAvailableTime() {
+    DateTime now = DateTime.now();
+    DateTime day = _calendarController.focusedDay;
+    todayTime = int.parse(now.toString().substring(11, 13));
+    int nowMonth = int.parse(now.toString().substring(5, 7));
+    int nowDay = int.parse(now.toString().substring(8, 10));
+    int dayMonth = int.parse(day.toString().substring(5, 7));
+    int dayDay = int.parse(day.toString().substring(8, 10));
+
+    if (nowMonth == dayMonth && nowDay == dayDay) {
+      getTodayAvailableTime();
+    } else {
+      timesAvailable = 9;
+    }
+  }
+
+  void getTodayAvailableTime() {
+    DateTime now = DateTime.now();
+    todayTime = int.parse(now.toString().substring(11, 13));
+    print("current time : $todayTime");
+    if (todayTime < 9) {
+      timesAvailable = 9;
+    } else if (todayTime < 15) {
+      timesAvailable = 17 - 2 - todayTime;
+    } else {
+      timesAvailable = 0;
+    }
   }
 
   void _onDaySelected(DateTime day, List events, List holidays) {
