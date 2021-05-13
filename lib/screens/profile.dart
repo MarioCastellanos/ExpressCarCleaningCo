@@ -27,6 +27,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String city = '';
   String state = '';
   String zipCode = '';
+
+  bool addressEntered = false;
+
   int selectedCarIndex = -1;
   int currentIndex;
 
@@ -104,7 +107,114 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         shape: BoxShape.circle,
                         color: ECCCBlue,
                       ),
-                      child: AddNewAddressButton(),
+                      child: GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet<dynamic>(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Wrap(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 20,
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Text(
+                                          'Adding Address',
+                                          style: TextStyle(
+                                            fontSize: 36,
+                                            fontFamily: 'Vollkorn',
+                                            color: ECCCDarkBlue,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        StreetAddressTF(
+                                          onCHANGE: (streetAddressValue) {
+                                            streetAddress = streetAddressValue;
+                                          },
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            CityTF(
+                                              onCHANGE: (cityValue) {
+                                                city = cityValue;
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            StateTF(
+                                              onCHANGE: (stateValue) {
+                                                state = stateValue;
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        kSpacerBox,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ZipCodeTF(
+                                              onCHANGE: (zipCodeValue) {
+                                                print(zipCode);
+                                                zipCode = zipCodeValue;
+                                                setState(
+                                                  () {
+                                                    addressEntered =
+                                                        validation();
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Container(
+                                                  color: Colors.transparent,
+                                                )),
+                                          ],
+                                        ),
+                                        kSpacerBox,
+                                        ContinueButton(
+                                          title: 'Add Address',
+                                          textColor: Colors.white,
+                                          cBColor: addressEntered
+                                              ? ECCCBlue
+                                              : Colors.grey,
+                                          onPressed: addressEntered
+                                              ? () {
+                                                  Navigator.pop(context);
+                                                }
+                                              : () {},
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Icon(
+                          Icons.add_location,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -180,6 +290,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  bool validation() {
+    if ((streetAddress != '') &&
+        (city != '') &&
+        (state != '') &&
+        (zipCode != '')) {
+      return true;
+    }
+
+    return false;
+  }
+
   Container addressContainer(int index) {
     return Container(
       margin: EdgeInsets.all(10),
@@ -214,91 +335,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
-  }
-}
-
-class AddNewAddressButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          showModalBottomSheet<dynamic>(
-            backgroundColor: Colors.transparent,
-            context: context,
-            builder: (BuildContext context) {
-              return Wrap(
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 20,
-                    ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          'Adding Address',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontFamily: 'Vollkorn',
-                            color: ECCCDarkBlue,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        StreetAddressTF(
-                          onCHANGE: (value) {
-                            print(value);
-                          },
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            CityTF(),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            StateTF(),
-                          ],
-                        ),
-                        kSpacerBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ZipCodeTF(),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                                flex: 1,
-                                child: Container(
-                                  color: Colors.transparent,
-                                )),
-                          ],
-                        ),
-                        kSpacerBox,
-                        ContinueButton(
-                          title: 'Add Address',
-                          textColor: Colors.white,
-                          cBColor: ECCCDarkBlue,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Icon(
-          Icons.add_location,
-          color: Colors.white,
-          size: 36,
-        ));
   }
 }
