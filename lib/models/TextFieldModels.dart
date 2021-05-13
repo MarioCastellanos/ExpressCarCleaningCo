@@ -237,11 +237,15 @@ class AddNewAddressButton extends StatelessWidget {
 }
 
 class CityTF extends StatelessWidget {
+  final Function onCHANGE;
+  CityTF({this.onCHANGE});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
       child: TextField(
+        onChanged: onCHANGE,
         decoration: InputDecoration(
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: ECCCDarkBlue, width: 2),
@@ -268,11 +272,16 @@ class CityTF extends StatelessWidget {
 }
 
 class ZipCodeTF extends StatelessWidget {
+  final Function onCHANGE;
+
+  ZipCodeTF({this.onCHANGE});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
       child: TextField(
+        onChanged: onCHANGE,
         keyboardType: TextInputType.number,
         maxLength: 5,
         decoration: InputDecoration(
@@ -314,11 +323,16 @@ class ZipCodeTF extends StatelessWidget {
 }
 
 class StateTF extends StatelessWidget {
+  final Function onCHANGE;
+
+  StateTF({this.onCHANGE});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 1,
       child: TextField(
+        onChanged: onCHANGE,
         maxLength: 2,
         decoration: InputDecoration(
           counterText: '',
