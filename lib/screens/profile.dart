@@ -111,6 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         onTap: () {
                           showModalBottomSheet<dynamic>(
                             backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
                             context: context,
                             builder: (BuildContext context) {
                               return Wrap(
@@ -121,10 +122,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       vertical: 20,
                                     ),
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(30)),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                      ),
+                                    ),
                                     child: Column(
+                                      mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.stretch,
                                       children: [
@@ -332,6 +337,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class AddressForm extends StatefulWidget {
+  @override
+  _AddressFormState createState() => _AddressFormState();
+}
+
+class _AddressFormState extends State<AddressForm> {
+  final _addressFormKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _addressFormKey,
+      child: Column(
+        children: [
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'address left empty';
+              }
+              return null;
+            },
+          )
         ],
       ),
     );
