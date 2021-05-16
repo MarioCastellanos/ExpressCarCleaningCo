@@ -203,6 +203,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           onPressed: addressEntered
                                               ? () {
                                                   Navigator.pop(context);
+
+                                                  setState(() {
+                                                    widget.addressData
+                                                        .addAddress(
+                                                      streetAddress:
+                                                          streetAddress,
+                                                      city: city,
+                                                      state: state,
+                                                      zipCode: zipCode,
+                                                      newAddress: true,
+                                                    );
+                                                  });
                                                 }
                                               : () {},
                                         )
