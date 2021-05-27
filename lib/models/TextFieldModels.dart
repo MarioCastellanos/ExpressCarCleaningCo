@@ -274,46 +274,60 @@ class StateTF extends StatelessWidget {
   }
 }
 
-class StreetAddressTF extends StatelessWidget {
-  final Function onCHANGE;
+class StreetAddressForm extends StatelessWidget {
+  final addressFormKeyValue;
+  final Function onChange;
 
-  StreetAddressTF({this.onCHANGE});
+  StreetAddressForm({this.addressFormKeyValue, this.onChange});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: onCHANGE,
-      decoration: InputDecoration(
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ECCCDarkBlue,
-            width: 2,
-          ),
-        ),
-        disabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ECCCDarkBlue,
-            width: 2,
-          ),
-        ),
-        border: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ECCCDarkBlue,
-            width: 2,
-          ),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: ECCCBlueAccent,
-            width: 2,
-          ),
-        ),
-        hintText: 'Street Address',
-        hintStyle: TextStyle(color: Colors.grey),
-        icon: Icon(
-          Icons.house,
-          color: ECCCDarkBlue,
-        ),
+    return Form(
+      key: addressFormKeyValue,
+      child: Column(
+        children: [
+          TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'address left empty';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: ECCCDarkBlue,
+                  width: 2,
+                ),
+              ),
+              disabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: ECCCDarkBlue,
+                  width: 2,
+                ),
+              ),
+              border: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: ECCCDarkBlue,
+                  width: 2,
+                ),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(
+                  color: ECCCBlueAccent,
+                  width: 2,
+                ),
+              ),
+              hintText: 'Street Address',
+              hintStyle: TextStyle(color: Colors.grey),
+              icon: Icon(
+                Icons.house,
+                color: ECCCDarkBlue,
+              ),
+            ),
+            onChanged: onChange,
+          )
+        ],
       ),
     );
   }
