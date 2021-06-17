@@ -22,6 +22,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final _streetAddressFormKey = GlobalKey<FormState>();
+  final _cityFormKey = GlobalKey<FormState>();
+  final _stateFormKey = GlobalKey<FormState>();
+  final _zipFormKey = GlobalKey<FormState>();
+
   String userEmail = FirebaseAuth.instance.currentUser.email;
   String streetAddress = '';
   String city = '';
@@ -134,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           CrossAxisAlignment.stretch,
                                       children: [
                                         Text(
-                                          'Adding Address',
+                                          'New Address',
                                           style: TextStyle(
                                             fontSize: 36,
                                             fontFamily: 'Vollkorn',
@@ -142,27 +147,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
-                                        StreetAddressTF(
-                                          onCHANGE: (streetAddressValue) {
+                                        AddressFieldForm(
+                                          onChange: (streetAddressValue) {
                                             streetAddress = streetAddressValue;
                                           },
+                                          addressFormKeyValue:
+                                              _streetAddressFormKey,
+                                          hintText: 'Street Address',
+                                          icon: Icon(
+                                            Icons.house,
+                                            color: ECCCDarkBlue,
+                                          ),
                                         ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            CityTF(
-                                              onCHANGE: (cityValue) {
-                                                city = cityValue;
-                                              },
+                                            Expanded(
+                                              child: AddressFieldForm(
+                                                onChange: (cityValue) {
+                                                  city = cityValue;
+                                                },
+                                                hintText: 'City',
+                                                icon: Icon(
+                                                  Icons.location_city,
+                                                  color: ECCCDarkBlue,
+                                                ),
+                                                addressFormKeyValue:
+                                                    _cityFormKey,
+                                              ),
                                             ),
                                             SizedBox(
                                               width: 10,
                                             ),
-                                            StateTF(
-                                              onCHANGE: (stateValue) {
-                                                state = stateValue;
-                                              },
+                                            Expanded(
+                                              child: AddressFieldForm(
+                                                onChange: (cityValue) {
+                                                  city = cityValue;
+                                                },
+                                                hintText: 'State',
+                                                icon: Icon(
+                                                  Icons.location_pin,
+                                                  color: ECCCDarkBlue,
+                                                ),
+                                                addressFormKeyValue:
+                                                    _stateFormKey,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -171,17 +201,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            ZipCodeTF(
-                                              onCHANGE: (zipCodeValue) {
-                                                print(zipCode);
-                                                zipCode = zipCodeValue;
-                                                setState(
-                                                  () {
-                                                    addressEntered =
-                                                        validation();
-                                                  },
-                                                );
-                                              },
+                                            Expanded(
+                                              child: AddressFieldForm(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Zipcode left empty';
+                                                  } else if (value.length !=
+                                                      5) {
+                                                    return 'zipcode invalid';
+                                                  }
+                                                  return null;
+                                                },
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                onChange: (zipCodeValue) {
+                                                  zipCode = zipCodeValue;
+                                                  print(zipCode);
+                                                  if (_zipFormKey.currentState
+                                                      .validate()) {
+                                                    print('IN IFF STATEMENT');
+                                                    setState(
+                                                      () {
+                                                        addressEntered = true;
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                                icon: Icon(Icons.location_pin),
+                                                hintText: 'ZipCode',
+                                                addressFormKeyValue:
+                                                    _zipFormKey,
+                                              ),
                                             ),
                                             SizedBox(
                                               width: 10,
@@ -215,6 +266,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       newAddress: true,
                                                     );
                                                   });
+                                                  addressEntered = false;
                                                 }
                                               : () {},
                                         )
@@ -307,17 +359,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  bool validation() {
-    if ((streetAddress != '') &&
-        (city != '') &&
-        (state != '') &&
-        (zipCode != '')) {
-      return true;
-    }
-
-    return false;
-  }
-
   Container addressContainer(int index) {
     return Container(
       margin: EdgeInsets.all(10),
@@ -349,34 +390,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class AddressForm extends StatefulWidget {
-  @override
-  _AddressFormState createState() => _AddressFormState();
-}
-
-class _AddressFormState extends State<AddressForm> {
-  final _addressFormKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: _addressFormKey,
-      child: Column(
-        children: [
-          TextFormField(
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'address left empty';
-              }
-              return null;
-            },
-          )
         ],
       ),
     );
