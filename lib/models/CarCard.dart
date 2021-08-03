@@ -6,8 +6,15 @@ class CarCard extends StatelessWidget {
   final String title;
   final int carIndex;
   final Color carCardColor;
+  final double iconSize;
 
-  CarCard({this.onPressed, this.title, this.carIndex, this.carCardColor});
+  CarCard({
+    this.onPressed,
+    this.title,
+    this.carIndex,
+    this.carCardColor,
+    this.iconSize = 60,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class CarCard extends StatelessWidget {
             ),
             child: Icon(
               Icons.car_rental,
-              size: 60,
+              size: iconSize,
             ),
             height: 150.0,
             width: 150.0,
