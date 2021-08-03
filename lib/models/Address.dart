@@ -1,6 +1,6 @@
 ///  Address Class model
 ///  Written by Mario C.
-///  Used as a model for addresse data to facilitate access while maintaining encapsulation
+///  Used as a model for address data to facilitate access while maintaining encapsulation
 
 class Address {
   final String _streetAddress;
