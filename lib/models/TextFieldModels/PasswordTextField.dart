@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
-/// CLASSNAME:
-/// PARAMETERS:
-/// DESCRIPTION:
+/// CLASSNAME: PassWordTextField
+///
+/// PARAMETERS: errorText:
+///             obscureText: boolean to determine if text needs to be obscured
+///             setVisibility:
+///             onChange: sets the local variable to the users input
+///             visibilityIconData
+///
+/// DESCRIPTION: Password textField is designed to intake users passwords and obscure the data
+///              if the users selects the obscure data button. It will also display error text
+///              if the password entered does not correspond to the account being used.
 
 class PassWordTextField extends StatelessWidget {
   final String errorText;
