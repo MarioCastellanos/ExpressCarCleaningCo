@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cta_auto_detail/constants.dart';
+import 'package:express_car_cleaning_co/constants.dart';
 
 /// CLASSNAME: ContinueButton
 ///
@@ -30,7 +30,7 @@ class ContinueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: activated == false? Colors.grey: ECCCBlueAccent,
+      color: activated == false ? Colors.grey : ECCCBlueAccent,
       borderRadius: BorderRadius.circular(10),
       child: MaterialButton(
         elevation: 20,

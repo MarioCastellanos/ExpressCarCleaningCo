@@ -1,9 +1,13 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/RoundedButton.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/Buttons/RoundedButton.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cta_auto_detail/models/TextFieldModels.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/EmailTextField.dart';
 import 'package:flutter/services.dart';
+
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
 
 class ResetPasswordScreen extends StatefulWidget {
   static const String id = "ResetPasswordScreen";

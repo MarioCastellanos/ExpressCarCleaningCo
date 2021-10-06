@@ -1,74 +1,145 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/Address_Data.dart';
-import 'package:cta_auto_detail/models/Car_Data.dart';
-import 'package:cta_auto_detail/models/ReusableCard.dart';
-import 'package:cta_auto_detail/models/RoundedButton.dart';
-import 'package:cta_auto_detail/screens/profile.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/DataModels/Address_Data.dart';
+import 'package:express_car_cleaning_co/models/Buttons/TimeTileButton.dart';
+import 'package:express_car_cleaning_co/models/DataModels/Car_Data.dart';
+import 'package:express_car_cleaning_co/models/CardModels/ReusableCard.dart';
+import 'package:express_car_cleaning_co/models/Buttons/ContinueButton.dart';
+import 'package:express_car_cleaning_co/models/Objects/Address.dart';
+import 'package:express_car_cleaning_co/models/Objects/CarWash.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/AddressFieldForm.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cta_auto_detail/models/CarCard.dart';
+import 'package:express_car_cleaning_co/models/CardModels/CarCard.dart';
 import 'package:flutter/services.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:cta_auto_detail/screens/PopUpScreen.dart';
+import 'package:express_car_cleaning_co/screens/CarCreationCardPopUp.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:cta_auto_detail/models/CarWashPackage.dart';
-import 'package:cta_auto_detail/models/WaveCustomPainter.dart';
+import 'package:express_car_cleaning_co/models/Objects/CarWashPackage.dart';
+import 'package:express_car_cleaning_co/models/WaveCustomPainter.dart';
+import 'package:express_car_cleaning_co/models/Buttons/addressListTile.dart';
+import 'package:express_car_cleaning_co/models/DataModels/CarWashData.dart';
+import 'package:express_car_cleaning_co/models/Objects/Car.dart';
+
+/// CLASSNAME: ScheduleCarWash
+///
+///
+/// PARAMETERS: carDara: information and access to the car list
+///             addressData: a reference to the Address_Data class representing
+///                          the users current car list.
+///
+/// DESCRIPTION: Screen that allows a user to select the car to be washed, the date and
+///               time using TableCalendar api.
+
+/// TODO : Handle case where cars list is empty.
+/// TODO: Comment up code
 
 class ScheduleCarWash extends StatefulWidget {
-  ScheduleCarWash({this.carData, this.addressData});
+  ScheduleCarWash({
+    this.carData,
+    this.addressData,
+    this.carWashData,
+  });
+  // CarData used for displaying users cars.
   final CarData carData;
+  // Used to generate the list of saved locations
   final AddressData addressData;
+
+  //Used to add new carWash object to the car wash list to the carWashData
+  final CarWashData carWashData;
   static const String id = 'ScheduleCarWash';
   @override
   _ScheduleCarWashState createState() => _ScheduleCarWashState();
 }
 
 class _ScheduleCarWashState extends State<ScheduleCarWash> {
-  Color selectedDateColor = ECCCBlue;
-  Color todayDateColor = ECCCDarkBlue;
-  Color selectedAddressColor = Colors.black;
-  Color initColor = Diamond;
-  Color endColor = Ruby;
-  Color packageColor = Colors.white;
+  //Setting the final date that the user can access on the calendar.
+  DateTime lastDay = DateTime.parse("2069-07-20 20:18:04Z");
 
-  Map<DateTime, List> _holidays;
-  Map<DateTime, List> _scheduledWashes;
-
+  // the current month of the focus day set to -1 by default;
   int _month = -1;
+  // current date for the focus day set to -1 by default;
   int _date = -1;
-  int _time;
+  // current time selected for car wash set to -1 by default
+  int _timeSelectedForWash = -1;
+  // Address the current location picked by the user for the car wash.
+  Address _address = Address('726 tressy Ave', 'CA', 'Glendora', '91740');
+  // an int representing the index of the selected package set to -1 by default
   int packageNumber;
-  int todayTime;
-  int timesAvailable;
-  int scheduledTime = -1;
-  int selectedCarIndex;
+
+  //the current time
+  int currentHour;
+  // amount of time slots available;
+  int timeSlotsAvailability = 0;
+  // the time tile button index selected by the user set to -1 by default
+  int timeTileButtonIndex = -1;
+  // the index of the selected carCard
+  int selectedCarCardIndex;
+  // the index of the address selected by the user in the savedLocationsWidget
   int selectedAddressIndex;
 
+  // determins if a date has been selected by the user and allows for the continue button to be pressed
   bool dateSelected = false;
-  bool timeSelected = false;
+  // used to validate that the user has selected a timeTileButton
+  bool timeTileButtonSelected = false;
+  // used to validate that the user has selected and address.
+  bool addressSelected = false;
+  // used to validate that the user has selected a package
   bool packageSelected = false;
 
+  // The current title to be displayed in the app bar
   String currentTitle = '';
+  // the make of car selected by user
   String selectedCarMake;
+  // the model of car selected by user
   String selectedCarModel;
+  // the interior trim of the car selected by the user
   String selectedCarTrim;
+
+  // the street address to be used for guest parking or
+  String streetAddress = '';
+  String city = '';
+  String state = '';
+  String zipCode = '';
+
+  bool addressEntered = false;
+
+  /// The contentIndex represents what stage in the car was schudeluing process
+  /// the user is in from 0 - 3:
+  /// 0: user is selecting a car from their fleet to wash
+  /// 1: user is selecting a date and time for their wash
+  /// 2: user is selecting a location and package for their wash
+  /// 3: confirmation page (needs implementation)
   int contentIndex;
 
-  CalendarController _calendarController;
+  // Global form used to access the TextFieldForm with the users street address
+  final _streetAddressFormKey = GlobalKey<FormState>();
+  // Global form used to access the TextFieldForm with the users city
+  final _cityFormKey = GlobalKey<FormState>();
+  //Global form used to access the TextFieldForm with the users state
+  final _stateFormKey = GlobalKey<FormState>();
+  //Global form used to access the TextFieldForm with the users zip code
+  final _zipFormKey = GlobalKey<FormState>();
 
+  // _selectedDay
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusDate = DateTime.now();
+  DateTime _firstDate = DateTime.now();
+
+  /// List of car wash package names
   List<String> packageNameList = [
     'Diamond',
     'Sapphire',
     'Ruby',
     'Emerald',
   ];
-  List<Text> packageList = [
+  // List of package details
+  List<Text> packageDetailsList = [
     kDiamondPackageDetails,
     kSapphirePackageDetails,
     kRubyPackageDetails,
     kEmeraldPackageDetails,
   ];
-
+  // List of package textStyles
   List<TextStyle> packageTextStyleList = [
     kDiamondTextStyle,
     kSapphireTextStyle,
@@ -79,29 +150,19 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   @override
   void initState() {
     super.initState();
-    getTodayAvailableTime();
+    // Getting the time availability count for today's date.
+    timeSlotsAvailability = getTodayAvailableTime();
+    // Restricting orientation to portrait mode.
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // Setting the current title to be displayed in the app bar
     currentTitle = 'Select A Car';
-    _calendarController = CalendarController();
-
+    // Setting the content index to one so user can select car.
     contentIndex = 1;
-    selectedCarIndex = -1;
-    _holidays = {
-      DateTime(2021, 1, 1): ['New Year\'s Day'],
-    };
-
-    _scheduledWashes = {
-      DateTime(2021, 12, 1): ['3:00']
-    };
-  }
-
-  @override
-  void dispose() {
-    _calendarController.dispose();
-    super.dispose();
+    // Setting the selected car index to -1 so that no car appears as selected.
+    selectedCarCardIndex = -1;
   }
 
   @override
@@ -109,6 +170,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
+          // the title being displayed in the app bar to tell the user what to do.
           '$currentTitle',
           style: TextStyle(
             color: ECCCDarkBlue,
@@ -117,6 +179,9 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         ),
         elevation: 0,
         backgroundColor: Colors.white,
+        // Icon button used to return user to previous car wash selection
+        // if the used on the first car wash selection screen the user will
+        // be redirected back to the home screen
         leading: IconButton(
           onPressed: () {
             if (contentIndex > 1) {
@@ -134,27 +199,17 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
           ),
         ),
         actions: [
-          contentIndex > 0
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.close,
-                    size: 36,
-                    color: ECCCBlueAccent,
-                  ),
-                )
-              : IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, ProfileScreen.id);
-                  },
-                  icon: Icon(
-                    Icons.person,
-                    size: 36,
-                    color: ECCCBlueAccent,
-                  ),
-                )
+          // Used to cancel the car wash scheduling process
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.close,
+              size: 36,
+              color: ECCCBlueAccent,
+            ),
+          )
         ],
       ),
       body: SafeArea(
@@ -174,7 +229,6 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
   ///             scheduling a car wash.
   ///
   /// Function: Switches the content on the screen and sends a booking to the bookings database
-  ///           ( Need to check for collision for each new request)
   ///
   /// Returns: List of widgets representing the current content
 
@@ -186,7 +240,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         {
           currentTitle = 'Select A Car';
           return <Widget>[
-            // Car List widget
+            /// Car List widget
             ReusableCard(
               childWidget: GridView.builder(
                 itemCount: widget.carData.carsList.length,
@@ -198,21 +252,34 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 itemBuilder: (BuildContext context, int index) {
                   return CarCard(
                     carIndex: index,
+                    // Determining the color of the Carcard, if the card is selectd it will turn
+                    // dark
                     carCardColor:
-                        selectedCarIndex == index ? ECCCBlue : Colors.white,
+                        selectedCarCardIndex == index ? ECCCBlue : Colors.white,
+                    // Based on if the CarCard is selected will change the behavior of the
+                    // CarCard onPressed:
+                    // if the CarCard's index matches the selected index(indicating that it is the selected car)
+                    // the CarCard will set the index back to -1 deselecting the CarCard
+                    // Otherwise the CarCard will set the selectedCarCardIndex to its index
+                    // as well as the appropriate car selected info to be returned to the user.
                     onPressed: () {
-                      if (index == selectedCarIndex) {
+                      if (index == selectedCarCardIndex) {
                         setState(() {
-                          selectedCarIndex = -1;
+                          selectedCarCardIndex = -1;
+                          selectedCarMake = '';
+                          selectedCarModel = '';
+                          selectedCarTrim = '';
                         });
                       } else {
                         setState(() {
-                          selectedCarIndex = index;
+                          selectedCarCardIndex = index;
+                          selectedCarMake = widget.carData.carsList[index].make;
+                          selectedCarModel =
+                              widget.carData.carsList[index].model;
+                          selectedCarTrim =
+                              widget.carData.carsList[index].interior;
                         });
                       }
-                      selectedCarMake = widget.carData.carsList[index].make;
-                      selectedCarModel = widget.carData.carsList[index].model;
-                      selectedCarTrim = widget.carData.carsList[index].interior;
                     },
                     title: widget.carData.carsList[index].make,
                   );
@@ -221,6 +288,8 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
               onPressed: () {},
               cardColor: ECCCBlueAccent.withOpacity(.5),
             ),
+
+            // Guest Car and New Car buttons
             Row(
               children: [
                 ReusableCard(
@@ -233,7 +302,8 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     ),
                   ),
                   onPressed: () async {
-                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    var car = await Navigator.pushNamed(
+                        context, CarCreationCardPopUp.id);
                     if (car != null) {
                       List<String> carInfoList = car;
                       setState(() {
@@ -247,7 +317,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                   },
                   cardColor: ECCCBlueAccent,
                 ),
+
+                // The user has selected a car wash for a new car to schedule a car wash for
                 ReusableCard(
+                  // New Car Text on the button
                   childWidget: Text(
                     'New Car',
                     textAlign: TextAlign.center,
@@ -257,16 +330,20 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                     ),
                   ),
                   onPressed: () async {
-                    var car = await Navigator.pushNamed(context, PopUpCard.id);
+                    // catching the new car returned from PopUpCard
+                    var car = await Navigator.pushNamed(
+                        context, CarCreationCardPopUp.id);
                     if (car != null) {
                       List<String> carInfoList = car;
                       setState(() {
+                        // adding the car to to the users car fleet
                         widget.carData.addCar(
                           model: carInfoList[0],
                           make: carInfoList[1],
                           interior: carInfoList[2],
                           newCar: true,
                         );
+                        // setting the appropriate index for the car.
                         selectedCarMake = carInfoList[1];
                         selectedCarModel = carInfoList[0];
                         selectedCarTrim = carInfoList[2];
@@ -279,10 +356,12 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 ),
               ],
             ),
+
             ContinueButton(
+              activated: selectedCarCardIndex != -1,
               title: 'Continue',
               textColor: Colors.white,
-              cBColor: selectedCarIndex != -1 ? ECCCBlue : Colors.grey,
+              cBColor: selectedCarCardIndex != -1 ? ECCCBlue : Colors.grey,
               onPressed: () {
                 setState(() {
                   contentIndex++;
@@ -296,34 +375,140 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
 
       // user selecting date and time
       case 2:
+        // DateTime day = DateTime.now();
+
         {
           return <Widget>[
-            tableCalendarBuilder(),
-            ReusableCard(
-              cardColor: ECCCBlueAccent.withOpacity(.5),
-              childWidget: timeAvailabilityGenerator(),
-              onPressed: () {
-                print('What the fudge');
+            TableCalendar(
+              focusedDay: _focusDate,
+              firstDay: _firstDate,
+              lastDay: lastDay,
+              calendarStyle: CalendarStyle(
+                isTodayHighlighted: false,
+              ),
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                /// Variables pertaining to information about today.
+                // Time info for today's date
+                DateTime now = DateTime.now();
+                // the current hour of the day in military time;
+                currentHour = now.hour;
+                // the selected month
+                int dayMonth = now.month;
+                // the selected date
+                int dayDay = now.day;
+
+                dayMonth = selectedDay.month;
+                dayDay = selectedDay.day;
+
+                _selectedDay = selectedDay;
+                _focusDate = focusedDay;
+                setState(
+                  () {
+                    timeTileButtonIndex = -1;
+                    timeTileButtonSelected = false;
+                    dateSelected = true;
+                    timeSlotsAvailability = getFocusDayAvailableTime();
+                    _month = dayMonth;
+                    _date = dayDay;
+                  },
+                );
               },
             ),
+
+            /// Time Tile Button Generator
+            ReusableCard(
+              cardColor: ECCCDarkBlue.withOpacity(.8),
+              childWidget: MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+
+                /// The timeTilesButton GridView.Builder a builder variation was chosen
+                /// so that a tile can be generated for the available time slots whose
+                /// value is represented by _timesAvailable.
+                /// Message to be displayed if no times are available for selected day
+                child: timeSlotsAvailability == 0
+                    ? Center(
+                        child: Text(
+                        'No times available for selected date.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Vollkorn',
+                          fontSize: 30,
+                          color: ECCCBlueAccent,
+                        ),
+                      ))
+                    : GridView.builder(
+                        primary: false,
+                        padding: EdgeInsets.all(20),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 1,
+                            crossAxisCount: 3),
+                        itemCount: timeSlotsAvailability,
+                        itemBuilder: (BuildContext context, int index) {
+                          return TimeTileButton(
+                            timeTextWidget: Center(
+                              child: getTextWidget(
+                                  DateTime.now().day == _selectedDay.day,
+                                  index),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                // Deselecting the current selected time if pressed twice.
+                                if (timeTileButtonIndex == index) {
+                                  print('Pressed same time slot');
+                                  timeTileButtonIndex = -1;
+                                  timeTileButtonSelected = false;
+                                  _timeSelectedForWash = -1;
+                                } else
+                                // Setting appropriate variables to reflect user selection
+                                // of timeTileButton
+                                {
+                                  timeTileButtonSelected = true;
+                                  timeTileButtonIndex = index;
+                                  _timeSelectedForWash =
+                                      (index + timeSlotsAvailability) % 12;
+                                }
+                              });
+                            },
+                            tileColor: timeTileButtonIndex == index
+                                ? ECCCDarkBlue
+                                : ECCCBlueAccent,
+                          );
+                        },
+                      ),
+              ),
+              onPressed: () {
+                ///Do nothing
+              },
+            ),
+
+            ///
             ContinueButton(
               title: 'Continue',
+              activated:
+                  dateSelected != false && timeTileButtonSelected != false,
               textColor: Colors.white,
-              cBColor: dateSelected != false && timeSelected != false
+              cBColor: dateSelected != false && timeTileButtonSelected != false
                   ? ECCCBlue
                   : Colors.grey,
-              onPressed: dateSelected != false && timeSelected != false
-                  ? () {
-                      setState(() {
-                        contentIndex++;
-                        currentTitle = 'Select Car Wash Package';
-                      });
-                    }
-                  : () {
-                      setState(() {
-                        currentTitle = 'Select a Date & Time';
-                      });
-                    },
+              onPressed:
+                  dateSelected != false && timeTileButtonSelected != false
+                      ? () {
+                          setState(() {
+                            contentIndex++;
+                            currentTitle = 'Select Car Wash Package';
+                          });
+                        }
+                      : () {
+                          setState(() {
+                            currentTitle = 'Select a Date & Time';
+                          });
+                        },
             )
           ];
         }
@@ -333,6 +518,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
       case 3:
         {
           return <Widget>[
+            /// Saved Locations Widget
             Expanded(
               flex: 1,
               child: Padding(
@@ -365,8 +551,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                               decoration: BoxDecoration(
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(10)),
-                              child: GestureDetector(
-                                onTap: () {
+                              child: AddressListTile(
+                                index: index,
+                                addressData: widget.addressData,
+                                onPressed: () {
                                   setState(() {
                                     if (selectedAddressIndex == index) {
                                       selectedAddressIndex = -1;
@@ -375,48 +563,7 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                                     }
                                   });
                                 },
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        decoration: BoxDecoration(),
-                                        child: Icon(
-                                          Icons.home,
-                                          color: ECCCBlueAccent,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 4,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          '${widget.addressData.addressList[index].streetAddress}\n'
-                                          '${widget.addressData.addressList[index].city}\t ${widget.addressData.addressList[index].state}\n'
-                                          '${widget.addressData.addressList[index].zipCode}',
-                                          style: TextStyle(
-                                            color: ECCCBlueAccent,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                        decoration: BoxDecoration(),
-                                        child: Icon(
-                                          Icons.check,
-                                          color: selectedAddressIndex == index
-                                              ? ECCCBlueAccent
-                                              : Colors.black,
-                                          size: 30,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                selectedAddressIndex: selectedAddressIndex,
                               ),
                             );
                           },
@@ -427,141 +574,441 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
                 ),
               ),
             ),
-            Row(
-              children: [
-                ReusableCard(
-                  childWidget: Text(
-                    'Guest Location',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
+
+            /// New Location & Guest Location
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Row(
+                children: [
+                  /// Guest Location is being used to schedule a car wash
+                  /// the location will not be added to the users addressBook
+                  ReusableCard(
+                    childWidget: Text(
+                      'Guest Location',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
+                    onPressed: () {
+                      showModalBottomSheet<dynamic>(
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          // Modal Bottom Sheet content
+                          return Wrap(
+                            children: [
+                              // white background to the modal bottom sheet
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                // Content on the modal sheet for the user to interact with
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    // Title of the modal bottom sheet
+                                    Text(
+                                      'Guest Location',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontFamily: 'Vollkorn',
+                                        color: ECCCDarkBlue,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    AddressFieldForm(
+                                      onChange: (streetAddressValue) {
+                                        streetAddress = streetAddressValue;
+                                      },
+                                      addressFormKeyValue:
+                                          _streetAddressFormKey,
+                                      hintText: 'Street Address',
+                                      icon: Icon(
+                                        Icons.house,
+                                        color: ECCCDarkBlue,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            onChange: (cityValue) {
+                                              city = cityValue;
+                                            },
+                                            hintText: 'City',
+                                            icon: Icon(
+                                              Icons.location_city,
+                                              color: ECCCDarkBlue,
+                                            ),
+                                            addressFormKeyValue: _cityFormKey,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            onChange: (cityValue) {
+                                              city = cityValue;
+                                            },
+                                            hintText: 'State',
+                                            icon: Icon(
+                                              Icons.location_pin,
+                                              color: ECCCDarkBlue,
+                                            ),
+                                            addressFormKeyValue: _stateFormKey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    kSpacerBox,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Zipcode left empty';
+                                              } else if (value.length != 5) {
+                                                return 'zipcode invalid';
+                                              }
+                                              return null;
+                                            },
+                                            keyboardType: TextInputType.number,
+                                            onChange: (zipCodeValue) {
+                                              zipCode = zipCodeValue;
+                                              print(zipCode);
+                                              if (_zipFormKey.currentState
+                                                  .validate()) {
+                                                setState(
+                                                  () {
+                                                    print('IN IFF STATEMENT');
+                                                    addressEntered = true;
+                                                  },
+                                                );
+                                              }
+                                            },
+                                            icon: Icon(Icons.location_pin),
+                                            hintText: 'ZipCode',
+                                            addressFormKeyValue: _zipFormKey,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              color: Colors.transparent,
+                                            )),
+                                      ],
+                                    ),
+                                    kSpacerBox,
+                                    ContinueButton(
+                                      activated: addressEntered,
+                                      title: 'Add Address',
+                                      textColor: Colors.white,
+                                      cBColor: addressEntered
+                                          ? ECCCBlue
+                                          : Colors.grey,
+                                      onPressed: addressEntered
+                                          ? () {
+                                              Navigator.pop(context);
+
+                                              setState(() {
+                                                widget.addressData.addAddress(
+                                                  streetAddress: streetAddress,
+                                                  city: city,
+                                                  state: state,
+                                                  zipCode: zipCode,
+                                                  newAddress: true,
+                                                );
+                                              });
+                                              addressEntered = false;
+                                            }
+                                          : () {},
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    cardColor: ECCCBlueAccent,
                   ),
-                  onPressed: () async {
-                    var car = await Navigator.pushNamed(context, PopUpCard.id);
-                    if (car != null) {
-                      List<String> carInfoList = car;
-                      setState(() {
-                        selectedCarMake = carInfoList[1];
-                        selectedCarModel = carInfoList[0];
-                        selectedCarTrim = carInfoList[2];
-                        contentIndex++;
-                        currentTitle = 'Select A Date';
-                      });
-                    }
-                  },
-                  cardColor: ECCCBlueAccent,
-                ),
-                ReusableCard(
-                  childWidget: Text(
-                    'New Location',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
+                  ReusableCard(
+                    childWidget: Text(
+                      'New Location',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
+                    onPressed: () {
+                      showModalBottomSheet<dynamic>(
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Wrap(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 20,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(
+                                      'New Location',
+                                      style: TextStyle(
+                                        fontSize: 36,
+                                        fontFamily: 'Vollkorn',
+                                        color: ECCCDarkBlue,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    AddressFieldForm(
+                                      onChange: (streetAddressValue) {
+                                        streetAddress = streetAddressValue;
+                                      },
+                                      addressFormKeyValue:
+                                          _streetAddressFormKey,
+                                      hintText: 'Street Address',
+                                      icon: Icon(
+                                        Icons.house,
+                                        color: ECCCDarkBlue,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            onChange: (cityValue) {
+                                              city = cityValue;
+                                            },
+                                            hintText: 'City',
+                                            icon: Icon(
+                                              Icons.location_city,
+                                              color: ECCCDarkBlue,
+                                            ),
+                                            addressFormKeyValue: _cityFormKey,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            onChange: (cityValue) {
+                                              city = cityValue;
+                                            },
+                                            hintText: 'State',
+                                            icon: Icon(
+                                              Icons.location_pin,
+                                              color: ECCCDarkBlue,
+                                            ),
+                                            addressFormKeyValue: _stateFormKey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    kSpacerBox,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: AddressFieldForm(
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Zipcode left empty';
+                                              } else if (value.length != 5) {
+                                                return 'zipcode invalid';
+                                              }
+                                              return null;
+                                            },
+                                            keyboardType: TextInputType.number,
+                                            onChange: (zipCodeValue) {
+                                              zipCode = zipCodeValue;
+                                              print(zipCode);
+                                              if (_zipFormKey.currentState
+                                                  .validate()) {
+                                                print('IN IFF STATEMENT');
+                                                setState(
+                                                  () {
+                                                    addressEntered = true;
+                                                  },
+                                                );
+                                              }
+                                            },
+                                            icon: Icon(Icons.location_pin),
+                                            hintText: 'ZipCode',
+                                            addressFormKeyValue: _zipFormKey,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                            flex: 1,
+                                            child: Container(
+                                              color: Colors.transparent,
+                                            )),
+                                      ],
+                                    ),
+                                    kSpacerBox,
+                                    ContinueButton(
+                                      activated: addressEntered,
+                                      title: 'Add Address',
+                                      textColor: Colors.white,
+                                      cBColor: addressEntered
+                                          ? ECCCBlue
+                                          : Colors.grey,
+                                      onPressed: addressEntered
+                                          ? () {
+                                              Navigator.pop(context);
+                                              setState(() {
+                                                widget.addressData.addAddress(
+                                                  streetAddress: streetAddress,
+                                                  city: city,
+                                                  state: state,
+                                                  zipCode: zipCode,
+                                                  newAddress: true,
+                                                );
+                                              });
+                                              addressEntered = false;
+                                            }
+                                          : () {},
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    cardColor: ECCCBlueAccent,
                   ),
-                  onPressed: () async {
-                    var car = await Navigator.pushNamed(context, PopUpCard.id);
-                    if (car != null) {
-                      List<String> carInfoList = car;
-                      setState(() {
-                        widget.carData.addCar(
-                          model: carInfoList[0],
-                          make: carInfoList[1],
-                          interior: carInfoList[2],
-                          newCar: true,
-                        );
-                        selectedCarMake = carInfoList[1];
-                        selectedCarModel = carInfoList[0];
-                        selectedCarTrim = carInfoList[2];
-                        contentIndex++;
-                        currentTitle = 'Select A Date';
-                      });
-                    }
-                  },
-                  cardColor: ECCCBlueAccent,
-                ),
-              ],
+                ],
+              ),
             ),
+
+            ///Car Wash Package Swiper
             Flexible(
               flex: 2,
-              child: Container(
-                margin: EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: packageColor,
-                ),
-                child: Swiper(
-                  onTap: (int index) {
+              child: Swiper(
+                onTap: (int index) {
+                  print('PackageNumber = $packageNumber');
+                  setState(() {
+                    if (packageNumber == index) {
+                      packageSelected = false;
+                      packageNumber = -1;
+                    }
+                    packageSelected = true;
                     packageNumber = index;
-                    print('PackageNumber = $packageNumber');
-                    setState(() {
-                      packageSelected = true;
-                      packageColor = Colors.blue;
-                    });
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 10,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: ECCCBlueAccent.withOpacity(.5),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: CustomPaint(
-                                painter: Wave(),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      top: 30.0,
-                                      right: 8.0,
-                                      bottom: 8.0,
-                                      left: 8.0),
-                                  child: CarWashPackage(
-                                    packageTitle: packageNameList[index],
-                                    packageTitleStyle:
-                                        packageTextStyleList[index],
-                                    packageDetails: packageList[index],
-                                  ),
+                  });
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: ECCCBlueAccent.withOpacity(.5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomPaint(
+                              painter: Wave(),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    top: 30.0,
+                                    right: 8.0,
+                                    bottom: 8.0,
+                                    left: 8.0),
+                                child: CarWashPackage(
+                                  packageTitle: packageNameList[index],
+                                  packageTitleStyle:
+                                      packageTextStyleList[index],
+                                  packageDetails: packageDetailsList[index],
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: 4,
-                  loop: false,
-                  outer: true,
-                  pagination: new SwiperPagination(
-                    margin: EdgeInsets.all(10),
-                  ),
-                  control: null,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: 4,
+                loop: false,
+                outer: true,
+                pagination: new SwiperPagination(
+                  margin: EdgeInsets.all(10),
                 ),
+                control: null,
               ),
             ),
+
+            /// Continue button that schedules the car wash and returns the
+            /// the scheduledWashInfo list to the home widget so that it can
+            /// be used to generate the upcoming washes list.
             ContinueButton(
                 title: 'Schedule Wash',
                 textColor: Colors.white,
+                activated: packageSelected,
                 cBColor: packageSelected == true ? ECCCBlue : Colors.grey,
                 onPressed: packageSelected == true
                     ? () {
                         print('car wash scheduled');
+                        Car car = Car('Bug', 'lit', 'tity');
+                        CarWash carWash =
+                            CarWash(car, 'date', 'time', _address, 'Diamond');
                         Navigator.pop(context, [
-                          selectedCarIndex,
+                          selectedCarCardIndex,
                           _month,
                           _date,
-                          _time,
+                          _address,
+                          _timeSelectedForWash,
                           packageNumber,
                         ]);
                       }
@@ -572,6 +1019,10 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
         }
         break;
       case 4:
+
+        /// Should show the user an animation for booking a car wash is currently
+        /// undergoing construction
+
         {
           return <Widget>[
             Expanded(
@@ -585,157 +1036,46 @@ class _ScheduleCarWashState extends State<ScheduleCarWash> {
     return <Widget>[];
   }
 
-  Widget timeAvailabilityGenerator() {
-    if (timesAvailable == 0) {
-      return Center(
-          child: Text(
-        'No times available for selected date  ',
-        style: TextStyle(
-          fontFamily: 'Vollkorn',
-          fontSize: 30,
-          color: ECCCDarkBlue,
-        ),
-      ));
-    }
-    return MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: GridView.builder(
-        primary: false,
-        padding: EdgeInsets.all(20),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1,
-            crossAxisCount: 3),
-        itemCount: timesAvailable,
-        itemBuilder: (BuildContext context, int index) {
-          return TimeAvailabilityCard(
-            scheduledTime: (index + timesAvailable).toString(),
-            childWidget: Center(
-              child: index == 3
-                  ? Text('12:00')
-                  : Text(
-                      '${(index + timesAvailable) % 12}:00  ',
-                    ),
-            ),
-            onPressed: () {
-              print('Selected time is : ${index + 9}');
-              _time = index + 9;
-              setState(() {
-                scheduledTime = (index + 9) % 12;
-              });
-              print(scheduledTime);
-              timeSelected = true;
-            },
-            cardColor:
-                scheduledTime == ((index + 9) % 12) ? ECCCDarkBlue : ECCCBlue,
-          );
-        },
-      ),
-    );
-  }
-
-  TableCalendar tableCalendarBuilder() {
-    return TableCalendar(
-      events: _scheduledWashes,
-      calendarController: _calendarController,
-      onDaySelected: _onDaySelected,
-      calendarStyle: CalendarStyle(
-        todayStyle: TextStyle(
-          color: Colors.red,
-        ),
-        todayColor: todayDateColor == selectedDateColor
-            ? Colors.transparent
-            : todayDateColor,
-        selectedColor: todayDateColor == selectedDateColor
-            ? Colors.transparent
-            : selectedDateColor,
-        outsideDaysVisible: true,
-        // Setting the color for weekend dates
-        weekendStyle: TextStyle().copyWith(color: Colors.black),
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        // setting the text color for Sun and Sat on weekdays row
-        weekdayStyle: TextStyle(
-          color: Colors.black,
-        ),
-        weekendStyle: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-      holidays: _holidays,
-      headerStyle: HeaderStyle(
-          titleTextStyle: TextStyle(),
-          decoration: BoxDecoration(
-            color: ECCCBlueAccent.withOpacity(.5),
-            borderRadius: BorderRadius.circular(30),
-          )),
-      startingDayOfWeek: StartingDayOfWeek.monday,
-    );
-  }
-
-  void getFocusDayAvailableTime() {
-    DateTime now = DateTime.now();
-    DateTime day = _calendarController.focusedDay;
-    todayTime = int.parse(now.toString().substring(11, 13));
-    int nowMonth = int.parse(now.toString().substring(5, 7));
-    int nowDay = int.parse(now.toString().substring(8, 10));
-    int dayMonth = int.parse(day.toString().substring(5, 7));
-    int dayDay = int.parse(day.toString().substring(8, 10));
-
-    if (nowMonth == dayMonth && nowDay == dayDay) {
-      getTodayAvailableTime();
+  int getFocusDayAvailableTime() {
+    if (isSameDay(_selectedDay, DateTime.now())) {
+      return getTodayAvailableTime();
     } else {
-      timesAvailable = 9;
+      return 9;
     }
   }
 
-  void getTodayAvailableTime() {
-    DateTime now = DateTime.now();
-    todayTime = int.parse(now.toString().substring(11, 13));
-    print("current time : $todayTime");
-    if (todayTime < 9) {
-      timesAvailable = 9;
-    } else if (todayTime < 15) {
-      timesAvailable = 17 - 2 - todayTime;
-    } else {
-      timesAvailable = 0;
+  int getTodayAvailableTime() {
+    dateSelected = true;
+    int currentHour = DateTime.now().hour;
+
+    print('todayTime:$currentHour');
+
+    /// All slots available for today.
+    if (currentHour < 9) {
+      return 9;
     }
+
+    /// Limited amount of slots available for today.
+    else if (currentHour < 15) {
+      return 17 - currentHour;
+    }
+
+    /// no Slots available for today time is past 3:00pm
+    print('times Available for today: $timeSlotsAvailability');
+    return 0;
   }
+}
 
-  void _onDaySelected(DateTime day, List events, List holidays) {
-    DateTime now = DateTime.now();
-    todayTime = int.parse(now.toString().substring(11, 13));
-    int nowMonth = int.parse(now.toString().substring(5, 7));
-    int nowDay = int.parse(now.toString().substring(8, 10));
+Widget getTextWidget(bool isToday, int index) {
+  String displayText = 'time';
 
-    int dayMonth = int.parse(day.toString().substring(5, 7));
-    int dayDay = int.parse(day.toString().substring(8, 10));
-
-    setState(
-      () {
-        if (dayMonth < nowMonth) {
-          selectedDateColor = Colors.red;
-          timesAvailable = 0;
-          dateSelected = false;
-          selectedDateColor = Colors.red;
-          _month = -1;
-          _date = -1;
-        } else if (dayMonth == nowMonth && dayDay < nowDay) {
-          dateSelected = false;
-          timesAvailable = 0;
-          selectedDateColor = Colors.red;
-          _month = -1;
-          _date = -1;
-        } else {
-          dateSelected = true;
-          getFocusDayAvailableTime();
-          _month = dayMonth;
-          _date = dayDay;
-          selectedDateColor = ECCCBlue;
-        }
-      },
+  if (isToday == true) {
+    return Text(
+      '${DateTime.now().hour % 12 + index}:00',
+      textAlign: TextAlign.center,
     );
   }
+  displayText = ((index + 9) % 12).toString();
+
+  return Text('$displayText :00');
 }

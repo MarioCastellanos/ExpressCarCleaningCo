@@ -1,4 +1,4 @@
-name: cta_auto_detail
+name: express_car_cleaning_co
 description: Mock mobile car washing and detailing app to schedule car washes.
 
 # The following line prevents the package from being accidentally published to
@@ -14,22 +14,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  cupertino_icons: ^0.1.3
-  google_fonts: ^1.1.0
-  table_calendar: ^2.3.1
-  font_awesome_flutter: ^8.8.1
+  cupertino_icons: ^1.0.3
+  table_calendar: ^3.0.2
+  google_fonts: ^2.1.0
+  font_awesome_flutter: ^9.1.0
   modal_progress_hud: ^0.1.3
-  animated_text_kit: ^2.2.0
-  provider: ^4.3.2+2
-  firebase_core: ^0.5.0+1
-  firebase_auth: ^0.18.1+2
-  cloud_firestore: ^0.14.3
-  http: ^0.12.2
-  shared_preferences: ^0.5.12+4
+  animated_text_kit: ^4.2.1
+  provider: ^5.0.0
+  firebase_core: ^1.4.0
+  firebase_auth: ^3.0.1
+  cloud_firestore: ^2.4.0
+  http: ^0.13.3
+  shared_preferences: ^2.0.6
   flutter_swiper: ^1.1.6
+  modal_progress_hud_nsn: ^0.1.0-nullsafety-1
 
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
 

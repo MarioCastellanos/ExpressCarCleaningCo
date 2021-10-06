@@ -1,5 +1,9 @@
-import 'package:cta_auto_detail/constants.dart';
+import 'package:express_car_cleaning_co/constants.dart';
 import 'package:flutter/material.dart';
+
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
 
 class Wave extends CustomPainter {
   @override

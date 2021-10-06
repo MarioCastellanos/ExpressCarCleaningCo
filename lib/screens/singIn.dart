@@ -1,14 +1,20 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/screens/home.dart';
-import 'package:cta_auto_detail/screens/resetPassword.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/PasswordTextField.dart';
+import 'package:express_car_cleaning_co/screens/home.dart';
+import 'package:express_car_cleaning_co/screens/resetPassword.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cta_auto_detail/models/TextFieldModels.dart';
-import 'package:cta_auto_detail/models/RoundedButton.dart';
+import 'package:express_car_cleaning_co/models/widgets/ECCCBlueCarLogo.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/EmailTextField.dart';
+import 'package:express_car_cleaning_co/models/Buttons/RoundedButton.dart';
 import 'package:flutter/services.dart';
 
 // SignIn Screen handles users trying to log in. Only log in method available is
 // email and password at the moment.
+
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
 
 class SignIn extends StatefulWidget {
   static const String id = 'signIn_screen';
@@ -18,7 +24,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> with TickerProviderStateMixin {
   FirebaseAuth _auth = FirebaseAuth.instance;
-
+  // String userEmail = FirebaseAuth.instance.currentUser.email;
   // Manages the obscureText state of the password textField; default set to true;
   bool obscureText = true;
 
@@ -132,8 +138,8 @@ class _SignInState extends State<SignIn> with TickerProviderStateMixin {
               kSpacerBox,
 
               /// Sign In Button,
-              /// onPressed: is an async function that performs validation of email,
-              /// and text field not being left empty. Additionally if no error is detected
+              /// onPressed: is an async function that performs validation of email and password,
+              /// Additionally if no error is detected
               /// a user login is attempted with the given parameters. If a successful login occurs
               /// users are directed to the home page.
 

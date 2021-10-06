@@ -1,14 +1,27 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/Address_Data.dart';
-import 'package:cta_auto_detail/models/Car_Data.dart';
-import 'package:cta_auto_detail/models/ReusableCard.dart';
-import 'package:cta_auto_detail/models/RoundedButton.dart';
-import 'package:cta_auto_detail/screens/PopUpScreen.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/AddressFieldForm.dart';
+import 'package:express_car_cleaning_co/models/TextFieldModels/CircleAvatarAndTextFields.dart';
+import 'package:express_car_cleaning_co/models/DataModels/Address_Data.dart';
+import 'package:express_car_cleaning_co/models/DataModels/Car_Data.dart';
+import 'package:express_car_cleaning_co/models/CardModels/HalfScreenCard.dart';
+import 'package:express_car_cleaning_co/models/Buttons/ContinueButton.dart';
+import 'package:express_car_cleaning_co/screens/CarCreationCardPopUp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cta_auto_detail/models/TextFieldModels.dart';
-import 'package:cta_auto_detail/models/CarCard.dart';
-import 'package:flutter/services.dart';
+import 'package:express_car_cleaning_co/models/CardModels/CarCard.dart';
+import 'package:flutter/services.d'
+    'art';
+import 'package:express_car_cleaning_co/AppBarFunction.dart';
+import 'package:express_car_cleaning_co/models/widgets/textWidgets/SavedLocation.dart';
+import 'package:express_car_cleaning_co/models/Buttons/addressListTile.dart';
+
+/// CLASSNAME: ProfileScreen
+///
+/// PARAMETERS: carData:
+///             addressData:
+///
+///
+/// DESCRIPTION:
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profileScreen';
@@ -22,12 +35,20 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // Global form used to access the TextFieldForm with the users street address
   final _streetAddressFormKey = GlobalKey<FormState>();
+  // Global form used to access the TextFieldForm with the users city
   final _cityFormKey = GlobalKey<FormState>();
+  //Global form used to access the TextFieldForm with the users state
   final _stateFormKey = GlobalKey<FormState>();
+  //Global form used to access the TextFieldForm with the users zip code
   final _zipFormKey = GlobalKey<FormState>();
+  //Tracks the selected address
+  int selectedAddressIndex = -1;
 
+  // the users email to be displayed to the user.
   String userEmail = FirebaseAuth.instance.currentUser.email;
+
   String streetAddress = '';
   String city = '';
   String state = '';
@@ -62,17 +83,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CircleAvatarAndTextFields(
+            /// Cicle avatar and email display
+            CircleAvatarAndEmail(
               email: userEmail,
               onTap: () {
                 print('Needs to be implemented');
               },
             ),
+
+            /// Saved Addresses Widget & Add Address Button Stack
             Flexible(
               flex: 1,
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [
+                  //Saved Address Widget
                   Container(
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -83,19 +108,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
-                          child: SavedLocationsTextWidget(),
+                          child: SavedLocations(),
                         ),
                         Expanded(
                           child: ListView.builder(
                             itemCount: widget.addressData.addressCount,
                             itemBuilder: (context, index) {
-                              return addressContainer(index);
+                              return AddressListTile(
+                                addressData: widget.addressData,
+                                index: index,
+                                onPressed: () {
+                                  setState(
+                                    () {
+                                      if (selectedAddressIndex == index) {
+                                        selectedAddressIndex = -1;
+                                      } else {
+                                        selectedAddressIndex = index;
+                                      }
+                                    },
+                                  );
+                                },
+                                selectedAddressIndex: selectedAddressIndex,
+                              );
                             },
                           ),
                         )
                       ],
                     ),
                   ),
+                  // Add an Address Button
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
@@ -246,6 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         kSpacerBox,
                                         ContinueButton(
+                                          activated: addressEntered,
                                           title: 'Add Address',
                                           textColor: Colors.white,
                                           cBColor: addressEntered
@@ -289,43 +331,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+
+            /// Half Screen Card used to display users car fleet
             Expanded(
               flex: 3,
-              child: Container(
-                color: Colors.transparent,
-                child: HalfScreenCard(
-                  childWidget: GridView.builder(
-                    itemCount: widget.carData.carsList.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 1,
-                    ),
-                    itemBuilder: (BuildContext context, int index) {
-                      return CarCard(
-                        carIndex: index,
-                        onPressed: () {
-                          selectedCarIndex = index;
-                          if (currentIndex == selectedCarIndex) {
-                            setState(() {
-                              print(index);
-                              currentIndex = -2;
-                              selectedCarIndex = -1;
-                            });
-                          } else {
-                            setState(() {
-                              print(index);
-                              selectedCarIndex = index;
-                              currentIndex = index;
-                            });
-                          }
-                        },
-                        carCardColor:
-                            selectedCarIndex == index ? ECCCBlue : Colors.white,
-                        title: widget.carData.carsList[index].make,
-                      );
-                    },
+              child: HalfScreenCard(
+                childWidget: GridView.builder(
+                  itemCount: widget.carData.carsList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 1,
                   ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return CarCard(
+                      carIndex: index,
+                      onPressed: () {
+                        selectedCarIndex = index;
+                        if (currentIndex == selectedCarIndex) {
+                          setState(() {
+                            print(index);
+                            currentIndex = -2;
+                            selectedCarIndex = -1;
+                          });
+                        } else {
+                          setState(() {
+                            print(index);
+                            selectedCarIndex = index;
+                            currentIndex = index;
+                          });
+                        }
+                      },
+                      carCardColor:
+                          selectedCarIndex == index ? ECCCBlue : Colors.white,
+                      title: widget.carData.carsList[index].make,
+                    );
+                  },
                 ),
               ),
             )
@@ -335,7 +376,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       floatingActionButton: FloatingActionButton(
         splashColor: ECCCBlue,
         onPressed: () async {
-          var car = await Navigator.pushNamed(context, PopUpCard.id);
+          var car = await Navigator.pushNamed(context, CarCreationCardPopUp.id);
           if (car != null) {
             List<String> carInfoList = car;
             setState(() {
@@ -355,42 +396,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: ECCCBlue,
           size: 36,
         ),
-      ),
-    );
-  }
-
-  Container addressContainer(int index) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(10)),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: Icon(
-                Icons.home,
-                color: ECCCBlueAccent,
-                size: 30,
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 4,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                '${widget.addressData.addressList[index].streetAddress}\n'
-                '${widget.addressData.addressList[index].city}\t ${widget.addressData.addressList[index].state}\n'
-                '${widget.addressData.addressList[index].zipCode}',
-                style: TextStyle(
-                  color: ECCCBlueAccent,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
+
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'WelcomeScreen';
 

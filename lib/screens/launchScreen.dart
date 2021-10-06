@@ -1,8 +1,9 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/RoundedButton.dart';
-import 'package:cta_auto_detail/models/TextFieldModels.dart';
-import 'package:cta_auto_detail/screens/signUp.dart';
-import 'package:cta_auto_detail/screens/singIn.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/Buttons/RoundedButton.dart';
+import 'package:express_car_cleaning_co/screens/signUp.dart';
+import 'package:express_car_cleaning_co/screens/singIn.dart';
+import 'package:express_car_cleaning_co/models/widgets/ECCCBlueCarLogo.dart';
+import 'package:express_car_cleaning_co/LaunchScreenText/LogoText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,10 @@ import 'package:flutter/services.dart';
 /// First screen the user interacts with.
 /// Gives the user the option between signing in and registering for the app
 ///
+
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
 
 class LaunchScreen extends StatefulWidget {
   static const String id = 'LaunchScreen';
@@ -45,8 +50,7 @@ class _LaunchScreenState extends State<LaunchScreen>
               ECCCBlueCarLogo(
                 adjustLogoSize: false,
               ),
-              TextLogo(),
-              CarWashDeliveredText(),
+              LogoText(),
               // Sign In Button
               // onPressed: Navigates the user to Sign In screen
 

@@ -1,16 +1,16 @@
-import 'package:cta_auto_detail/models/Car_Data.dart';
-import 'package:cta_auto_detail/screens/RequestQuote.dart';
-import 'package:cta_auto_detail/screens/home.dart';
-import 'package:cta_auto_detail/screens/launchScreen.dart';
-import 'package:cta_auto_detail/screens/profile.dart';
-import 'package:cta_auto_detail/screens/resetPassword.dart';
-import 'package:cta_auto_detail/screens/scheduleCarWash.dart';
-import 'package:cta_auto_detail/screens/servicesOffered.dart';
-import 'package:cta_auto_detail/screens/welcomeScreen.dart';
+import 'package:express_car_cleaning_co/ScreenArguments.dart';
+import 'package:express_car_cleaning_co/models/DataModels/Car_Data.dart';
+import 'package:express_car_cleaning_co/screens/RequestQuote.dart';
+import 'package:express_car_cleaning_co/screens/home.dart';
+import 'package:express_car_cleaning_co/screens/launchScreen.dart';
+import 'package:express_car_cleaning_co/screens/profile.dart';
+import 'package:express_car_cleaning_co/screens/resetPassword.dart';
+import 'package:express_car_cleaning_co/screens/scheduleCarWash.dart';
+import 'package:express_car_cleaning_co/screens/servicesOffered.dart';
+import 'package:express_car_cleaning_co/screens/welcomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'models/Address_Data.dart';
-import 'screens/PopUpScreen.dart';
+import 'screens/CarCreationCardPopUp.dart';
 import 'screens/signUp.dart';
 import 'screens/singIn.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
                 return ScheduleCarWash(
                   carData: args.carData,
                   addressData: args.addressData,
+                  carWashData: args.carWashData,
                 );
               },
             );
@@ -122,7 +123,7 @@ class _MyAppState extends State<MyApp> {
           SignUp.id: (context) => SignUp(),
           HomeScreen.id: (context) => HomeScreen(),
           LaunchScreen.id: (context) => LaunchScreen(),
-          PopUpCard.id: (context) => PopUpCard(),
+          CarCreationCardPopUp.id: (context) => CarCreationCardPopUp(),
           WelcomeScreen.id: (context) => WelcomeScreen(),
           ResetPasswordScreen.id: (context) => ResetPasswordScreen(),
           ServicesOffered.id: (context) => ServicesOffered(),
@@ -130,10 +131,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-}
-
-class ScreenArguments {
-  final CarData carData;
-  final AddressData addressData;
-  ScreenArguments(this.carData, this.addressData);
 }

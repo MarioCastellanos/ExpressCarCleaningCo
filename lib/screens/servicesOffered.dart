@@ -1,8 +1,13 @@
-import 'package:cta_auto_detail/constants.dart';
-import 'package:cta_auto_detail/models/CarWashPackage.dart';
+import 'package:express_car_cleaning_co/constants.dart';
+import 'package:express_car_cleaning_co/models/Objects/CarWashPackage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:cta_auto_detail/models/WaveCustomPainter.dart';
+import 'package:express_car_cleaning_co/models/WaveCustomPainter.dart';
+import 'package:express_car_cleaning_co/AppBarFunction.dart';
+
+/// CLASSNAME:
+/// PARAMETERS:
+/// DESCRIPTION:
 
 class ServicesOffered extends StatelessWidget {
   static const String id = 'Services Offered';
