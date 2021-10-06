@@ -71,35 +71,10 @@ class CarWashData extends ChangeNotifier {
     if (prefs.getBool('init') == null) {
       prefs.setBool('init', true);
       isEmpty = true;
-      _carWashCount = 0;
-      // //Setting the amount of carWashes to 1
-      // prefs.setInt('CarWashCount', _carWashCount);
-      // _futuresCarWashList = _prefs.then((SharedPreferences prefs) {
-      //   // Sets the empty list to default values that follow protocol for
-      //   // a car within the users fleet.
-      //   return (prefs.get('carWashList') == null
-      //       ? [
-      //           '0',
-      //           '0',
-      //           '726 Cupertino Ave, Cupertino, Ca, 91764',
-      //           '10/30/21',
-      //           '09:00',
-      //           'Diamond',
-      //         ]
-      //       : prefs.getStringList('carWashList'));
-      // });
-      // tempCarWashList =
-      //     await _futuresCarWashList; // Converting the list form Future<List<String>> to List<String>
-      // prefs.setStringList('carWashList',
-      //     tempCarWashList); // Saving the default value list to shared preferences.
-      // // iterating through the list to generate the List<CarWash>
-      // // here newCarWash is set to false because we already added it to the shared preferences.
-      // buildCarWashList();
     }
     // The list List<CarWash> will be populated with values from the shared preferences list.
     else {
       isEmpty = false;
-      _carWashCount = prefs.getInt('CarWashCount');
       print('CarsCountFromInitialize: $_carWashCount');
       tempCarWashList = prefs.getStringList('carWashList');
       buildCarWashList();
@@ -167,9 +142,8 @@ class CarWashData extends ChangeNotifier {
     return UnmodifiableListView(_carWashList);
   }
 
-  /// TODO : Need to keep track of cars in List
   int get carWashCount {
-    print('carWashCount = $_carWashCount');
+    print('carWashCount in getCarWashCount = $_carWashCount');
     return _carWashCount;
   }
 
